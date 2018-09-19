@@ -30,7 +30,7 @@ module.exports = {
   database: {
     WINDMYSQL: {
       host: 'localhost',
-      dbname: 'wind',
+      dbname: 'ACU',
       username: 'root',
       password: '!!123abcdefg',
     },

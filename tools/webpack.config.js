@@ -1,3 +1,12 @@
+/**
+ * React Starter Kit (https://www.reactstarterkit.com/)
+ *
+ * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 import fs from 'fs';
 import path from 'path';
 import webpack from 'webpack';
@@ -7,7 +16,6 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import overrideRules from './lib/overrideRules';
 import pkg from '../package.json';
 
-const SERVER_ENV = process.env.SERVER_ENV;
 const ROOT_DIR = path.resolve(__dirname, '..');
 const resolvePath = (...args) => path.resolve(ROOT_DIR, ...args);
 const SRC_DIR = resolvePath('src');
@@ -83,8 +91,8 @@ const config = {
               {
                 targets: {
                   browsers: pkg.browserslist,
-                  forceAllTransforms: !isDebug, // for UglifyJS
                 },
+                forceAllTransforms: !isDebug, // for UglifyJS
                 modules: false,
                 useBuiltIns: false,
                 debug: false,
@@ -92,7 +100,6 @@ const config = {
             ],
             // Experimental ECMAScript proposals
             // https://babeljs.io/docs/plugins/#presets-stage-x-experimental-presets-
-            '@babel/preset-stage-2',
             // Flow
             // https://github.com/babel/babel/tree/master/packages/babel-preset-flow
             '@babel/preset-flow',
@@ -299,7 +306,6 @@ const clientConfig = {
     // https://webpack.js.org/plugins/define-plugin/
     new webpack.DefinePlugin({
       'process.env.BROWSER': true,
-      'process.env.SERVER_ENV': JSON.stringify(SERVER_ENV),
       __DEV__: isDebug,
     }),
 
@@ -309,7 +315,7 @@ const clientConfig = {
       output: `${BUILD_DIR}/asset-manifest.json`,
       publicPath: true,
       writeToDisk: true,
-      customize: (key, value) => {
+      customize: ({ key, value }) => {
         // You can prevent adding items to the manifest by returning false.
         if (key.toLowerCase().endsWith('.map')) return false;
         return { key, value };
@@ -464,7 +470,6 @@ const serverConfig = {
     // https://webpack.js.org/plugins/define-plugin/
     new webpack.DefinePlugin({
       'process.env.BROWSER': false,
-      'process.env.SERVER_ENV': JSON.stringify(SERVER_ENV),
       __DEV__: isDebug,
     }),
 

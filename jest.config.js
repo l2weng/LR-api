@@ -1,3 +1,12 @@
+/**
+ * React Starter Kit (https://www.reactstarterkit.com/)
+ *
+ * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
 // Jest configuration
 // https://facebook.github.io/jest/docs/en/configuration.html
 module.exports = {
@@ -81,7 +90,7 @@ module.exports = {
   // timers: // [string]
 
   transform: {
-    '\\.(js|jsx)$': '<rootDir>/node_modules/babel-jest',
+    '\\.(js|jsx|mjs)$': '<rootDir>/node_modules/babel-jest',
     '^(?!.*\\.(js|jsx|json|css|less|styl|scss|sass|sss)$)':
       '<rootDir>/tools/lib/fileTransformer.js',
   },
