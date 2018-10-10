@@ -10,6 +10,7 @@ const Task = Model.define('Task', {
 
   name: { type: DataTypes.STRING },
   type: { type: DataTypes.INTEGER },
+
   /**
    * progress 进度最大值100
    */

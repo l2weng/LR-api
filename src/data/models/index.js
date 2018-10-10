@@ -10,17 +10,42 @@ import Sku from './Sku';
 import UserProjects from './UserProjects';
 import Invitation from './Invitation';
 import Reference from './Reference';
+import UserLogin from './UserLogin';
+import Task from './Task';
+import UserTeams from './UserTeams';
+import Photo from './Photo';
+import TaskPhotos from './TaskPhotos';
+import Label from './Label';
+import Activity from './Activity';
 
 /**
  * Team N to N user
  */
-Team.hasMany(User, { foreignKey: 'teamId', as: 'Workers' });
-User.belongsTo(Team, { foreignKey: 'teamId', as: 'Team' });
+Team.belongsToMany(User, { through: UserTeams });
+User.belongsToMany(Team, { through: UserTeams });
 
 /**
  *  User 1 to 1 membership
  */
 Membership.belongsTo(User, { foreignKey: 'userId' });
+
+/**
+ * User N to N projects
+ */
+User.belongsToMany(Project, { through: UserProjects });
+Project.belongsToMany(User, { through: UserProjects });
+
+/**
+ * User 1 to N invitation
+ */
+User.hasMany(Invitation, { foreignKey: 'userId', as: 'Invitations' });
+Invitation.belongsTo(User, { foreignKey: 'userId', as: 'User' });
+
+/**
+ * User 1 to N user login record
+ */
+User.hasMany(UserLogin, { foreignKey: 'userId', as: 'LoginRecord' });
+UserLogin.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 
 /**
  * MembershipConfig has many auth details config
@@ -35,15 +60,27 @@ AuthConfig.belongsTo(MembershipConfig, {
 });
 
 /**
+ * Project 1 to N sku
+ */
+Project.hasMany(Sku, { foreignKey: 'projectId', as: 'Skus' });
+Sku.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
+
+/**
+ * Project 1 to N tasks
+ */
+Project.hasMany(Task, { foreignKey: 'projectId', as: 'Tasks' });
+Task.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
+
+/**
  * DataSet 1 to 1 project
  */
 DataSet.belongsTo(Project, { foreignKey: 'projectId' });
 
 /**
- * Project 1 to N sku
+ * Task N to N Photos
  */
-Project.hasMany(Sku, { foreignKey: 'projectId', as: 'Skus' });
-Sku.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
+Task.belongsToMany(Photo, { through: TaskPhotos });
+Photo.belongsToMany(Task, { through: TaskPhotos });
 
 /**
  * Sku 1 to N reference
@@ -52,16 +89,15 @@ Sku.hasMany(Reference, { foreignKey: 'skuId', as: 'References' });
 Reference.belongsTo(Sku, { foreignKey: 'skuId', as: 'Sku' });
 
 /**
- * User N to N projects
+ * Photo 1 to N labels
  */
-User.belongsToMany(Project, { through: UserProjects });
-Project.belongsToMany(User, { through: UserProjects });
+Photo.hasMany(Label, { foreignKey: 'photoId', as: 'Labels' });
+Label.belongsTo(Photo, { foreignKey: 'skuId', as: 'Photo' });
 
 /**
- * User 1 to N invitation
+ *  Label 1 to 1 Sku
  */
-User.hasMany(Invitation, { foreignKey: 'userId', as: 'Invitations' });
-Invitation.belongsTo(User, { foreignKey: 'userId', as: 'User' });
+Label.belongsTo(Sku, { foreignKey: 'skuId' });
 
 function sync(...args) {
   return sequelize.sync(...args);
