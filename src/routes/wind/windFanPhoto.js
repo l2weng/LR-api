@@ -1,9 +1,9 @@
 import WindFanPhoto from '../../data/wind/models/FanPhoto';
 import express from 'express';
-import {status, windUserDes} from '../../data/dataUtils';
+import { status, windUserDes } from '../../data/dataUtils';
 import Sequelize from 'sequelize';
-import WindUser from "../../data/wind/models/User";
-import Model from "../../data/wind/sequelize";
+import WindUser from '../../data/wind/models/User';
+import Model from '../../data/sequelize';
 
 const router = express.Router();
 
@@ -21,7 +21,7 @@ router.post('/create', (req, res) => {
       routingInspectId: req.body.routingInspectId,
       isBig: req.body.isBig,
       active: status.active,
-      needReport:req.body.needReport,
+      needReport: req.body.needReport,
     })
       .then(WindFanPhoto => ({
         result: 'success',
@@ -90,26 +90,28 @@ router.post('/update', (req, res) => {
       {
         isMask: req.body.isMask,
         originMaskUrl: req.body.originMaskUrl && req.body.originMaskUrl.trim(),
-        stitchingMaskUrl: req.body.stitchingMaskUrl && req.body.stitchingMaskUrl.trim(),
+        stitchingMaskUrl:
+          req.body.stitchingMaskUrl && req.body.stitchingMaskUrl.trim(),
         needReport: req.body.needReport && req.body.needReport,
         hasDefect: req.body.hasDefect && req.body.hasDefect,
-        postFlightCVStatus: req.body.postFlightCVStatus && req.body.postFlightCVStatus.trim(),
+        postFlightCVStatus:
+          req.body.postFlightCVStatus && req.body.postFlightCVStatus.trim(),
       },
       {
-        where: {fanPhotoId: req.body.fanPhotoId}
-      }
+        where: { fanPhotoId: req.body.fanPhotoId },
+      },
     )
       .then(result => ({
         result: 'success',
         obj: result,
       }))
-      .catch(err => ({result: 'error', msg: err.name}));
+      .catch(err => ({ result: 'error', msg: err.name }));
     done(photoUpdateResult);
   };
 
   photoUpdateInfo(data => {
     if (data.result === 'success') {
-      res.status(200).send({result: 'success', msg: 'success'});
+      res.status(200).send({ result: 'success', msg: 'success' });
     } else if (data.result === 'error') {
       res.status(500).send(data);
     }
@@ -123,13 +125,13 @@ router.post('/getOnePathJsonData', (req, res) => {
     'select * from WindFanPhotos where isBig is null and type =:type and windVaneId=:blade',
     {
       replacements: {
-        type:parseInt(photoQuery.type),
-        blade:parseInt(photoQuery.blade)
-      }, 
+        type: parseInt(photoQuery.type),
+        blade: parseInt(photoQuery.blade),
+      },
       type: Model.QueryTypes.SELECT,
     },
   ).then(windFanPhotos => {
-    res.status(200).send({result: 'success', photos: windFanPhotos});
+    res.status(200).send({ result: 'success', photos: windFanPhotos });
   });
 });
 

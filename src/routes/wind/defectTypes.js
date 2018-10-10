@@ -1,4 +1,4 @@
-import DefectType from '../../data/wind/models/DefectType';
+import Photo from '../../data/wind/models/DefectType';
 import express from 'express';
 import { status } from '../../data/dataUtils';
 
@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/create', (req, res) => {
   const DefectTypeCreation = async done => {
-    const DefectTypeAddResult = await DefectType.create({
+    const DefectTypeAddResult = await Photo.create({
       name: req.body.name && req.body.name.trim(),
       suggestion: req.body.suggestion && req.body.suggestion.trim(),
       level: req.body.level && req.body.level.trim(),
@@ -32,7 +32,7 @@ router.post('/create', (req, res) => {
 
 router.post('/update', (req, res) => {
   const DefectTypeUpdate = async done => {
-    const DefectTypeUpdateResult = await DefectType.update(
+    const DefectTypeUpdateResult = await Photo.update(
       {
         name: req.body.name && req.body.name.trim(),
         suggestion: req.body.suggestion && req.body.suggestion.trim(),

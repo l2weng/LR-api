@@ -1,4 +1,4 @@
-import TurbineConfig from '../../data/wind/models/TurbineConfig';
+import Reference from '../../data/wind/models/TurbineConfig';
 import express from 'express';
 import { status } from '../../data/dataUtils';
 
@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/create', (req, res) => {
   const TurbineConfigCreation = async done => {
-    const TurbineConfigAddResult = await TurbineConfig.create({
+    const TurbineConfigAddResult = await Reference.create({
       name: req.body.name && req.body.name.trim(),
       vaneLength: req.body.vaneLength,
       pixelLength: req.body.pixelLength,
@@ -31,7 +31,7 @@ router.post('/create', (req, res) => {
 
 router.post('/update', (req, res) => {
   const TurbineConfigUpdate = async done => {
-    const TurbineConfigUpdateResult = await TurbineConfig.update(
+    const TurbineConfigUpdateResult = await Reference.update(
       {
         name: req.body.name && req.body.name.trim(),
         vaneLength: req.body.vaneLength,

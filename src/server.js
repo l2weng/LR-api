@@ -17,14 +17,12 @@ import errorPageStyle from './routes/error/ErrorPage.css';
 import createFetch from './createFetch';
 import passport from './passport';
 import router from './router';
-import windSchema from './data/wind/windSchema';
+import windSchema from './data/windSchema';
 import windModels, { WindUser } from './data/wind/models';
 import chunks from './chunk-manifest.json'; // eslint-disable-line import/no-unresolved
 import config from './config';
 import { verifyJWTToken } from './routes/verifyJWTToken';
-const fs = require('fs');
 import https from 'https';
-const formidable = require('formidable'), http = require('http'), util = require('util');
 // wind router register
 import windUsers from './routes/wind/users';
 import windCompanys from './routes/wind/companys';
@@ -39,13 +37,15 @@ import windPhotoDefect from './routes/wind/windPhotoDefect'
 import windRoutingInspects from './routes/wind/routingInspects'
 
 import { userDes, windUserDes } from './data/dataUtils';
+import compression from 'compression';
+const fs = require('fs');
+const formidable = require('formidable'), http = require('http'), util = require('util');
 
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 const verifyToken = verifyJWTToken();
 
 const usingCluster = process.env.CLUSTER || false;
-import compression from 'compression';
 
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at:', p, 'reason:', reason);
@@ -138,36 +138,33 @@ app.use('/wind/windFanPhotos', windFanPhoto);
 app.use('/wind/windPhotoDefect', windPhotoDefect);
 app.use('/wind/routingInspects', windRoutingInspects);
 
-
-
 // upload file
-app.post(
-  '/wind/upload',
-  (req, res) => {
-    var form = new formidable.IncomingForm(),
-      files = {};
-    form.uploadDir = path.resolve(__dirname, '../public/uploads');
-    form.keepExtensions = true;
-    try{
-      form
-        .on('file', function(field, file) {
+app.post('/wind/upload', (req, res) => {
+  var form = new formidable.IncomingForm(),
+    files = {};
+  form.uploadDir = path.resolve(__dirname, '../public/uploads');
+  form.keepExtensions = true;
+  try {
+    form
+      .on('file', (field, file) => {
           console.log(field, file.path);
           files =  file.path;
         })
-        .on('end', function() {
+      .on('end', () => {
           console.log('-> upload done');
           res.writeHead(200, {'content-type': 'text/plain'});
           let n = files.lastIndexOf('/');
           res.end(util.inspect({result:'success',FileId:files.substring(n + 1)}));
         });
-      form.parse(req);
-    }catch (e) {
-      res.status(200).send({
-        result: 'error', msg: 'upload file met error!'
       });
-    }
-  },
-);
+    form.parse(req);
+  } catch (e) {
+    res.status(200).send({
+      result: 'error',
+      msg: 'upload file met error!',
+    });
+  }
+});
 
 // Auth wind user
 app.post(
@@ -187,7 +184,7 @@ app.post(
       user: req.user,
       status: 'ok',
       currentAuthority: windUserDes[req.user.type],
-    })
+    });
   },
 );
 //
@@ -318,9 +315,7 @@ if (cluster.isMaster && usingCluster) {
     promise.then(() => {
       if (config.port === '443') {
         const options = {
-          pfx: fs.readFileSync(
-            './public/retailservice.pfx',
-          ),
+          pfx: fs.readFileSync('./public/retailservice.pfx'),
           passphrase: 'Rs5cbs!726',
         };
         https.createServer(options, app).listen(config.port, () => {

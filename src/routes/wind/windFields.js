@@ -1,4 +1,4 @@
-import WindField from '../../data/wind/models/WindField';
+import Sku from '../../data/wind/models/WindField';
 import express from 'express';
 import { status } from '../../data/dataUtils';
 import WindFanPhoto from '../../data/wind/models/FanPhoto';
@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/create', (req, res) => {
   const WindFieldCreation = async done => {
-    const WindFieldAddResult = await WindField.create({
+    const WindFieldAddResult = await Sku.create({
       name: req.body.name && req.body.name.trim(),
       serialNumber: req.body.serialNumber && req.body.serialNumber.trim(),
       province: req.body.province && req.body.province.trim(),
@@ -32,7 +32,7 @@ router.post('/create', (req, res) => {
 });
 
 router.post('/update', (req, res) => {
-  WindField.findById(req.body.windFieldId).then(windField => {
+  Sku.findById(req.body.windFieldId).then(windField => {
     windField
       .update({
         name: req.body.name ? req.body.name.trim() : windField.name,
@@ -52,7 +52,7 @@ router.post('/update', (req, res) => {
 });
 
 router.post('/updateMachineCache', (req, res) => {
-  WindField.findById(req.body.windFieldId).then(windField => {
+  Sku.findById(req.body.windFieldId).then(windField => {
     if (windField.fieldDefectCache !== '') {
       windField
         .update({
@@ -73,7 +73,7 @@ router.post('/updateMachineCache', (req, res) => {
 
 router.post('/active', (req, res) => {
   const WindFieldUpdateStatus = async done => {
-    const WindFieldActiveStatus = await WindField.update(
+    const WindFieldActiveStatus = await Sku.update(
       {
         active: req.body.status === 'active' ? status.active : status.inactive,
       },

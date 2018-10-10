@@ -1,12 +1,12 @@
-import WindPhotoDefect from '../../data/wind/models/WindPhotoDefect';
+import UserLogin from '../../data/wind/models/WindPhotoDefect';
 import express from 'express';
-import WindFanPhoto from "../../data/wind/models/FanPhoto";
+import WindFanPhoto from '../../data/wind/models/FanPhoto';
 
 const router = express.Router();
 
 router.post('/create', (req, res) => {
   const WindPhotoDefectCreation = async done => {
-    const WindPhotoDefectAddResult = await WindPhotoDefect.create({
+    const WindPhotoDefectAddResult = await UserLogin.create({
       coordinates: req.body.coordinates && req.body.coordinates.trim(),
       defectPosition: req.body.defectPosition && req.body.defectPosition.trim(),
       defectSize: req.body.defectSize && req.body.defectSize.trim(),
@@ -35,7 +35,7 @@ router.post('/create', (req, res) => {
 
 router.post('/delete', (req, res) => {
   const photoDefectDeleteInfo = async done => {
-    const photoDefectDeleteResult = await WindPhotoDefect.destroy({
+    const photoDefectDeleteResult = await UserLogin.destroy({
       where: { linkId: req.body.linkId && req.body.linkId },
     })
       .then(result => ({
@@ -57,32 +57,34 @@ router.post('/delete', (req, res) => {
 
 router.post('/update', (req, res) => {
   const photoUpdateInfo = async done => {
-    const photoUpdateResult = await WindPhotoDefect.update(
+    const photoUpdateResult = await UserLogin.update(
       {
         coordinates: req.body.coordinates && req.body.coordinates.trim(),
-        defectPosition: req.body.defectPosition && req.body.defectPosition.trim(),
+        defectPosition:
+          req.body.defectPosition && req.body.defectPosition.trim(),
         defectSize: req.body.defectSize && req.body.defectSize.trim(),
         suggestion: req.body.suggestion && req.body.suggestion.trim(),
         level: req.body.level && req.body.level.trim(),
         defectType: req.body.defectType,
         fanPhotoId: req.body.fanPhotoId && req.body.fanPhotoId.trim(),
-        defectUniqueNo: req.body.defectUniqueNo && req.body.defectUniqueNo.trim(),
+        defectUniqueNo:
+          req.body.defectUniqueNo && req.body.defectUniqueNo.trim(),
       },
       {
-        where: {linkId: req.body.linkId}
-      }
+        where: { linkId: req.body.linkId },
+      },
     )
       .then(result => ({
         result: 'success',
         obj: result,
       }))
-      .catch(err => ({result: 'error', msg: err.name}));
+      .catch(err => ({ result: 'error', msg: err.name }));
     done(photoUpdateResult);
   };
 
   photoUpdateInfo(data => {
     if (data.result === 'success') {
-      res.status(200).send({result: 'success', msg: 'success'});
+      res.status(200).send({ result: 'success', msg: 'success' });
     } else if (data.result === 'error') {
       res.status(500).send(data);
     }
