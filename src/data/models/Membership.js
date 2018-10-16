@@ -10,9 +10,13 @@ const Membership = Model.define('Membership', {
 
   type: { type: DataTypes.STRING },
   /**
-   * 会员权益通过会员购买时组合而成的JSON file
+   * 会员权益项目参与人数
    */
-  memberRights: { type: DataTypes.STRING(1000) },
+  accounts:{type:DataTypes.INTEGER},
+  /**
+   * 会员权益项目数
+   */
+  projectCounts:{type:DataTypes.INTEGER}
 });
 
 export default Membership;

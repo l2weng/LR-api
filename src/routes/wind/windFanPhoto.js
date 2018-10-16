@@ -2,7 +2,6 @@ import WindFanPhoto from '../../data/wind/models/FanPhoto';
 import express from 'express';
 import { status, windUserDes } from '../../data/dataUtils';
 import Sequelize from 'sequelize';
-import WindUser from '../../data/wind/models/User';
 import Model from '../../data/sequelize';
 
 const router = express.Router();
