@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+import {DataTypes} from 'sequelize';
 import Model from '../sequelize';
 
 const AuthConfig = Model.define('AuthConfig', {
@@ -8,10 +8,22 @@ const AuthConfig = Model.define('AuthConfig', {
     primaryKey: true,
   },
 
-  level: { type: DataTypes.INTEGER },
-  type: { type: DataTypes.STRING },
-  icon: { type: DataTypes.STRING },
-  active: { type: DataTypes.INTEGER },
+  /**
+   * 权限名称,如: 'team members 数量'
+   */
+  name: {type: DataTypes.STRING},
+  /**
+   * 数量
+   */
+  counts: {type: DataTypes.INTEGER},
+  /**
+   * 创建人 ID
+   */
+  createdBy: {type: DataTypes.STRING},
+  /**
+   * 更新人 ID
+   */
+  modifiedBy: {type: DataTypes.STRING}
 });
 
 export default AuthConfig;

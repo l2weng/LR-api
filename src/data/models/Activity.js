@@ -1,17 +1,26 @@
-import { DataTypes } from 'sequelize';
+import {DataTypes} from 'sequelize';
 import Model from '../sequelize';
 
-const Team = Model.define('Team', {
-  id: {
+const Activity = Model.define('Activity', {
+  activityId: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV1,
     primaryKey: true,
   },
 
-  name: { type: DataTypes.STRING },
-  type: { type: DataTypes.STRING },
-  icon: { type: DataTypes.STRING },
-  active: { type: DataTypes.INTEGER },
+  /**
+   * 0: submitted 1: skipped, 2: reviewed
+   */
+  type: {type: DataTypes.STRING},
+  createdBy: {type: DataTypes.STRING},
+  /**
+   * data set name
+   */
+  dataSetName: {type: DataTypes.STRING},
+  /**
+   * calc with seconds. eg. 10, 20, 45
+   */
+  time:{type:DataTypes.FLOAT}
 });
 
-export default Team;
+export default Activity;
