@@ -18,6 +18,7 @@ import TaskPhotos from './TaskPhotos';
 import Label from './Label';
 import Activity from './Activity';
 import Feedback from './Feedback';
+import Reply from './Reply';
 
 /**
  * Team N to N user
@@ -45,7 +46,7 @@ Invitation.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 /**
  * User 1 to N feedback
  */
-User.hasMany(Feedback, { foreignKey: 'userId', as: 'Feedbacks' });
+User.hasMany(Feedback, { foreignKey: 'userId', as: 'Feedback' });
 Feedback.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 
 /**
@@ -71,6 +72,12 @@ AuthConfig.belongsTo(MembershipConfig, {
  */
 Project.hasMany(Sku, { foreignKey: 'projectId', as: 'Skus' });
 Sku.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
+
+/**
+ * Feedback 1 to N reply
+ */
+Feedback.hasMany(Reply, { foreignKey: 'feedbackId', as: 'Replies' });
+Reply.belongsTo(Feedback, { foreignKey: 'feedbackId', as: 'Feedback' });
 
 /**
  * Project 1 to N tasks
