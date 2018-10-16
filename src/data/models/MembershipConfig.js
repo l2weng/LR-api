@@ -10,6 +10,9 @@ const MembershipConfig = Model.define('MembershipConfig', {
 
   level: { type: DataTypes.INTEGER },
   monthPrice: { type: DataTypes.FLOAT },
+  /**
+   * 支付单位
+   */
   unit: { type: DataTypes.INTEGER },
   yearPrice: { type: DataTypes.FLOAT },
   active: { type: DataTypes.INTEGER },

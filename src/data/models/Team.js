@@ -15,10 +15,6 @@ const Team = Model.define('Team', {
   type: {type: DataTypes.INTEGER},
   icon: {type: DataTypes.STRING},
   /**
-   * team members count calc from membership
-   */
-  accounts: {type: DataTypes.INTEGER},
-  /**
    * team score
    */
   score: {type: DataTypes.FLOAT},

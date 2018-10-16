@@ -17,6 +17,7 @@ import Photo from './Photo';
 import TaskPhotos from './TaskPhotos';
 import Label from './Label';
 import Activity from './Activity';
+import Feedback from './Feedback';
 
 /**
  * Team N to N user
@@ -40,6 +41,12 @@ Project.belongsToMany(User, { through: UserProjects });
  */
 User.hasMany(Invitation, { foreignKey: 'userId', as: 'Invitations' });
 Invitation.belongsTo(User, { foreignKey: 'userId', as: 'User' });
+
+/**
+ * User 1 to N feedback
+ */
+User.hasMany(Feedback, { foreignKey: 'userId', as: 'Feedbacks' });
+Feedback.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 
 /**
  * User 1 to N user login record
