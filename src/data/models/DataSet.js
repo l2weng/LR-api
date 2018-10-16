@@ -50,9 +50,9 @@ const DataSet = Model.define('DataSet', {
   useCloud: {type: DataTypes.BOOLEAN},
 
   /**
-   * mapped false: 没有刷新映射到Photo表, true: 已经刷新映射Photo表
+   * 0: 未同步上云, 1: 已经同步成功, 2: 部分成功, 3: 同步中
    */
-  mapped: {type: DataTypes.BOOLEAN},
+  syncStatus: {type: DataTypes.INTEGER},
 });
 
 export default DataSet;
