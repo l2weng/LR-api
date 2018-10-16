@@ -2,7 +2,7 @@ import {DataTypes} from 'sequelize';
 import Model from '../sequelize';
 
 const AuthConfig = Model.define('AuthConfig', {
-  id: {
+  authConfigId: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV1,
     primaryKey: true,
