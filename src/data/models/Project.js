@@ -12,7 +12,7 @@ const Project = Model.define('Project', {
   desc: { type: DataTypes.STRING(1000) },
   deadline: { type: DataTypes.FLOAT },
   /**
-   * project type, 0: true or false question , 1: label, ...leave to extend
+   * project type, 0: true or false question , 1: label, 2: review //todo extend much more type project
    */
   type: { type: DataTypes.INTEGER },
   /**

@@ -1,4 +1,4 @@
-import {DataTypes} from 'sequelize';
+import { DataTypes } from 'sequelize';
 import Model from '../sequelize';
 
 const Activity = Model.define('Activity', {
@@ -11,16 +11,19 @@ const Activity = Model.define('Activity', {
   /**
    * 0: submitted 1: skipped, 2: reviewed
    */
-  type: {type: DataTypes.STRING},
-  createdBy: {type: DataTypes.STRING},
+  type: { type: DataTypes.STRING },
+  /**
+   * user
+   */
+  createdBy: { type: DataTypes.STRING },
   /**
    * data set name
    */
-  dataSetName: {type: DataTypes.STRING},
+  dataSetName: { type: DataTypes.STRING },
   /**
    * calc with seconds. eg. 10, 20, 45
    */
-  time:{type:DataTypes.FLOAT}
+  time: { type: DataTypes.FLOAT },
 });
 
 export default Activity;

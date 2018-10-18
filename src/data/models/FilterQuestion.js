@@ -1,8 +1,11 @@
 import { DataTypes } from 'sequelize';
 import Model from '../sequelize';
 
-const Question = Model.define('Question', {
-  id: {
+/**
+ * Project type true false question
+ */
+const FilterQuestion = Model.define('FilterQuestion', {
+  questionId: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV1,
     primaryKey: true,
@@ -13,4 +16,4 @@ const Question = Model.define('Question', {
   active: { type: DataTypes.INTEGER },
 });
 
-export default Question;
+export default FilterQuestion;

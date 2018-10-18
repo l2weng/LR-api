@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import Model from '../sequelize';
 
-const Sku = Model.define('WindField', {
+const Sku = Model.define('Sku', {
   skuId: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -10,8 +10,6 @@ const Sku = Model.define('WindField', {
 
   name: { type: DataTypes.STRING },
   serialNumber: { type: DataTypes.STRING },
-  active: { type: DataTypes.INTEGER },
-  province: { type: DataTypes.STRING },
 });
 
 export default Sku;

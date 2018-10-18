@@ -8,6 +8,9 @@ const MembershipConfig = Model.define('MembershipConfig', {
     primaryKey: true,
   },
 
+  /**
+   * 会员级别
+   */
   level: { type: DataTypes.INTEGER },
   monthPrice: { type: DataTypes.FLOAT },
   /**
@@ -15,6 +18,8 @@ const MembershipConfig = Model.define('MembershipConfig', {
    */
   unit: { type: DataTypes.INTEGER },
   yearPrice: { type: DataTypes.FLOAT },
+  createdBy: { type: DataTypes.STRING },
+  modifiedBy: { type: DataTypes.STRING },
   active: { type: DataTypes.INTEGER },
 });
 

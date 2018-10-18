@@ -19,6 +19,7 @@ import Label from './Label';
 import Activity from './Activity';
 import Feedback from './Feedback';
 import Reply from './Reply';
+import Message from './Message';
 
 /**
  * Team N to N user
@@ -54,6 +55,12 @@ Feedback.belongsTo(User, { foreignKey: 'userId', as: 'User' });
  */
 User.hasMany(UserLogin, { foreignKey: 'userId', as: 'LoginRecord' });
 UserLogin.belongsTo(User, { foreignKey: 'userId', as: 'User' });
+
+/**
+ * User 1 to N messages
+ */
+User.hasMany(Message, { foreignKey: 'userId', as: 'Messages' });
+Message.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 
 /**
  * MembershipConfig has many auth details config
@@ -117,7 +124,7 @@ Label.belongsTo(Sku, { foreignKey: 'skuId' });
  * Photo 1 to N Activity
  */
 Photo.hasMany(Activity, { foreignKey: 'photoId', as: 'Activities' });
-Activity.belongsTo(Photo, {foreignKey: 'photoId',as:'Photo'});
+Activity.belongsTo(Photo, { foreignKey: 'photoId', as: 'Photo' });
 
 function sync(...args) {
   return sequelize.sync(...args);

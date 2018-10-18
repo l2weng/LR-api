@@ -2,25 +2,27 @@ import { DataTypes } from 'sequelize';
 import Model from '../sequelize';
 
 // 参考图
-const Reference = Model.define('WindTurbineConfig', {
-  turbineConfigId: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
+const Reference = Model.define('Reference', {
+  referenceId: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV1,
     primaryKey: true,
   },
-
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: {
-        msg: 'Name is a required field',
-      },
-    },
-  },
-  active: { type: DataTypes.INTEGER },
-  vaneLength: { type: DataTypes.FLOAT },
-  pixelLength: { type: DataTypes.FLOAT },
+  /**
+   * 图片已经同步上云
+   */
+  syncedWithCloud: { type: DataTypes.BOOLEAN, defaultValue: false },
+  /**
+   * 客户配置图片地址
+   */
+  fileUrl: { type: DataTypes.STRING },
+  /**
+   * 云地址
+   */
+  cloudUrl: { type: DataTypes.STRING },
+  /**
+   * 图片status, 0: 正常, 1: 删除
+   */
 });
 
 export default Reference;
