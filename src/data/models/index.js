@@ -67,12 +67,12 @@ Message.belongsTo(User, { foreignKey: 'userId', as: 'User' });
  * MembershipConfig has many auth details config
  */
 MembershipConfig.hasMany(AuthConfig, {
-    foreignKey: 'membershipConfigId',
-    as: 'MembershipAuth',
+  foreignKey: 'membershipConfigId',
+  as: 'MembershipAuth',
 });
 AuthConfig.belongsTo(MembershipConfig, {
-    foreignKey: 'membershipConfigId',
-    as: 'MembershipConfig',
+  foreignKey: 'membershipConfigId',
+  as: 'MembershipConfig',
 });
 
 /**
@@ -97,8 +97,8 @@ Task.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
  * Project 1 to N FilterQuestions
  */
 Project.hasMany(FilterQuestion, {
-    foreignKey: 'projectId',
-    as: 'FilterQuestions',
+  foreignKey: 'projectId',
+  as: 'FilterQuestions',
 });
 FilterQuestion.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
 
@@ -112,12 +112,12 @@ DataSet.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
  * Filter Question 1 to N Reference
  */
 FilterQuestion.hasMany(Reference, {
-    foreignKey: 'filterQuestionId',
-    as: 'References',
+  foreignKey: 'filterQuestionId',
+  as: 'References',
 });
 Reference.belongsTo(FilterQuestion, {
-    foreignKey: 'filterQuestionId',
-    as: 'FilterQuestion',
+  foreignKey: 'filterQuestionId',
+  as: 'FilterQuestion',
 });
 
 /**
@@ -150,7 +150,7 @@ Photo.hasMany(Activity, { foreignKey: 'photoId', as: 'Activities' });
 Activity.belongsTo(Photo, { foreignKey: 'photoId', as: 'Photo' });
 
 function sync(...args) {
-    return sequelize.sync(...args);
+  return sequelize.sync(...args);
 }
 
 export default { sync };
