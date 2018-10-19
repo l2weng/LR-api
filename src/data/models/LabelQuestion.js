@@ -11,7 +11,6 @@ const LabelQuestion = Model.define('LabelQuestion', {
     primaryKey: true,
   },
 
-  title: { type: DataTypes.STRING },
   /**
    *  问题保存用的key
    */

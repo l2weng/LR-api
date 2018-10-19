@@ -21,6 +21,9 @@ import Feedback from './Feedback';
 import Reply from './Reply';
 import Message from './Message';
 import FilterQuestion from './FilterQuestion';
+import LabelQuestion from './LabelQuestion';
+import QuestionClassification from './QuestionClassification';
+import QuestionItem from './QuestionItem';
 
 /**
  * Team N to N user
@@ -101,6 +104,36 @@ Project.hasMany(FilterQuestion, {
   as: 'FilterQuestions',
 });
 FilterQuestion.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
+
+/**
+ * Project 1 to N LabelQuestions
+ */
+Project.hasMany(LabelQuestion, {
+  foreignKey: 'projectId',
+  as: 'LabelQuestions',
+});
+LabelQuestion.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
+
+LabelQuestion.hasMany(QuestionItem, {
+  foreignKey: 'LabelQuestionId',
+  as: 'QuestionItems',
+});
+QuestionItem.belongsTo(LabelQuestion, {
+  foreignKey: 'LabelQuestionId',
+  as: 'LabelQuestion',
+});
+
+/**
+ * Project 1 to N QuestionClassification
+ */
+Project.hasMany(QuestionClassification, {
+  foreignKey: 'projectId',
+  as: 'QuestionClassifications',
+});
+QuestionClassification.belongsTo(Project, {
+  foreignKey: 'projectId',
+  as: 'Project',
+});
 
 /**
  * Project 1 to N DataSets
