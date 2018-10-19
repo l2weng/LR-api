@@ -20,47 +20,48 @@ import Activity from './Activity';
 import Feedback from './Feedback';
 import Reply from './Reply';
 import Message from './Message';
+import FilterQuestion from './FilterQuestion';
 
 /**
  * Team N to N user
  */
-Team.belongsToMany(User, {through: UserTeams});
-User.belongsToMany(Team, {through: UserTeams});
+Team.belongsToMany(User, { through: UserTeams });
+User.belongsToMany(Team, { through: UserTeams });
 
 /**
  *  User 1 to 1 membership
  */
-Membership.belongsTo(User, {foreignKey: 'userId'});
+Membership.belongsTo(User, { foreignKey: 'userId' });
 
 /**
  * User N to N projects
  */
-User.belongsToMany(Project, {through: UserProjects});
-Project.belongsToMany(User, {through: UserProjects});
+User.belongsToMany(Project, { through: UserProjects });
+Project.belongsToMany(User, { through: UserProjects });
 
 /**
  * User 1 to N invitation
  */
-User.hasMany(Invitation, {foreignKey: 'userId', as: 'Invitations'});
-Invitation.belongsTo(User, {foreignKey: 'userId', as: 'User'});
+User.hasMany(Invitation, { foreignKey: 'userId', as: 'Invitations' });
+Invitation.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 
 /**
  * User 1 to N feedback
  */
-User.hasMany(Feedback, {foreignKey: 'userId', as: 'Feedback'});
-Feedback.belongsTo(User, {foreignKey: 'userId', as: 'User'});
+User.hasMany(Feedback, { foreignKey: 'userId', as: 'Feedback' });
+Feedback.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 
 /**
  * User 1 to N user login record
  */
-User.hasMany(UserLogin, {foreignKey: 'userId', as: 'LoginRecord'});
-UserLogin.belongsTo(User, {foreignKey: 'userId', as: 'User'});
+User.hasMany(UserLogin, { foreignKey: 'userId', as: 'LoginRecord' });
+UserLogin.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 
 /**
  * User 1 to N messages
  */
-User.hasMany(Message, {foreignKey: 'userId', as: 'Messages'});
-Message.belongsTo(User, {foreignKey: 'userId', as: 'User'});
+User.hasMany(Message, { foreignKey: 'userId', as: 'Messages' });
+Message.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 
 /**
  * MembershipConfig has many auth details config
@@ -77,59 +78,80 @@ AuthConfig.belongsTo(MembershipConfig, {
 /**
  * Project 1 to N sku
  */
-Project.hasMany(Sku, {foreignKey: 'projectId', as: 'Skus'});
-Sku.belongsTo(Project, {foreignKey: 'projectId', as: 'Project'});
+Project.hasMany(Sku, { foreignKey: 'projectId', as: 'Skus' });
+Sku.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
 
 /**
  * Feedback 1 to N reply
  */
-Feedback.hasMany(Reply, {foreignKey: 'feedbackId', as: 'Replies'});
-Reply.belongsTo(Feedback, {foreignKey: 'feedbackId', as: 'Feedback'});
+Feedback.hasMany(Reply, { foreignKey: 'feedbackId', as: 'Replies' });
+Reply.belongsTo(Feedback, { foreignKey: 'feedbackId', as: 'Feedback' });
 
 /**
  * Project 1 to N tasks
  */
-Project.hasMany(Task, {foreignKey: 'projectId', as: 'Tasks'});
-Task.belongsTo(Project, {foreignKey: 'projectId', as: 'Project'});
+Project.hasMany(Task, { foreignKey: 'projectId', as: 'Tasks' });
+Task.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
 
 /**
- * Project 1 to N Datasets
+ * Project 1 to N FilterQuestions
  */
-Project.hasMany(DataSet, {foreignKey: 'projectId', as: 'DataSets'});
-DataSet.belongsTo(Project, {foreignKey: 'projectId', as: 'Project'});
+Project.hasMany(FilterQuestion, {
+    foreignKey: 'projectId',
+    as: 'FilterQuestions',
+});
+FilterQuestion.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
+
+/**
+ * Project 1 to N DataSets
+ */
+Project.hasMany(DataSet, { foreignKey: 'projectId', as: 'DataSets' });
+DataSet.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
+
+/**
+ * Filter Question 1 to N Reference
+ */
+FilterQuestion.hasMany(Reference, {
+    foreignKey: 'filterQuestionId',
+    as: 'References',
+});
+Reference.belongsTo(FilterQuestion, {
+    foreignKey: 'filterQuestionId',
+    as: 'FilterQuestion',
+});
 
 /**
  * Task N to N Photos
  */
-Task.belongsToMany(Photo, {through: TaskPhotos});
-Photo.belongsToMany(Task, {through: TaskPhotos});
+Task.belongsToMany(Photo, { through: TaskPhotos });
+Photo.belongsToMany(Task, { through: TaskPhotos });
 
 /**
  * Sku 1 to N reference
  */
-Sku.hasMany(Reference, {foreignKey: 'skuId', as: 'References'});
-Reference.belongsTo(Sku, {foreignKey: 'skuId', as: 'Sku'});
+Sku.hasMany(Reference, { foreignKey: 'skuId', as: 'References' });
+Reference.belongsTo(Sku, { foreignKey: 'skuId', as: 'Sku' });
 
 /**
  * Photo 1 to N labels
  */
-Photo.hasMany(Label, {foreignKey: 'photoId', as: 'Labels'});
-Label.belongsTo(Photo, {foreignKey: 'photoId', as: 'Photo'});
+Photo.hasMany(Label, { foreignKey: 'photoId', as: 'Labels' });
+Label.belongsTo(Photo, { foreignKey: 'photoId', as: 'Photo' });
 
 /**
  *  Label 1 to 1 Sku
  */
-Label.belongsTo(Sku, {foreignKey: 'skuId'});
+Label.belongsTo(Sku, { foreignKey: 'skuId' });
 
 /**
  * Photo 1 to N Activity
  */
-Photo.hasMany(Activity, {foreignKey: 'photoId', as: 'Activities'});
-Activity.belongsTo(Photo, {foreignKey: 'photoId', as: 'Photo'});
+Photo.hasMany(Activity, { foreignKey: 'photoId', as: 'Activities' });
+Activity.belongsTo(Photo, { foreignKey: 'photoId', as: 'Photo' });
 
 function sync(...args) {
     return sequelize.sync(...args);
 }
 
-export default {sync};
-export {User};
+export default { sync };
+export { User };

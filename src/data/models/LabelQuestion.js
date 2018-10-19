@@ -2,10 +2,10 @@ import { DataTypes } from 'sequelize';
 import Model from '../sequelize';
 
 /**
- * Project type is true false question
+ * Project type is Label question
  */
-const FilterQuestion = Model.define('FilterQuestion', {
-    filterQuestionId: {
+const LabelQuestion = Model.define('LabelQuestion', {
+    labelQuestionId: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV1,
         primaryKey: true,
@@ -26,4 +26,4 @@ const FilterQuestion = Model.define('FilterQuestion', {
     falseAnswerVal: { type: DataTypes.STRING },
 });
 
-export default FilterQuestion;
+export default LabelQuestion;
