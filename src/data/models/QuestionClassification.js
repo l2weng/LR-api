@@ -23,6 +23,11 @@ const QuestionClassification = Model.define('QuestionClassification', {
    * options JSON, e.g. {type:'text',options:'is a car'} or {type:'radio',options:['red','blue','green']}
    */
   options: { type: DataTypes.STRING },
+
+  /**
+   * 快捷键
+   */
+  keymap: { type: DataTypes.STRING },
 });
 
 export default QuestionClassification;

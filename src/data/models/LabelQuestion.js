@@ -12,17 +12,13 @@ const LabelQuestion = Model.define('LabelQuestion', {
   },
 
   /**
-   *  问题保存用的key
+   * 缓存 QuestionItem 和 QuestionClassification的集合
    */
-  key: { type: DataTypes.STRING },
+  cacheQuestions: { type: DataTypes.TEXT },
   /**
-   *  true answer 保存的客户需要的value形式, e.g. 'Yes' '0'
+   * 参考word 或者 pdf url
    */
-  trueAnswerVal: { type: DataTypes.STRING },
-  /**
-   *  false answer 保存的客户需要的value形式, e.g. 'NO' '1'
-   */
-  falseAnswerVal: { type: DataTypes.STRING },
+  Instructions: { type: DataTypes.STRING },
 });
 
 export default LabelQuestion;

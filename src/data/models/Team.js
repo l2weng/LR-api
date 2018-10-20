@@ -1,4 +1,4 @@
-import {DataTypes} from 'sequelize';
+import { DataTypes } from 'sequelize';
 import Model from '../sequelize';
 
 const Team = Model.define('Team', {
@@ -8,24 +8,24 @@ const Team = Model.define('Team', {
     primaryKey: true,
   },
 
-  name: {type: DataTypes.STRING},
+  name: { type: DataTypes.STRING },
   /**
    * 0: Pure Local team, 1: Pure www team, 2: mixed team
    */
-  type: {type: DataTypes.INTEGER},
-  icon: {type: DataTypes.STRING},
+  type: { type: DataTypes.INTEGER },
+  icon: { type: DataTypes.STRING },
   /**
    * team score
    */
-  score: {type: DataTypes.FLOAT},
+  score: { type: DataTypes.FLOAT },
   /**
    * team level calc from level config
    */
-  level:{type: DataTypes.INTEGER},
+  level: { type: DataTypes.INTEGER },
   /**
    * team level title get from level config related
    */
-  levelTitle: {type: DataTypes.STRING},
+  levelTitle: { type: DataTypes.STRING },
 });
 
 export default Team;

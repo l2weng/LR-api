@@ -12,16 +12,16 @@ const Membership = Model.define('Membership', {
   /**
    * 会员权益项目参与人数
    */
-  accounts:{type:DataTypes.INTEGER},
+  accounts: { type: DataTypes.INTEGER },
   /**
    * 会员权益项目数
    */
-  projectCounts:{type:DataTypes.INTEGER},
+  projectCounts: { type: DataTypes.INTEGER },
 
   /**
    * 权益过期时间
    */
-  dueDate:{type:DataTypes.DATE}
+  dueDate: { type: DataTypes.DATE },
 });
 
 export default Membership;

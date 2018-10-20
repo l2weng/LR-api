@@ -13,8 +13,8 @@ const Feedback = Model.define('Feedback', {
 
   title: { type: DataTypes.STRING },
 
-  //todo 暂时简单做, 之后可以上rich editor
-  message: { type: DataTypes.STRING(1000) }
+  // todo 暂时简单做, 之后可以上rich editor
+  message: { type: DataTypes.STRING(1000) },
 });
 
 export default Feedback;

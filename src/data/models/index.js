@@ -114,6 +114,9 @@ Project.hasMany(LabelQuestion, {
 });
 LabelQuestion.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
 
+/**
+ * LabelQuestion 1 to N Question item
+ */
 LabelQuestion.hasMany(QuestionItem, {
   foreignKey: 'LabelQuestionId',
   as: 'QuestionItems',
