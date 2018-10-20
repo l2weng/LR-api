@@ -2,22 +2,23 @@ import {
   GraphQLObjectType as ObjectType,
   GraphQLString as StringType,
   GraphQLInt as IntType,
-  GraphQLFloat as FloatType,
 } from 'graphql';
 
 const UserType = new ObjectType({
-  name: 'UserStory',
+  name: 'userStory',
   fields: {
     userId: { type: StringType },
     name: { type: StringType },
-    displayName: { type: StringType },
+
     email: { type: StringType },
+
+    status: { type: IntType },
+
+    password_hash: { type: StringType },
+
     phone: { type: StringType },
-    type: { type: IntType },
-    companyId: { type: IntType },
-    typeDes: { type: StringType },
-    active: { type: IntType },
-    createdAt: { type: FloatType },
+
+    password: { type: StringType },
   },
 });
 
