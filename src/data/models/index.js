@@ -49,6 +49,12 @@ User.hasMany(Invitation, { foreignKey: 'userId', as: 'Invitations' });
 Invitation.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 
 /**
+ * User 1 to N tasks
+ */
+User.hasMany(Task, { foreignKey: 'userId', as: 'Tasks' });
+Task.belongsTo(User, { foreignKey: 'userId', as: 'User' });
+
+/**
  * User 1 to N feedback
  */
 User.hasMany(Feedback, { foreignKey: 'userId', as: 'Feedback' });
