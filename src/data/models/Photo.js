@@ -13,7 +13,7 @@ const Photo = Model.define('Photo', {
    */
   syncedWithCloud: { type: DataTypes.BOOLEAN, defaultValue: false },
   /**
-   * 客户配置图片地址
+   * 客户配置图片地址 e.g. /users/louis/Desktop/1.jpg
    */
   fileUrl: { type: DataTypes.STRING },
   /**

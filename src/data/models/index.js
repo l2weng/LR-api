@@ -79,12 +79,6 @@ AuthConfig.belongsTo(MembershipConfig, {
 });
 
 /**
- * Project 1 to N sku
- */
-Project.hasMany(Sku, { foreignKey: 'projectId', as: 'Skus' });
-Sku.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
-
-/**
  * Feedback 1 to N reply
  */
 Feedback.hasMany(Reply, { foreignKey: 'feedbackId', as: 'Replies' });
@@ -125,6 +119,12 @@ QuestionItem.belongsTo(LabelQuestion, {
   foreignKey: 'LabelQuestionId',
   as: 'LabelQuestion',
 });
+
+/**
+ * QuestionItem 1 to N Sku
+ */
+QuestionItem.hasMany(Sku, { foreignKey: 'questionItemId', as: 'Skus' });
+Sku.belongsTo(QuestionItem, { foreignKey: 'questionItemId', as: 'QuestionItem' });
 
 /**
  * Project 1 to N QuestionClassification

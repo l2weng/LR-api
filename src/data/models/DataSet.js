@@ -13,7 +13,7 @@ const DataSet = Model.define('DataSet', {
    * 0: from disk, 1: local url, 2: remote url, 3: local file system, 4: remote file system, 5:csv address
    * supports multiple e.g. 0,1,3,4,6
    */
-  from: { type: DataTypes.INTEGER },
+  from: { type: DataTypes.STRING },
 
   /**
    * if 'from==0' disk photo folder
@@ -26,12 +26,12 @@ const DataSet = Model.define('DataSet', {
   diskCsvAddress: { type: DataTypes.STRING },
 
   /**
-   * 局域网文件服务
+   * 局域网文件服务Promise
    */
   localUrl: { type: DataTypes.STRING },
 
   /**
-   * 远程文件服务
+   * 远程文件服务Promise
    */
   remoteUrl: { type: DataTypes.STRING },
 

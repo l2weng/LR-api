@@ -20,7 +20,10 @@ const MembershipConfig = Model.define('MembershipConfig', {
   yearPrice: { type: DataTypes.FLOAT },
   createdBy: { type: DataTypes.STRING },
   modifiedBy: { type: DataTypes.STRING },
-  active: { type: DataTypes.INTEGER },
+  /**
+   * 0: 上架状态 1, 下架状态
+   */
+  status: { type: DataTypes.INTEGER },
 });
 
 export default MembershipConfig;

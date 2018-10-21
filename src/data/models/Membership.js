@@ -19,6 +19,11 @@ const Membership = Model.define('Membership', {
   projectCounts: { type: DataTypes.INTEGER },
 
   /**
+   * 云空间大小
+   */
+  cloudSpace: { type: DataTypes.FLOAT },
+
+  /**
    * 权益过期时间
    */
   dueDate: { type: DataTypes.DATE },

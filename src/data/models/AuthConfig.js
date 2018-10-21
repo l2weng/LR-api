@@ -9,7 +9,7 @@ const AuthConfig = Model.define('AuthConfig', {
   },
 
   /**
-   * 权限名称,如: 'team members 数量'
+   * 权益名称,如: 'team members 数量'
    */
   name: { type: DataTypes.STRING },
   /**
