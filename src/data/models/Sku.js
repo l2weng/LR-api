@@ -9,7 +9,7 @@ const Sku = Model.define('Sku', {
   },
 
   name: { type: DataTypes.STRING },
-  serialNumber: { type: DataTypes.STRING },
+  bizId: { type: DataTypes.STRING },
 });
 
 export default Sku;

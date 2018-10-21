@@ -8,7 +8,7 @@ const FeedbackType = new ObjectType({
   fields: {
     feedBackId: { type: StringType },
     title: { type: StringType },
-    message: { type: StringType }
+    message: { type: StringType },
   },
 });
 
