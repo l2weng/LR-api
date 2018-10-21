@@ -39,7 +39,7 @@ const QuestionItem = Model.define('QuestionItem', {
   /**
    *问题选项JSON, e.g. {type:'text',options:'is a car'} or {type:'radio',options:['red','blue','green']}
    */
-  options: { type: DataTypes.ARRAY },
+  options: { type: DataTypes.STRING },
 
   /**
    * 快捷键

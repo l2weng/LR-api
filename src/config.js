@@ -28,7 +28,7 @@ module.exports = {
 
   // MSSql database
   database: {
-    WINDMYSQL: {
+    MYSQL: {
       host: 'localhost',
       dbname: 'ACU',
       username: 'root',

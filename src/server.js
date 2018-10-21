@@ -17,33 +17,36 @@ import errorPageStyle from './routes/error/ErrorPage.css';
 import createFetch from './createFetch';
 import passport from './passport';
 import router from './router';
-import windSchema from './data/windSchema';
-import windModels, { WindUser } from './data/wind/models';
+import schema from './data/schema';
+import LRModels from './data/models';
 import chunks from './chunk-manifest.json'; // eslint-disable-line import/no-unresolved
 import config from './config';
-import { verifyJWTToken } from './routes/verifyJWTToken';
+// import { verifyJWTToken } from './routes/verifyJWTToken';
 import https from 'https';
 // wind router register
-import windUsers from './routes/wind/users';
-import windCompanys from './routes/wind/companys';
-import windDefectTypes from './routes/wind/defectTypes';
-import turbineConfigs from './routes/wind/turbineConfigs';
-import premiseConfigs from './routes/wind/premiseConfigs';
-import windFields from './routes/wind/windFields';
-import windMachine from './routes/wind/windMachine';
-import windVane from './routes/wind/windVane';
-import windFanPhoto from './routes/wind/windFanPhoto';
-import windPhotoDefect from './routes/wind/windPhotoDefect'
-import windRoutingInspects from './routes/wind/routingInspects'
+// import windUsers from './routes/wind/users';
+// import windCompanys from './routes/wind/companys';
+// import windDefectTypes from './routes/wind/defectTypes';
+// import turbineConfigs from './routes/wind/turbineConfigs';
+// import premiseConfigs from './routes/wind/premiseConfigs';
+// import windFields from './routes/wind/windFields';
+// import windMachine from './routes/wind/windMachine';
+// import windVane from './routes/wind/windVane';
+// import windFanPhoto from './routes/wind/windFanPhoto';
+// import windPhotoDefect from './routes/wind/windPhotoDefect';
+// import windRoutingInspects from './routes/wind/routingInspects';
 
-import { userDes, windUserDes } from './data/dataUtils';
 import compression from 'compression';
+
 const fs = require('fs');
-const formidable = require('formidable'), http = require('http'), util = require('util');
+// const formidable = require('formidable'),
+//   http = require('http'),
+//   util = require('util');
 
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
-const verifyToken = verifyJWTToken();
+
+// const verifyToken = verifyJWTToken();
 
 const usingCluster = process.env.CLUSTER || false;
 
@@ -114,9 +117,9 @@ app.use(passport.initialize());
 // Register MYSQL API middleware
 // -----------------------------------------------------------------------------
 app.use(
-  '/wind/msgraphql',
+  '/lr/msgraphql',
   expressGraphQL(req => ({
-    schema: windSchema,
+    schema,
     graphiql: __DEV__,
     rootValue: { request: req },
     pretty: __DEV__,
@@ -126,45 +129,45 @@ app.use(
 //
 // Register Wind API router
 // -----------------------------------------------------------------------------
-app.use('/wind/users', windUsers);
-app.use('/wind/companies', windCompanys);
-app.use('/wind/defectTypes', windDefectTypes);
-app.use('/wind/turbineConfigs', turbineConfigs);
-app.use('/wind/premiseConfigs', premiseConfigs);
-app.use('/wind/windFields', windFields);
-app.use('/wind/windMachines', windMachine);
-app.use('/wind/windVanes', windVane);
-app.use('/wind/windFanPhotos', windFanPhoto);
-app.use('/wind/windPhotoDefect', windPhotoDefect);
-app.use('/wind/routingInspects', windRoutingInspects);
+// app.use('/wind/users', windUsers);
+// app.use('/wind/companies', windCompanys);
+// app.use('/wind/defectTypes', windDefectTypes);
+// app.use('/wind/turbineConfigs', turbineConfigs);
+// app.use('/wind/premiseConfigs', premiseConfigs);
+// app.use('/wind/windFields', windFields);
+// app.use('/wind/windMachines', windMachine);
+// app.use('/wind/windVanes', windVane);
+// app.use('/wind/windFanPhotos', windFanPhoto);
+// app.use('/wind/windPhotoDefect', windPhotoDefect);
+// app.use('/wind/routingInspects', windRoutingInspects);
 
 // upload file
-app.post('/wind/upload', (req, res) => {
-  var form = new formidable.IncomingForm(),
-    files = {};
-  form.uploadDir = path.resolve(__dirname, '../public/uploads');
-  form.keepExtensions = true;
-  try {
-    form
-      .on('file', (field, file) => {
-          console.log(field, file.path);
-          files =  file.path;
-        })
-      .on('end', () => {
-          console.log('-> upload done');
-          res.writeHead(200, {'content-type': 'text/plain'});
-          let n = files.lastIndexOf('/');
-          res.end(util.inspect({result:'success',FileId:files.substring(n + 1)}));
-        });
-      });
-    form.parse(req);
-  } catch (e) {
-    res.status(200).send({
-      result: 'error',
-      msg: 'upload file met error!',
-    });
-  }
-});
+// app.post('/wind/upload', (req, res) => {
+// var form = new formidable.IncomingForm(),
+//   files = {}
+// form.uploadDir = path.resolve(__dirname, '../public/uploads')
+// form.keepExtensions = true
+// try {
+//   form
+//     .on('file', (field, file) => {
+//         console.log(field, file.path);
+//         files =  file.path;
+//       })
+//     .on('end', () => {
+//         console.log('-> upload done');
+//         res.writeHead(200, {'content-type': 'text/plain'});
+//         let n = files.lastIndexOf('/');
+//         res.end(util.inspect({result:'success',FileId:files.substring(n + 1)}));
+//       });
+//     });
+//   form.parse(req);
+// } catch (e) {
+//   res.status(200).send({
+//     result: 'error',
+//     msg: 'upload file met error!',
+//   });
+// }
+// });
 
 // Auth wind user
 app.post(
@@ -183,7 +186,7 @@ app.post(
       token,
       user: req.user,
       status: 'ok',
-      currentAuthority: windUserDes[req.user.type],
+      currentAuthority: req.user.type,
     });
   },
 );
@@ -205,7 +208,7 @@ app.get('*', async (req, res, next) => {
     const fetch = createFetch(nodeFetch, {
       baseUrl: config.api.serverUrl,
       cookie: req.headers.cookie,
-      schema: windSchema,
+      schema,
       graphql,
     });
 
@@ -294,14 +297,14 @@ app.use((err, req, res, next) => {
 // -----------------------------------------------------------------------------
 
 if (cluster.isMaster && usingCluster) {
-  console.log(`Main ${process.pid} is working!`);
+  console.info(`Main ${process.pid} is working!`);
 
   // Fork workers.
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
   }
 
-  cluster.on('exit', (worker, code, signal) => {
+  cluster.on('exit', worker => {
     /* eslint-disable no-console */
     console.log('Worker %d died :(', worker.id);
     cluster.fork();
@@ -310,7 +313,7 @@ if (cluster.isMaster && usingCluster) {
   // Launch the server
   // -----------------------------------------------------------------------------
   // const promise = mssqlModels.sync({force:true}).catch(err => console.error(err.stack));
-  const promise = windModels.sync().catch(err => console.error(err.stack));
+  const promise = LRModels.sync().catch(err => console.error(err.stack));
   if (!module.hot) {
     promise.then(() => {
       if (config.port === '443') {

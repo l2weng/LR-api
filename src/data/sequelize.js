@@ -1,12 +1,12 @@
-import Sequelize from 'src/data/sequelize';
+import Sequelize from 'sequelize';
 import config from '../config';
 
 const sequelize = new Sequelize(
-  config.database.WINDMYSQL.dbname,
-  config.database.WINDMYSQL.username,
-  config.database.WINDMYSQL.password,
+  config.database.MYSQL.dbname,
+  config.database.MYSQL.username,
+  config.database.MYSQL.password,
   {
-    host: config.database.WINDMYSQL.host,
+    host: config.database.MYSQL.host,
     dialect: 'mysql',
     port: '3306',
     pool: {

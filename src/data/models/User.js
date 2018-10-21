@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import Model from '../sequelize';
 import md5 from 'blueimp-md5';
 
-const User = Model.define('WindUser', {
+const User = Model.define('User', {
   userId: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV1,
