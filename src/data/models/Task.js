@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import Model from '../sequelize';
 
 const Task = Model.define('Task', {
-  id: {
+  taskId: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV1,
     primaryKey: true,

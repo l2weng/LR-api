@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import Model from '../sequelize';
 
 const Membership = Model.define('Membership', {
-  id: {
+  membershipId: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV1,
     primaryKey: true,

@@ -13,7 +13,7 @@ import { User } from './data/models';
  * Sign in with Local.
  */
 passport.use(
-  'wind',
+  'lr',
   new LocalStrategy((name, password, done) => {
     User.findOne({
       where: { name },

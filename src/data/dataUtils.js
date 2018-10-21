@@ -41,11 +41,4 @@ const codeMessage = {
   504: '网关超时。',
 };
 
-
-export {
-  userDes,
-  userType,
-  windUserDes,
-  status,
-  codeMessage,
-};
+export { userDes, userType, windUserDes, status, codeMessage };
