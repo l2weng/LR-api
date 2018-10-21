@@ -11,7 +11,7 @@ const DataSet = Model.define('DataSet', {
   name: { type: DataTypes.STRING },
   /**
    * 0: from disk, 1: local url, 2: remote url, 3: local file system, 4: remote file system, 5:csv address
-   * supports multiple e.g. 0,1,3,4,6
+   * supports multiple e.g. 0,1,3,4,5
    */
   from: { type: DataTypes.STRING },
 

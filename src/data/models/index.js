@@ -124,7 +124,10 @@ QuestionItem.belongsTo(LabelQuestion, {
  * QuestionItem 1 to N Sku
  */
 QuestionItem.hasMany(Sku, { foreignKey: 'questionItemId', as: 'Skus' });
-Sku.belongsTo(QuestionItem, { foreignKey: 'questionItemId', as: 'QuestionItem' });
+Sku.belongsTo(QuestionItem, {
+  foreignKey: 'questionItemId',
+  as: 'QuestionItem',
+});
 
 /**
  * Project 1 to N QuestionClassification
