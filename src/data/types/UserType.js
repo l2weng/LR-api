@@ -14,14 +14,11 @@ const UserType = new ObjectType({
 
     status: { type: IntType },
 
-    password_hash: { type: StringType },
-
     phone: { type: StringType },
-
-    password: { type: StringType },
 
     userType: { type: IntType },
     userTypeDesc: { type: StringType },
+    statusDesc: { type: StringType },
   },
 });
 

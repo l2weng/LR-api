@@ -10,6 +10,7 @@ const userType = {
 
 // 0:激活状态, 1: 未激活, 2, 冻结
 const status = {active: 0, inactive: 1, locked: 2}
+const statusDesc = {0:'inactive',1:'active', 2:'locked'}
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -36,10 +37,10 @@ function resBuild (
   obj = null, resType = 0, optType = 0, message = '') {
   return {
     result: resMessage[resType],
-    message: `${optTypes[optType]} ${model} ${message}`,
+    message: `${optTypes[optType]} ${obj.constructor.name} ${message}`,
     model: obj!==null?obj.constructor.name:'',
     obj: obj,
   }
 }
 
-export { resBuild, userType, status,userTypeDesc }
+export { resBuild, statusDesc,userTypeDesc }

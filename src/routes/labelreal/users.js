@@ -1,16 +1,19 @@
 import User from '../../data/models/User'
-import { status, userTypeDesc, resBuild } from '../../data/dataUtils'
+import { statusDesc, userTypeDesc, resBuild } from '../../data/dataUtils'
 import express from 'express'
 
 const router = express.Router()
 
 router.post('/create', (req, res) => {
-  let {userType} = req.body
+  let {userType,status} = req.body
   const userObj = {
     userTypeDesc: userTypeDesc[userType],
+    statusDesc:statusDesc[status],
     ...req.body,
   }
   User.create(userObj).then(user => {
+    delete user.dataValues.password
+    delete user.dataValues.password_hash
     res.json(resBuild(user))
   }).catch(function (err) {
     res.status(500).send(err)
