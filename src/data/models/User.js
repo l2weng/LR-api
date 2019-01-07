@@ -22,6 +22,9 @@ const User = Model.define('User', {
 
   email: {
     type: DataTypes.STRING,
+    validate: {
+      isEmail: true,
+    },
   },
 
   status: { type: DataTypes.INTEGER },
