@@ -23,7 +23,7 @@ import chunks from './chunk-manifest.json'; // eslint-disable-line import/no-unr
 import config from './config';
 // import { verifyJWTToken } from './routes/verifyJWTToken';
 import https from 'https';
-import windUsers from './routes/labelreal/users';
+import User from './routes/labelreal/users';
 
 import compression from 'compression';
 

@@ -1,38 +1,24 @@
 import User from '../../data/models/User';
-import { windUserDes, status } from '../../data/dataUtils';
+import { status, userType,resBuild } from '../../data/dataUtils';
 import express from 'express';
 
 const router = express.Router();
 
 router.post('/create', (req, res) => {
+  let { name, email, phone, registerType } = req.body;
   const userObj = {
-    name: req.body.name && req.body.name.trim(),
-    displayName: req.body.displayName && req.body.displayName.trim(),
-    type: req.body.type,
-    typeDes: windUserDes[req.body.type],
-    password: req.body.password && req.body.password.trim(),
-    phone: req.body.phone && req.body.phone.trim(),
-    email: req.body.email && req.body.email.trim(),
-    companyId: req.body.companyId && req.body.companyId,
-    active: status.active,
+    userType: userType[registerType],
+    name,
+    email,
+    phone,
   };
-  const userCreation = async done => {
-    const userAddResult = await WindUser.create(userObj)
-      .then(user => ({
-        result: 'success',
-        obj: user,
-      }))
-      .catch(err => ({ result: 'error', msg: err.name }));
-    done(userAddResult);
-  };
-
-  userCreation(data => {
-    if (data.result === 'success') {
-      res.status(200).send({ result: 'success', msg: 'success' });
-    } else if (data.result === 'error') {
-      res.status(500).send(data);
-    }
-  });
+  User.create(userObj)
+    .then(user => {
+      res.json(resBuild(user));
+    })
+    .catch(function(err) {
+      res.status(500).send(err);
+    });
 });
 
 router.post('/update', (req, res) => {

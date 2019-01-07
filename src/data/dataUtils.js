@@ -1,27 +1,15 @@
-// retail user description
-const userDes = {
-  1: 'representative',
-  2: 'supervisor',
-  3: 'admin',
-  4: 'superadmin',
-};
+const userTypeDesc = {
+  0: 'individual',
+  1: 'enterprise',
+}
 
 const userType = {
-  representative: 1,
-  supervisor: 2,
-  admin: 3,
-  superadmin: 4,
-};
+  individual: 0,
+  enterprise: 1,
+}
 
-// wind user description
-const windUserDes = {
-  1: 'FO',
-  2: 'CO',
-  3: 'clobotics-admin',
-};
-
-// 0:激活状态, 1:删除
-const status = { active: 0, inactive: 1 };
+// 0:激活状态, 1: 未激活, 2, 冻结
+const status = {active: 0, inactive: 1, locked: 2}
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -39,6 +27,19 @@ const codeMessage = {
   502: '网关错误。',
   503: '服务不可用，服务器暂时过载或维护。',
   504: '网关超时。',
-};
+}
 
-export { userDes, userType, windUserDes, status, codeMessage };
+const resMessage = {0: 'success', 1: 'failure'}
+const optTypes = {0: 'create', 1: 'update', 3: 'read', 4: 'delete'}
+
+function resBuild (
+  obj = null, resType = 0, optType = 0, message = '') {
+  return {
+    result: resMessage[resType],
+    message: `${optTypes[optType]} ${model} ${message}`,
+    model: obj!==null?obj.constructor.name:'',
+    obj: obj,
+  }
+}
+
+export { resBuild, userType, userType, status }

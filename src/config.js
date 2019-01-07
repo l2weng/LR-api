@@ -29,10 +29,10 @@ module.exports = {
   // MSSql database
   database: {
     MYSQL: {
-      host: 'localhost',
-      dbname: 'ACU',
-      username: 'root',
-      password: '!!123abcdefg',
+      host: 'rm-uf672m25i320810p9lo.mysql.rds.aliyuncs.com',
+      dbname: 'lr',
+      username: 'lr',
+      password: '!!123labelreal',
     },
   },
 

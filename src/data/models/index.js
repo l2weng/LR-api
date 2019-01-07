@@ -24,6 +24,7 @@ import FilterQuestion from './FilterQuestion';
 import LabelQuestion from './LabelQuestion';
 import QuestionClassification from './QuestionClassification';
 import QuestionItem from './QuestionItem';
+import Company from './Company'
 
 /**
  * Team N to N user
@@ -35,6 +36,7 @@ User.belongsToMany(Team, { through: UserTeams });
  *  User 1 to 1 membership
  */
 Membership.belongsTo(User, { foreignKey: 'userId' });
+User.belongsTo(Company,{foreignKey:'companyId'})
 
 /**
  * User N to N projects
