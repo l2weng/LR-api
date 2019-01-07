@@ -37,6 +37,7 @@ const User = Model.define('User', {
   },
 
   userType: { type: DataTypes.INTEGER },
+  userTypeDesc: { type: DataTypes.STRING },
 
   password: {
     type: DataTypes.VIRTUAL,

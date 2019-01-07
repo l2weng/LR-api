@@ -19,6 +19,9 @@ const UserType = new ObjectType({
     phone: { type: StringType },
 
     password: { type: StringType },
+
+    userType: { type: IntType },
+    userTypeDesc: { type: StringType },
   },
 });
 

@@ -42,4 +42,4 @@ function resBuild (
   }
 }
 
-export { resBuild, userType, userType, status }
+export { resBuild, userType, status,userTypeDesc }

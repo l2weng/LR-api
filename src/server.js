@@ -23,7 +23,7 @@ import chunks from './chunk-manifest.json'; // eslint-disable-line import/no-unr
 import config from './config';
 // import { verifyJWTToken } from './routes/verifyJWTToken';
 import https from 'https';
-import User from './routes/labelreal/users';
+import users from './routes/labelreal/users';
 
 import compression from 'compression';
 
@@ -87,6 +87,10 @@ app.use((req, res, next) => {
   next();
 });
 
+// Register API router
+// -----------------------------------------------------------------------------
+app.use('/lr/users', users);
+
 //
 // Authentication
 // -----------------------------------------------------------------------------
@@ -106,7 +110,7 @@ app.use(passport.initialize());
 // Register MYSQL API middleware
 // -----------------------------------------------------------------------------
 app.use(
-  '/lr/msgraphql',
+  '/lr/graphql',
   expressGraphQL(req => ({
     schema,
     graphiql: __DEV__,
@@ -117,8 +121,8 @@ app.use(
 
 // Auth wind user
 app.post(
-  '/wind/auth',
-  passport.authenticate('wind', {
+  '/lr/auth',
+  passport.authenticate('lr', {
     session: false,
   }),
 
@@ -132,7 +136,6 @@ app.post(
       token,
       user: req.user,
       status: 'ok',
-      currentAuthority: req.user.type,
     });
   },
 );
@@ -229,7 +232,12 @@ app.use((err, req, res, next) => {
     <Html
       title="Internal Server Error"
       description={err.message}
-      styles={[{ id: 'css', cssText: errorPageStyle._getCss() }]} // eslint-disable-line no-underscore-dangle
+      styles={[
+        {
+          id: 'css',
+          cssText: errorPageStyle._getCss(),
+        },
+      ]} // eslint-disable-line no-underscore-dangle
     >
       {ReactDOM.renderToString(<ErrorPageWithoutStyle error={err} />)}
     </Html>,

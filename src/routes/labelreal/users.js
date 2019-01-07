@@ -1,25 +1,21 @@
-import User from '../../data/models/User';
-import { status, userType,resBuild } from '../../data/dataUtils';
-import express from 'express';
+import User from '../../data/models/User'
+import { status, userTypeDesc, resBuild } from '../../data/dataUtils'
+import express from 'express'
 
-const router = express.Router();
+const router = express.Router()
 
 router.post('/create', (req, res) => {
-  let { name, email, phone, registerType } = req.body;
+  let {userType} = req.body
   const userObj = {
-    userType: userType[registerType],
-    name,
-    email,
-    phone,
-  };
-  User.create(userObj)
-    .then(user => {
-      res.json(resBuild(user));
-    })
-    .catch(function(err) {
-      res.status(500).send(err);
-    });
-});
+    userTypeDesc: userTypeDesc[userType],
+    ...req.body,
+  }
+  User.create(userObj).then(user => {
+    res.json(resBuild(user))
+  }).catch(function (err) {
+    res.status(500).send(err)
+  })
+})
 
 router.post('/update', (req, res) => {
   const userUpdateInfo = async done => {
@@ -33,24 +29,22 @@ router.post('/update', (req, res) => {
         email: req.body.email && req.body.email.trim(),
       },
       {
-        where: { userId: req.body.userId },
+        where: {userId: req.body.userId},
       },
-    )
-      .then(result => ({
-        result: 'success',
-        obj: result,
-      }))
-      .catch(err => ({ result: 'error', msg: err.name }));
-    done(userUpdateResult);
-  };
+    ).then(result => ({
+      result: 'success',
+      obj: result,
+    })).catch(err => ({result: 'error', msg: err.name}))
+    done(userUpdateResult)
+  }
 
   userUpdateInfo(data => {
     if (data.result === 'success') {
-      res.status(200).send({ result: 'success', msg: 'success' });
+      res.status(200).send({result: 'success', msg: 'success'})
     } else if (data.result === 'error') {
-      res.status(500).send(data);
+      res.status(500).send(data)
     }
-  });
-});
+  })
+})
 
-export default router;
+export default router
