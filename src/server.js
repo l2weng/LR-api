@@ -42,7 +42,7 @@ const usingCluster = process.env.CLUSTER || false;
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at:', p, 'reason:', reason);
   // send entire app down. Process manager will restart it
-  // process.exit(1);
+  process.exit(1);
 });
 
 //
@@ -100,7 +100,7 @@ app.use(
     credentialsRequired: false,
     getToken: req =>
       req.body.token || req.query.token || req.headers['x-access-token'],
-  }).unless({ path: ['/rea/auth', '/wind/auth'] }),
+  }).unless({ path: ['/lr/auth'] }),
 );
 
 app.use(passport.initialize());
@@ -119,18 +119,18 @@ app.use(
   })),
 );
 
-// Auth wind user
+// Auth user
 app.post(
   '/lr/auth',
   passport.authenticate('lr', {
     session: false,
   }),
-
   (req, res) => {
     const expiresIn = 60 * 60 * 24 * 10; // 10 days
     const token = jwt.sign({ name: req.user.name }, config.auth.jwt.secret, {
       expiresIn,
     });
+    delete req.user.password_hash
     res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
     res.status(200).send({
       token,
