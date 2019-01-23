@@ -26,7 +26,6 @@ passport.use(
         return done(null, false, { message: 'Incorrect password.' });
       }
       delete user.dataValues.password_hash
-      console.log(user)
       return done(null, user)
     });
   }),
