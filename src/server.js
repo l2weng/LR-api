@@ -130,7 +130,6 @@ app.post(
     const token = jwt.sign({ name: req.user.name }, config.auth.jwt.secret, {
       expiresIn,
     });
-    delete req.user.password_hash
     res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
     res.status(200).send({
       token,

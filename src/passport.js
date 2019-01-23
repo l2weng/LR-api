@@ -25,7 +25,9 @@ passport.use(
       if (md5(password) !== user.password_hash) {
         return done(null, false, { message: 'Incorrect password.' });
       }
-      return done(null, user);
+      delete user.dataValues.password_hash
+      console.log(user)
+      return done(null, user)
     });
   }),
 );
