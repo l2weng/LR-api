@@ -10,7 +10,7 @@ const router = express.Router()
 router.post('/create', (req, res) => {
   Team.create(req.body).then(team => {
     User.findById(req.body.userId).then(user => {
-      user.addTeam(team, { through: { isOwner: true }})
+      user.addTeam(team, {through: {isOwner: true}})
       res.json(resBuild(team))
     })
   }).catch(err => {

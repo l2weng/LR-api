@@ -1,5 +1,5 @@
-import { DataTypes } from 'sequelize';
-import Model from '../sequelize';
+import { DataTypes } from 'sequelize'
+import Model from '../sequelize'
 
 const Team = Model.define('Team', {
   teamId: {
@@ -8,28 +8,28 @@ const Team = Model.define('Team', {
     primaryKey: true,
   },
 
-  name: { type: DataTypes.STRING },
+  name: {type: DataTypes.STRING},
   /**
    * 0: Public, 1: Private
    */
-  type: { type: DataTypes.INTEGER },
-  icon: { type: DataTypes.STRING },
+  type: {type: DataTypes.INTEGER, defaultValue: 0},
+  icon: {type: DataTypes.STRING},
   /**
    * team score
    */
-  score: { type: DataTypes.FLOAT,defaultValue: 0 },
+  score: {type: DataTypes.FLOAT, defaultValue: 0},
   /**
    * team level calc from level config
    */
-  level: { type: DataTypes.INTEGER },
+  level: {type: DataTypes.INTEGER},
   /**
    * team level title get from level config related
    */
-  levelTitle: { type: DataTypes.STRING },
+  levelTitle: {type: DataTypes.STRING},
   /**
    * team size
    */
-  teamSize:{type:DataTypes.INTEGER,defaultValue:0}
-});
+  teamSize: {type: DataTypes.INTEGER, defaultValue: 0},
+})
 
-export default Team;
+export default Team
