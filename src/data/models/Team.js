@@ -10,14 +10,14 @@ const Team = Model.define('Team', {
 
   name: { type: DataTypes.STRING },
   /**
-   * 0: Pure Local team, 1: Pure www team, 2: mixed team
+   * 0: Public, 1: Private
    */
   type: { type: DataTypes.INTEGER },
   icon: { type: DataTypes.STRING },
   /**
    * team score
    */
-  score: { type: DataTypes.FLOAT },
+  score: { type: DataTypes.FLOAT,defaultValue: 0 },
   /**
    * team level calc from level config
    */
@@ -26,6 +26,10 @@ const Team = Model.define('Team', {
    * team level title get from level config related
    */
   levelTitle: { type: DataTypes.STRING },
+  /**
+   * team size
+   */
+  teamSize:{type:DataTypes.INTEGER,defaultValue:0}
 });
 
 export default Team;

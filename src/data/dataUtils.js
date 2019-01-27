@@ -40,7 +40,7 @@ const enCodeMessage = {
   504: '网关超时。',
 }
 
-function getMessageByCode (code = 200, lang = 'cn') {
+function getMessageByCode (code = 200, lang) {
   return lang === "en" ? enCodeMessage[code] : codeMessage[code]
 }
 

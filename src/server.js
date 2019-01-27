@@ -24,6 +24,7 @@ import config from './config';
 // import { verifyJWTToken } from './routes/verifyJWTToken';
 import https from 'https';
 import users from './routes/labelreal/users';
+import teams from './routes/labelreal/teams';
 
 import compression from 'compression';
 
@@ -90,6 +91,7 @@ app.use((req, res, next) => {
 // Register API router
 // -----------------------------------------------------------------------------
 app.use('/lr/users', users);
+app.use('/lr/teams', teams);
 
 //
 // Authentication
