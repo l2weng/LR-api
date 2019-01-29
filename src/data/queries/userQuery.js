@@ -21,7 +21,7 @@ const userQueryAll = {
   type: new List(UserType),
   resolve () {
     return User.findAll({
-      order: [['createdAt', 'ASC']],
+      order: [['createdAt', 'DESC']],
     }).then(users => users)
   },
 }

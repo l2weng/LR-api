@@ -4,11 +4,12 @@ import {
 } from 'graphql';
 
 import {userQueryWhere} from './queries/userQuery'
+import {teamQueryWhere} from './queries/teamQuery'
 
 const schema = new Schema({
   query: new ObjectType({
     name: 'Query',
-    fields: {userQueryWhere},
+    fields: {userQueryWhere,teamQueryWhere},
   }),
 });
 
