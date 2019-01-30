@@ -4,9 +4,10 @@ import {
   GraphQLInt as IntType,
   GraphQLFloat as FloatType,
 } from 'graphql';
+import UserTeamsType from './UserTeamsType'
 
 const TeamType = new ObjectType({
-  name: 'teamSetStory',
+  name: 'teamStory',
   fields: {
     teamId: { type: StringType },
     name: { type: StringType },
@@ -27,7 +28,8 @@ const TeamType = new ObjectType({
      * team level title get from level config related
      */
     levelTitle: { type: StringType },
-    color:{ type: StringType }
+    color:{ type: StringType },
+    UserTeams:{type:UserTeamsType}
   },
 });
 

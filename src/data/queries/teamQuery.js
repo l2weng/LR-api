@@ -1,7 +1,8 @@
 import TeamType from '../types/TeamType'
 import Team from '../models/Team'
+import User from '../models/User'
 import { criteriaBuild } from '../dataUtils'
-import { GraphQLString, GraphQLList as List, GraphQLInt } from 'graphql'
+import { GraphQLString, GraphQLList as List, GraphQLInt} from 'graphql'
 
 const teamQueryById = {
   name: 'TeamQueryById',
@@ -12,6 +13,22 @@ const teamQueryById = {
   },
   args: {
     id: {type: GraphQLString},
+  },
+}
+
+const teamQueryByUserId = {
+  name: 'TeamQueryByUserId',
+  description: 'Finding Team by UserId',
+  type: new List(TeamType),
+  resolve (_, {userId}) {
+    if (userId !== undefined && userId !== '') {
+      return User.findById(userId).then(user => {
+        return user.getTeams().then(teams => teams)
+      })
+    }
+  },
+  args: {
+    userId: {type: GraphQLString},
   },
 }
 
@@ -42,4 +59,4 @@ const teamQueryWhere = {
   },
 }
 
-export { teamQueryById, teamQueryAll, teamQueryWhere }
+export { teamQueryById, teamQueryAll, teamQueryWhere, teamQueryByUserId }
