@@ -27,6 +27,7 @@ const TeamType = new ObjectType({
      * team level title get from level config related
      */
     levelTitle: { type: StringType },
+    color:{ type: StringType }
   },
 });
 

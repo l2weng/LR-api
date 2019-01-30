@@ -30,6 +30,7 @@ const Team = Model.define('Team', {
    * team size
    */
   teamSize: {type: DataTypes.INTEGER, defaultValue: 0},
+  color: {type:DataTypes.STRING}
 })
 
 export default Team

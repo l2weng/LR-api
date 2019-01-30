@@ -105,6 +105,10 @@ function criteriaBuild (criteria, params={}, type = 0) {
   return builtCriteria
 }
 
+function generateColor () {
+  return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+}
+
 export {
   resBuild,
   statusDesc,
@@ -113,4 +117,5 @@ export {
   validateEmail,
   getMessageByCode,
   criteriaBuild,
+  generateColor
 }
