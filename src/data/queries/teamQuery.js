@@ -23,7 +23,7 @@ const teamQueryByUserId = {
   resolve (_, {userId}) {
     if (userId !== undefined && userId !== '') {
       return User.findById(userId).then(user => {
-        return user.getTeams().then(teams => teams)
+        return user.getTeams({order: [['createdAt','DESC']]}).then(teams => teams)
       })
     }
   },
