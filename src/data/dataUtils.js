@@ -109,8 +109,13 @@ function generateColor () {
   return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 }
 
+function resErrorBuild(res,statusCode) {
+  res.status(statusCode).send(getMessageByCode(statusCode))
+}
+
 export {
   resBuild,
+  resErrorBuild,
   statusDesc,
   userTypeDesc,
   userType,

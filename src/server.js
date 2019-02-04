@@ -21,11 +21,10 @@ import schema from './data/schema';
 import LRModels from './data/models';
 import chunks from './chunk-manifest.json'; // eslint-disable-line import/no-unresolved
 import config from './config';
-// import { verifyJWTToken } from './routes/verifyJWTToken';
 import https from 'https';
+import log4js from 'log4js';
 import users from './routes/labelreal/users';
 import teams from './routes/labelreal/teams';
-
 import compression from 'compression';
 
 const fs = require('fs');
@@ -35,13 +34,25 @@ const fs = require('fs');
 
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
+log4js.configure('./config/log4js.json');
+const log = log4js.getLogger("app");
 
+// import { verifyJWTToken } from './routes/verifyJWTToken';
 // const verifyToken = verifyJWTToken();
 
 const usingCluster = process.env.CLUSTER || false;
 
+try {
+  fs.mkdirSync('./log');
+} catch (e) {
+  if (e.code !== 'EEXIST') {
+    console.error("Could not set up log directory, error was: ", e);
+    process.exit(1);
+  }
+}
+
 process.on('unhandledRejection', (reason, p) => {
-  console.error('Unhandled Rejection at:', p, 'reason:', reason);
+  log.error('Unhandled Rejection at:', p, 'reason:', reason);
   // send entire app down. Process manager will restart it
   process.exit(1);
 });
@@ -67,6 +78,7 @@ app.set('trust proxy', config.trustProxy);
 app.use(compression());
 app.use(express.static(path.resolve(__dirname, 'public')));
 app.use(cookieParser());
+app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
 // app.use(bodyParser.urlencoded({ extended: true }));
@@ -229,6 +241,7 @@ pe.skipPackage('express');
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
+  log.error("Something went wrong:", err);
   const html = ReactDOM.renderToStaticMarkup(
     <Html
       title="Internal Server Error"
@@ -277,13 +290,13 @@ if (cluster.isMaster && usingCluster) {
           passphrase: 'Rs5cbs!726',
         };
         https.createServer(options, app).listen(config.port, () => {
-          console.info(
+          log.info(
             `The server is running at https://localhost:${config.port}/`,
           );
         });
       } else {
         app.listen(config.port, () => {
-          console.info(
+          log.info(
             `The server is running at http://localhost:${config.port}/`,
           );
         });
