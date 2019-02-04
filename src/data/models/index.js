@@ -13,6 +13,7 @@ import Reference from './Reference';
 import UserLogin from './UserLogin';
 import Task from './Task';
 import UserTeams from './UserTeams';
+import UserContacts from './UserContacts'
 import Photo from './Photo';
 import TaskPhotos from './TaskPhotos';
 import Label from './Label';
@@ -31,6 +32,12 @@ import Company from './Company'
  */
 Team.belongsToMany(User, { through: UserTeams });
 User.belongsToMany(Team, { through: UserTeams });
+
+/**
+ * User N to N user
+ */
+User.belongsToMany(User, { as: 'children', foreignKey: 'parentUserId', through: UserContacts });
+User.belongsToMany(User, { as: 'parents', foreignKey: 'userId', through: UserContacts });
 
 /**
  *  User 1 to 1 membership
