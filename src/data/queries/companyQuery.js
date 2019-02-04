@@ -8,7 +8,7 @@ const companyQuery = {
   description: 'Finding Company by ID',
   type: CompanyType,
   resolve(_, { id }) {
-    return Company.findById(id).then(company => company);
+    return Company.findByPk(id).then(company => company);
   },
   args: {
     id: { type: GraphQLString },

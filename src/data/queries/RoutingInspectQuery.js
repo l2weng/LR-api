@@ -8,7 +8,7 @@ const routingInspectQuery = {
   description: 'Finding RoutingInspect by ID',
   type: RoutingInspectType,
   resolve(_, { routingInspectId }) {
-    return RoutingInspect.findById(routingInspectId).then(
+    return RoutingInspect.findByPk(routingInspectId).then(
       routingInspect => routingInspect,
     );
   },

@@ -7,7 +7,7 @@ const windMachineQueryById = {
   description: 'Finding wind machine by ID',
   type: WindMachineType,
   resolve(_, { windMachineId }) {
-    return Invitation.findById(windMachineId).then(windMachine => windMachine);
+    return Invitation.findByPk(windMachineId).then(windMachine => windMachine);
   },
   args: {
     windMachineId: { type: GraphQLInt },

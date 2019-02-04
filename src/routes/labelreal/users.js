@@ -8,6 +8,8 @@ import {
   validateEmail,
   resErrorBuild,
 } from '../../data/dataUtils';
+import log4js from 'log4js';
+const log = log4js.getLogger('app');
 import express from 'express';
 import Team from '../../data/models/Team';
 
@@ -82,6 +84,24 @@ router.post('/add2team', (req, res) => {
     .catch(err => {
       resErrorBuild(res, 400, err);
     });
+});
+
+/**
+ * Add contact to user
+ */
+router.post('/addContact', (req, res) => {
+  const { userId, contactId } = req.body;
+  User.findAll({ where: { userId: [userId,contactId] } }).then(users => {
+    if(users.length===2){
+      users[0].addChildren(users[1],{through: {isOwner:true}})
+      delete users[0].dataValues.password_hash
+      res.json(resBuild(users[0]));
+    }else{
+      resErrorBuild(res, 400, `user ${userId} , ${contactId} not exist`)
+    }
+  }).catch(err => {
+    resErrorBuild(res, 400, err);
+  });
 });
 
 export default router;

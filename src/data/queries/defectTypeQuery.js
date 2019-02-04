@@ -8,7 +8,7 @@ const defectTypeQuery = {
   description: 'Finding DefectType by ID',
   type: DefectTypeType,
   resolve(_, { id }) {
-    return Photo.findById(id).then(defectType => defectType);
+    return Photo.findByPk(id).then(defectType => defectType);
   },
   args: {
     id: { type: GraphQLString },

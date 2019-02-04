@@ -8,7 +8,7 @@ const userQueryById = {
   description: 'Finding User by ID',
   type: UserType,
   resolve (_, {id}) {
-    return User.findById(id).then(user => user)
+    return User.findByPk(id).then(user => user)
   },
   args: {
     id: {type: GraphQLString},
