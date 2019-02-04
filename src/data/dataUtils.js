@@ -1,7 +1,8 @@
 const userTypeDesc = {'0': 'individual', '1': 'enterprise'}
 const userType = {individual: '0', enterprise: '1'}
 import Sequelize from 'sequelize'
-
+import log4js from 'log4js';
+const log = log4js.getLogger('app');
 const Op = Sequelize.Op
 
 // 0:激活状态, 1: 未激活, 2, 冻结
@@ -109,7 +110,8 @@ function generateColor () {
   return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 }
 
-function resErrorBuild(res,statusCode) {
+function resErrorBuild(res,statusCode,err='') {
+  log.error(err)
   res.status(statusCode).send(getMessageByCode(statusCode))
 }
 

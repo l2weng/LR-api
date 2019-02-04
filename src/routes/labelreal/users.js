@@ -27,7 +27,7 @@ router.post('/create', (req, res) => {
       delete user.dataValues.password_hash
       res.json(resBuild(user))
     }).catch(err => {
-      resErrorBuild(res,500)
+      resErrorBuild(res,500,err)
     })
   }
   if (_userType.enterprise === userType) {
@@ -45,6 +45,8 @@ router.post('/create', (req, res) => {
             userSave()
           }).catch(err => err)
         }
+      }).catch(err=>{
+        resErrorBuild(res,500,err)
       })
     } else {
       resErrorBuild(res,400)
@@ -59,18 +61,19 @@ router.post('/create', (req, res) => {
  * not owner
  */
 router.post('/add2team', (req, res) => {
-  log.info('xxxxxxxxxx')
-  res.sendStatus(200)
-  // let {userId,teamId} = this.body
-  // Team.findById(teamId).then(team=>{
-  //   User.findById(userId).then(user=>{
-  //     team.addUser(user)
-  //     res.json(resBuild(user))
-  //   }).catch(err=> err)
-  // }).catch(err=>{
-  //   log.error(err)
-  //   resErrorBuild(res,400)
-  // })
+  let {userId,teamId} = req.body
+  Team.findById(teamId).then(team=>{
+    if (team === null) {
+      resErrorBuild(res,500,`team ${teamId} not exists`)
+    }
+    return User.findById(userId).then(user=>{
+      team.addUser(user)
+      res.json(resBuild(team))
+    }).catch(err=> err)
+  }).catch(err=>{
+    log.error(err)
+    resErrorBuild(res,400,err)
+  })
 })
 
 export default router
