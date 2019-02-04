@@ -93,9 +93,9 @@ router.post('/addContact', (req, res) => {
   const { userId, contactId } = req.body;
   User.findAll({ where: { userId: [userId,contactId] } }).then(users => {
     if(users.length===2){
-      users[0].addChildren(users[1],{through: {isOwner:true}})
+      users[0].addContacts(users[1],{through: {isOwner:true}})
       delete users[0].dataValues.password_hash
-      res.json(resBuild(users[0]));
+      res.json(resBuild(users[0],0,1));
     }else{
       resErrorBuild(res, 400, `user ${userId} , ${contactId} not exist`)
     }

@@ -36,8 +36,8 @@ User.belongsToMany(Team, { through: UserTeams });
 /**
  * User N to N user
  */
-User.belongsToMany(User, { as: 'children', foreignKey: 'parentUserId', through: UserContacts });
-User.belongsToMany(User, { as: 'parents', foreignKey: 'userId', through: UserContacts });
+User.belongsToMany(User, { as: 'contacts', foreignKey: 'userId', through: UserContacts });
+User.belongsToMany(User, { as: 'user', foreignKey: 'contactId', through: UserContacts });
 
 /**
  *  User 1 to 1 membership
