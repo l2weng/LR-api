@@ -2,6 +2,7 @@ import UserType from '../types/UserType'
 import User from '../models/User'
 import { criteriaBuild } from '../dataUtils'
 import { GraphQLString, GraphQLList as List, GraphQLInt } from 'graphql'
+import Team from '../models/Team'
 
 const userQueryById = {
   name: 'UserQueryById',
@@ -50,4 +51,21 @@ const userQueryWhere = {
   },
 }
 
-export { userQueryById, userQueryAll, userQueryWhere }
+/**
+ * User Query Contacts
+ */
+const userQueryContacts = {
+  name: 'userQueryContacts',
+  description: 'Finding user contacts',
+  type: new List(UserType),
+  resolve (_, {userId}) {
+    return User.findOne({where: {userId}}).then(user => {
+      return user.getContacts({isOwner: true}).then(contacts => contacts)
+    })
+  },
+  args: {
+    userId: {type: GraphQLString},
+  },
+}
+
+export { userQueryById, userQueryAll, userQueryWhere, userQueryContacts }

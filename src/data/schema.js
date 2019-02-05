@@ -3,13 +3,13 @@ import {
   GraphQLObjectType as ObjectType,
 } from 'graphql'
 
-import { userQueryWhere } from './queries/userQuery'
+import { userQueryWhere, userQueryContacts } from './queries/userQuery'
 import { teamQueryWhere, teamQueryByUserId } from './queries/teamQuery'
 
 const schema = new Schema({
   query: new ObjectType({
     name: 'Query',
-    fields: {userQueryWhere, teamQueryWhere, teamQueryByUserId},
+    fields: {userQueryWhere, teamQueryWhere, teamQueryByUserId, userQueryContacts},
   }),
 })
 
