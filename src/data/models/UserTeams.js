@@ -5,7 +5,7 @@ const UserTeams = Model.define('UserTeams', {
   /**
    * tell team belongs to who
    */
-  isOwner: { type: DataTypes.BOOLEAN },
+  isOwner: { type: DataTypes.BOOLEAN , defaultValue: 0 },
 });
 
 export default UserTeams;

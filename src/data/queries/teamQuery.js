@@ -2,7 +2,7 @@ import TeamType from '../types/TeamType'
 import Team from '../models/Team'
 import User from '../models/User'
 import { criteriaBuild } from '../dataUtils'
-import { GraphQLString, GraphQLList as List, GraphQLInt} from 'graphql'
+import { GraphQLString, GraphQLList as List, GraphQLBoolean } from 'graphql'
 
 const teamQueryById = {
   name: 'TeamQueryById',
@@ -16,19 +16,23 @@ const teamQueryById = {
   },
 }
 
+/**
+ * 我参与的team
+ */
 const teamQueryByUserId = {
   name: 'TeamQueryByUserId',
   description: 'Finding Team by UserId',
   type: new List(TeamType),
-  resolve (_, {userId}) {
+  resolve (_, {userId, isOwner}) {
     if (userId !== undefined && userId !== '') {
       return User.findByPk(userId).then(user => {
-        return user.getTeams({order: [['createdAt','DESC']]}).then(teams => teams)
+        return user.getTeams({through: {where:{isOwner}}}).then(teams => teams)
       })
     }
   },
   args: {
     userId: {type: GraphQLString},
+    isOwner: {type: GraphQLBoolean},
   },
 }
 
