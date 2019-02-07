@@ -6,8 +6,8 @@ import {
   resBuild,
   userType as _userType,
   validateEmail,
-  resErrorBuild,
-} from '../../data/dataUtils';
+  resErrorBuild, generateColor,
+} from '../../data/dataUtils'
 import log4js from 'log4js';
 const log = log4js.getLogger('app');
 import express from 'express';
@@ -20,6 +20,7 @@ router.post('/create', (req, res) => {
   let userObj = {
     userTypeDesc: userTypeDesc[userType],
     statusDesc: statusDesc[status],
+    avatarColor: generateColor(),
     ...req.body,
   };
   const userSave = function() {

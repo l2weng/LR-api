@@ -42,6 +42,7 @@ const User = Model.define('User', {
   userType: { type: DataTypes.INTEGER },
   userTypeDesc: { type: DataTypes.STRING },
   statusDesc: { type: DataTypes.STRING },
+  avatarColor: {type: DataTypes.STRING(10)},
 
   password: {
     type: DataTypes.VIRTUAL,

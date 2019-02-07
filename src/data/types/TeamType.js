@@ -31,6 +31,7 @@ const TeamType = new ObjectType({
     color: {type: StringType},
     UserTeams: {type: UserTeamsType},
     desc: {type: StringType},
+    avatarColor: { type: StringType },
   },
 })
 

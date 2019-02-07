@@ -19,6 +19,7 @@ const UserType = new ObjectType({
     userType: { type: IntType },
     userTypeDesc: { type: StringType },
     statusDesc: { type: StringType },
+    avatarColor: { type: StringType },
   },
 });
 
