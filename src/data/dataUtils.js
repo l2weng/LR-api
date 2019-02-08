@@ -115,6 +115,14 @@ function resErrorBuild(res,statusCode,err='') {
   res.status(statusCode).send(getMessageByCode(statusCode))
 }
 
+function getReqId (req) {
+  let ip = req.headers['x-forwarded-for'] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    req.connection.socket.remoteAddress;
+  return ip.replace(/^.*:/, '')
+}
+
 export {
   resBuild,
   resErrorBuild,
