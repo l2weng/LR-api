@@ -66,7 +66,7 @@ const userQueryContacts = {
   type: new List(UserType),
   resolve (_, {userId, isOwner,companyId}) {
     return User.findOne({where: {userId}}).then(user => {
-      return user.getContacts({through: {where: {isOwner,companyId}}}).
+      return user.getContacts({through: {where: {isOwner,companyId:companyId?companyId:''}}}).
         then(contacts => contacts)
     })
   },

@@ -6,7 +6,7 @@ import express from 'express';
 const router = express.Router();
 
 router.post('/create', (req, res) => {
-  const teamObj = { color: generateColor(), ...req.body };
+  const teamObj = { avatarColor: generateColor(), ...req.body };
   Team.create(teamObj)
     .then(team => {
       User.findByPk(req.body.userId).then(user => {
