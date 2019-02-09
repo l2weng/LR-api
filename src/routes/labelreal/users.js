@@ -91,12 +91,13 @@ router.post('/add2team', (req, res) => {
  * Add contact to user
  */
 router.post('/addContact', (req, res) => {
-  const { userId, contactId } = req.body;
-  User.findAll({ where: { userId: [userId,contactId] } }).then(users => {
+  const { userId, contactId, companyId } = req.body;
+  return User.findAll({ where: { userId: [userId,contactId] } }).then(users => {
     if(users.length===2){
-      users[0].addContacts(users[1],{through: {isOwner:true}})
+      users[0].addContacts(users[1],{through: {isOwner:true,companyId}})
       delete users[0].dataValues.password_hash
       res.json(resBuild(users[0],0,1));
+      return null
     }else{
       resErrorBuild(res, 400, `user ${userId} , ${contactId} not exist`)
     }

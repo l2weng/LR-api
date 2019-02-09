@@ -1,7 +1,12 @@
 import UserType from '../types/UserType'
 import User from '../models/User'
 import { criteriaBuild } from '../dataUtils'
-import { GraphQLString, GraphQLList as List, GraphQLInt, GraphQLBoolean } from 'graphql'
+import {
+  GraphQLString,
+  GraphQLList as List,
+  GraphQLInt,
+  GraphQLBoolean,
+} from 'graphql'
 import Team from '../models/Team'
 
 const userQueryById = {
@@ -59,14 +64,16 @@ const userQueryContacts = {
   name: 'userQueryContacts',
   description: 'Finding user contacts',
   type: new List(UserType),
-  resolve (_, {userId,isOwner}) {
+  resolve (_, {userId, isOwner,companyId}) {
     return User.findOne({where: {userId}}).then(user => {
-      return user.getContacts({through: {where:{isOwner}}}).then(contacts => contacts)
+      return user.getContacts({through: {where: {isOwner,companyId}}}).
+        then(contacts => contacts)
     })
   },
   args: {
     userId: {type: GraphQLString},
     isOwner: {type: GraphQLBoolean},
+    companyId: {type: GraphQLString},
   },
 }
 
@@ -77,9 +84,9 @@ const usersQueryByTeamId = {
   name: 'userQueryByTeam',
   description: 'Finding user with teamId',
   type: new List(UserType),
-  resolve (_, {teamId,isOwner}) {
+  resolve (_, {teamId, isOwner}) {
     return Team.findByPk(teamId).then(team => {
-      return team.getUsers({through: {where:{isOwner}}}).then(users => users)
+      return team.getUsers({through: {where: {isOwner}}}).then(users => users)
     })
   },
   args: {
@@ -88,4 +95,10 @@ const usersQueryByTeamId = {
   },
 }
 
-export { userQueryById, userQueryAll, userQueryWhere, userQueryContacts,usersQueryByTeamId }
+export {
+  userQueryById,
+  userQueryAll,
+  userQueryWhere,
+  userQueryContacts,
+  usersQueryByTeamId,
+}
