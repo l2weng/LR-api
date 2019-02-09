@@ -58,7 +58,7 @@ const userQueryWhere = {
 
 /**
  * User Query Contacts
- * 我的联系人
+ * Query 联系人和同事
  */
 const userQueryContacts = {
   name: 'userQueryContacts',
