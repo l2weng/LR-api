@@ -15,7 +15,7 @@ import { User } from './data/models';
 passport.use(
   'lr',
   new LocalStrategy((name, password, done) => {
-    User.findOne({
+    return User.findOne({
       where: { name },
     }).then(user => {
       if (!user) {
