@@ -1,6 +1,10 @@
 import UserType from '../types/UserType'
 import User from '../models/User'
-import { criteriaBuild } from '../dataUtils'
+import { criteriaBuild, status } from '../dataUtils'
+import Sequelize from 'sequelize'
+
+const Op = Sequelize.Op
+
 import {
   GraphQLString,
   GraphQLList as List,
@@ -57,6 +61,27 @@ const userQueryWhere = {
 }
 
 /**
+ * find active contacts and not exists in my contact list
+ */
+//todo add contact exist check
+const userQueryActiveContacts = {
+  name: 'userQueryActiveContacts',
+  description: 'find active contacts and not exists in my contact list',
+  type: new List(UserType),
+  resolve (_, {companyId}) {
+    let criteria = {}
+    criteria = Object.assign(
+      {companyId: {$eq: null}, status: status.active}, criteria)
+    return User.findAll({
+      where: criteria,
+    }).then(users => { return users})
+  },
+  args: {
+    companyId: {type: GraphQLInt},
+  },
+}
+
+/**
  * User Query Contacts
  * Query 联系人和同事
  */
@@ -64,9 +89,10 @@ const userQueryContacts = {
   name: 'userQueryContacts',
   description: 'Finding user contacts',
   type: new List(UserType),
-  resolve (_, {userId, isOwner,companyId}) {
+  resolve (_, {userId, isOwner, companyId}) {
     return User.findOne({where: {userId}}).then(user => {
-      return user.getContacts({through: {where: {isOwner,companyId:companyId?companyId:''}}}).
+      return user.getContacts(
+        {through: {where: {isOwner, companyId: companyId ? companyId : ''}}}).
         then(contacts => contacts)
     })
   },
@@ -101,4 +127,5 @@ export {
   userQueryWhere,
   userQueryContacts,
   usersQueryByTeamId,
+  userQueryActiveContacts
 }

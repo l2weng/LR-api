@@ -1,12 +1,12 @@
 const userTypeDesc = {'0': 'individual', '1': 'enterprise'}
 const userType = {individual: '0', enterprise: '1'}
 import Sequelize from 'sequelize'
+const Op = Sequelize.Op
 import log4js from 'log4js';
 const log = log4js.getLogger('app');
-const Op = Sequelize.Op
 
 // 0:激活状态, 1: 未激活, 2, 冻结
-// const status = { active: 0, inactive: 1, locked: 2 };
+const status = { inactive: 0, active: 1, locked: 2 };
 const statusDesc = {0: 'inactive', 1: 'active', 2: 'locked'}
 
 const codeMessage = {
@@ -126,6 +126,7 @@ function getReqId (req) {
 export {
   resBuild,
   resErrorBuild,
+  status,
   statusDesc,
   userTypeDesc,
   userType,
