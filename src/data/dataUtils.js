@@ -126,6 +126,7 @@ function getReqId (req) {
 export {
   resBuild,
   resErrorBuild,
+  getReqId,
   status,
   statusDesc,
   userTypeDesc,
