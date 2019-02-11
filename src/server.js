@@ -27,7 +27,6 @@ import users from './routes/labelreal/users';
 import teams from './routes/labelreal/teams';
 import compression from 'compression';
 import UserLogin from './data/models/UserLogin'
-import {getReqId} from './data/dataUtils'
 
 const fs = require('fs');
 // const formidable = require('formidable'),
@@ -142,7 +141,7 @@ app.post(
     session: false,
   }),
   (req, res) => {
-    let ip = getReqId(req)
+    let ip = req.body.ip
     const expiresIn = 60 * 60 * 24 * 10; // 10 days
     const token = jwt.sign({ name: req.user.name }, config.auth.jwt.secret, {
       expiresIn,
