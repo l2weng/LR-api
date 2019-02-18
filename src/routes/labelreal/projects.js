@@ -10,18 +10,20 @@ import {
   status,
 } from '../../data/dataUtils'
 import express from 'express'
+import path from 'path'
+import _ from 'underscore'
 
 const router = express.Router()
 
 router.post('/create', (req, res) => {
-  const {createType, userId} = req.body
-  let projectObj = {}
-
+  const {userId,fileDirectory,machineId} = req.body
+  let name = path.basename(fileDirectory, '.tpy');
+  let projectObj = {name,...req.body}
   Project.create(projectObj).then(project => {
     //创建方式, createType:0 means has userId, createType:1 means only has machineId
-    if (createType === 0) {
-      User.findByPk(userId).then(user => {
-        user.addProject(project, {through: {isOwner: true}})
+    if (!_.isEmpty(userId)) {
+      return User.findByPk(userId).then(user => {
+        user.addProjects(project, {through: {isOwner: true}})
         res.json(resBuild(project))
       })
     } else {
@@ -30,9 +32,11 @@ router.post('/create', (req, res) => {
         userType: userType.temporary,
         statusDesc: statusDesc[status.temp],
         avatarColor: generateColor(),
+        machineId,
+        name:machineId
       }
-      User.create(userObj).then(user => {
-        user.addProject(project, {through: {isOwner: true}})
+      return User.create(userObj).then(user => {
+        user.addProjects(project, {through: {isOwner: true}})
         res.json(resBuild(project))
       })
     }

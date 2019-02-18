@@ -48,8 +48,8 @@ User.belongsTo(Company,{foreignKey:'companyId'})
 /**
  * User N to N projects
  */
-User.belongsToMany(Project, { through: UserProjects });
-Project.belongsToMany(User, { through: UserProjects });
+User.belongsToMany(Project, { as: 'projects', foreignKey: 'userId',through: UserProjects });
+Project.belongsToMany(User, { as: 'user', foreignKey:'projectId', through: UserProjects });
 
 /**
  * User 1 to N invitation
