@@ -25,6 +25,7 @@ import https from 'https';
 import log4js from 'log4js';
 import users from './routes/labelreal/users';
 import teams from './routes/labelreal/teams';
+import projects from './routes/labelreal/projects';
 import compression from 'compression';
 import UserLogin from './data/models/UserLogin'
 
@@ -105,6 +106,7 @@ app.use((req, res, next) => {
 // -----------------------------------------------------------------------------
 app.use('/lr/users', users);
 app.use('/lr/teams', teams);
+app.use('/lr/projects', projects);
 
 //
 // Authentication
