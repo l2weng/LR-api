@@ -20,6 +20,7 @@ const ProjectType = new ObjectType({
      * progress 进度最大值100
      */
     progress: { type: IntType },
+    machineId: { type: StringType}
   },
 });
 

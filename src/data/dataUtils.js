@@ -1,13 +1,16 @@
-const userTypeDesc = {'0': 'individual', '1': 'enterprise'}
-const userType = {individual: '0', enterprise: '1'}
+const userTypeDesc = {0: 'individual', 1: 'enterprise', 2: 'temporary'}
+const userType = {individual: 0, enterprise: 1, temporary: 2}
 import Sequelize from 'sequelize'
+
 const Op = Sequelize.Op
-import log4js from 'log4js';
-const log = log4js.getLogger('app');
+import log4js from 'log4js'
+
+const log = log4js.getLogger('app')
 
 // 0:激活状态, 1: 未激活, 2, 冻结
-const status = { inactive: 0, active: 1, locked: 2 };
-const statusDesc = {0: 'inactive', 1: 'active', 2: 'locked'}
+const status = {inactive: 0, active: 1, locked: 2, temp: 3}
+//3 is means temp account just have machineId
+const statusDesc = {0: 'inactive', 1: 'active', 2: 'locked', 3: 'temp'}
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -85,7 +88,7 @@ function validateEmail (email) {
  * @param type 0 means string match, 1 means like
  * @returns {*} e.g { phone: { [Symbol(like)]: '%18929192221%' },userId: { [Symbol(like)]: '%33%' },name: 'Louis' }
  */
-function criteriaBuild (criteria, params={}, type = 0) {
+function criteriaBuild (criteria, params = {}, type = 0) {
   if (Object.entries(params).length === 0 && params.constructor === Object) {
     return criteria
   }
@@ -107,10 +110,10 @@ function criteriaBuild (criteria, params={}, type = 0) {
 }
 
 function generateColor () {
-  return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+  return '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
 }
 
-function resErrorBuild(res,statusCode,err='') {
+function resErrorBuild (res, statusCode, err = '') {
   log.error(err)
   res.status(statusCode).send(getMessageByCode(statusCode))
 }
@@ -119,7 +122,7 @@ function getReqId (req) {
   let ip = req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress ||
     req.socket.remoteAddress ||
-    req.connection.socket.remoteAddress;
+    req.connection.socket.remoteAddress
   return ip.replace(/^.*:/, '')
 }
 
@@ -134,5 +137,5 @@ export {
   validateEmail,
   getMessageByCode,
   criteriaBuild,
-  generateColor
+  generateColor,
 }

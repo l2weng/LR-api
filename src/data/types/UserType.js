@@ -20,6 +20,7 @@ const UserType = new ObjectType({
     userTypeDesc: { type: StringType },
     statusDesc: { type: StringType },
     avatarColor: { type: StringType },
+    machineId: { type: StringType}
   },
 });
 

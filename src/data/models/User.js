@@ -59,6 +59,8 @@ const User = Model.define('User', {
       },
     },
   },
+  machineId: { type: DataTypes.STRING}
+
 });
 
 export default User;
