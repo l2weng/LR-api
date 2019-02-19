@@ -23,6 +23,10 @@ const Project = Model.define('Project', {
    * progress 进度最大值100
    */
   progress: { type: DataTypes.INTEGER },
+  /**
+   * 项目封面
+   */
+  cover: {type:DataTypes.STRING}
 });
 
 export default Project;

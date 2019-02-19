@@ -22,6 +22,7 @@ const ProjectType = new ObjectType({
      */
     progress: { type: IntType },
     fileDirectory: { type: StringType},
+    cover: { type: StringType},
     isOwner: {type:BooleanType}
   },
 });

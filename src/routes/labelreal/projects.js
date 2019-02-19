@@ -17,8 +17,9 @@ const router = express.Router()
 
 router.post('/create', (req, res) => {
   const {userId,fileDirectory,machineId} = req.body
-  let name = path.basename(fileDirectory, '.tpy');
-  let projectObj = {name,...req.body}
+  const name = path.basename(fileDirectory, '.tpy');
+  const cover = '/default-cover.jpg'
+  let projectObj = {name,cover,...req.body}
   Project.create(projectObj).then(project => {
     //创建方式, createType:0 means has userId, createType:1 means only has machineId
     if (!_.isEmpty(userId)) {
@@ -27,17 +28,28 @@ router.post('/create', (req, res) => {
         res.json(resBuild(project))
       })
     } else {
-      let userObj = {
-        userTypeDesc: userTypeDesc[userType.temporary],
-        userType: userType.temporary,
-        statusDesc: statusDesc[status.temp],
-        avatarColor: generateColor(),
-        machineId,
-        name:machineId
-      }
-      return User.create(userObj).then(user => {
-        user.addProjects(project, {through: {isOwner: true}})
-        res.json(resBuild(project))
+      return User.findOne({
+        where:{machineId}
+      }).then(user=>{
+        if(!_.isEmpty(user)){
+          return User.findById(user.userId).then(user => {
+            user.addProjects(project, {through: {isOwner: true}})
+            res.json(resBuild(project))
+          })
+        }else{
+          let userObj = {
+            userTypeDesc: userTypeDesc[userType.temporary],
+            userType: userType.temporary,
+            statusDesc: statusDesc[status.temp],
+            avatarColor: generateColor(),
+            machineId,
+            name:machineId
+          }
+          return User.create(userObj).then(user => {
+            user.addProjects(project, {through: {isOwner: true}})
+            res.json(resBuild(user))
+          })
+        }
       })
     }
   }).catch(err => {
