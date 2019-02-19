@@ -3,6 +3,7 @@ import {
   GraphQLString as StringType,
   GraphQLInt as IntType,
   GraphQLFloat as FloatType,
+  GraphQLBoolean as BooleanType,
 } from 'graphql';
 
 const ProjectType = new ObjectType({
@@ -20,7 +21,8 @@ const ProjectType = new ObjectType({
      * progress 进度最大值100
      */
     progress: { type: IntType },
-    fileDirectory: { type: StringType}
+    fileDirectory: { type: StringType},
+    isOwner: {type:BooleanType}
   },
 });
 

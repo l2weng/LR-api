@@ -70,7 +70,7 @@ router.post('/createAdd2Contact', (req, res) => {
   return User.create(userObj).then(user => {
     delete user.dataValues.password
     delete user.dataValues.password_hash
-    return User.findByPk(ownerId).then(owner => {
+    return User.findById(ownerId).then(owner => {
       owner.addContacts(user, {through: {isOwner: true, companyId}})
       res.json(resBuild(user))
     }).catch(err => err)

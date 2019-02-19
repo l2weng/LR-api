@@ -1,10 +1,13 @@
 import { resBuild, criteriaBuild } from '../data/dataUtils'
 import User from '../data/models/User'
+import _ from 'underscore'
 
 test('see result', () => {
-  let user = new User()
-  user.name = 'king'
-  console.log(resBuild(user))
+  // let user = new User()
+  // user.name = 'king'
+  // console.log(resBuild(user))
+  let result = _.isEmpty(undefined)
+  console.log(result)
 })
 
 test('generate criteria', () => {

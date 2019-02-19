@@ -22,7 +22,7 @@ router.post('/create', (req, res) => {
   Project.create(projectObj).then(project => {
     //创建方式, createType:0 means has userId, createType:1 means only has machineId
     if (!_.isEmpty(userId)) {
-      return User.findByPk(userId).then(user => {
+      return User.findById(userId).then(user => {
         user.addProjects(project, {through: {isOwner: true}})
         res.json(resBuild(project))
       })

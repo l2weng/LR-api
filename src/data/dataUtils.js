@@ -1,6 +1,7 @@
 const userTypeDesc = {0: 'individual', 1: 'enterprise', 2: 'temporary'}
 const userType = {individual: 0, enterprise: 1, temporary: 2}
 import Sequelize from 'sequelize'
+import _ from 'underscore'
 
 const Op = Sequelize.Op
 import log4js from 'log4js'
@@ -95,7 +96,7 @@ function criteriaBuild (criteria, params = {}, type = 0) {
   let builtCriteria = Object.assign({}, criteria)
   for (let k in params) {
     if (params.hasOwnProperty(k)) {
-      if (params[k] !== undefined && params[k] !== '') {
+      if (!_.isEmpty(params[k])) {
         let p = {}
         if (type === 0) {
           p[k] = params[k]

@@ -10,6 +10,7 @@ import {
   userQueryActiveContacts,
 } from './queries/userQuery'
 import { teamQueryWhere, teamQueryByUserId } from './queries/teamQuery'
+import { projectQueryByUser } from './queries/projectQuery'
 
 const schema = new Schema({
   query: new ObjectType({
@@ -21,6 +22,7 @@ const schema = new Schema({
       userQueryContacts,
       usersQueryByTeamId,
       userQueryActiveContacts,
+      projectQueryByUser
     },
   }),
 })

@@ -9,7 +9,7 @@ const teamQueryById = {
   description: 'Finding Team by ID',
   type: TeamType,
   resolve (_, {id}) {
-    return Team.findByPk(id).then(team => team)
+    return Team.findById(id).then(team => team)
   },
   args: {
     id: {type: GraphQLString},
@@ -25,7 +25,7 @@ const teamQueryByUserId = {
   type: new List(TeamType),
   resolve (_, {userId, isOwner}) {
     if (userId !== undefined && userId !== '') {
-      return User.findByPk(userId).then(user => {
+      return User.findById(userId).then(user => {
         return user.getTeams({through: {where:{isOwner}}}).then(teams => teams)
       })
     }

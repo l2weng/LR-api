@@ -9,7 +9,7 @@ router.post('/create', (req, res) => {
   const teamObj = { avatarColor: generateColor(), ...req.body };
   Team.create(teamObj)
     .then(team => {
-      User.findByPk(req.body.userId).then(user => {
+      User.findById(req.body.userId).then(user => {
         user.addTeam(team, { through: { isOwner: true } });
         res.json(resBuild(team));
       });
