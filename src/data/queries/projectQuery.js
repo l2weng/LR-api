@@ -25,25 +25,33 @@ const projectQueryByUser = {
   name: 'ProjectQueryByUser',
   description: 'Finding Project by userId',
   type: new List(ProjectType),
-  resolve (_, {userId}) {
+  resolve (_, {userId, machineId}) {
+    let getRelatedProjects = function (user) {
+      return user.getProjects(
+        {
+          joinTableAttributes: ['isOwner'],
+          order: [['createdAt', 'DESC']],
+        }).
+        then(projects => {
+          projects.map(project => {
+            project.isOwner = project.UserProjects.isOwner
+          })
+          return projects
+        })
+    }
     if (!__.isEmpty(userId)) {
       return User.findById(userId).then(user => {
-        return user.getProjects(
-          {
-            joinTableAttributes: ['isOwner'],
-            order: [['createdAt', 'DESC']],
-          }).
-          then(projects => {
-            projects.map(project=>{
-              project.isOwner = project.UserProjects.isOwner
-            })
-            return projects;
-          })
+        return getRelatedProjects(user)
+      })
+    } else if (!__.isEmpty(machineId)) {
+      return User.findOne({where: {machineId}}).then(user => {
+        return getRelatedProjects(user)
       })
     }
   },
   args: {
     userId: {type: GraphQLString},
+    machineId: {type: GraphQLString},
   },
 }
 
