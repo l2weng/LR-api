@@ -60,10 +60,25 @@ router.post('/create', (req, res) => {
 
 router.post('/update', (req, res) => {
   const {projectId} = req.body
-  Project.update({...req.body}, {
+  return Project.update({...req.body}, {
     where: {projectId},
-  }).then(project=>{
+  }).then(project => {
     res.json(resUpdate(project))
+  }).catch(err => {
+    resErrorBuild(res, 500, err)
+  })
+})
+
+/**
+ * Add colleague to project
+ */
+router.post('/addColleague', (req, res) => {
+  const {colleagueId, projectId} = req.body
+  return Project.findById(projectId).then(project => {
+    return User.findById(colleagueId).then(colleague=>{
+      project.addUser(colleague)
+      res.json(resBuild(project))
+    })
   }).catch(err => {
     resErrorBuild(res, 500, err)
   })
