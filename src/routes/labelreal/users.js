@@ -8,9 +8,6 @@ import {
   validateEmail,
   resErrorBuild, generateColor,
 } from '../../data/dataUtils'
-import log4js from 'log4js'
-
-const log = log4js.getLogger('app')
 import express from 'express'
 import Team from '../../data/models/Team'
 

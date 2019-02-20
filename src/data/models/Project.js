@@ -26,7 +26,11 @@ const Project = Model.define('Project', {
   /**
    * 项目封面
    */
-  cover: {type:DataTypes.STRING}
+  cover: {type:DataTypes.STRING},
+  /**
+   * 远程项目封面
+   */
+  remoteCover: {type:DataTypes.STRING}
 });
 
 export default Project;

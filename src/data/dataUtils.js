@@ -72,6 +72,15 @@ function resBuild (obj = null, resType = 0, optType = 0, message = '') {
   }
 }
 
+function resUpdate (updateResult = [], resType = 0) {
+  if (updateResult.length > 0) {
+    return {
+      result: resMessage[resType],
+      message: 'Update success',
+    }
+  }
+}
+
 /**
  * email validation
  * @param email
@@ -131,6 +140,7 @@ export {
   resBuild,
   resErrorBuild,
   getReqId,
+  resUpdate,
   status,
   statusDesc,
   userTypeDesc,
