@@ -1,13 +1,15 @@
-const userTypeDesc = {0: 'individual', 1: 'enterprise', 2: 'temporary'}
-const userType = {individual: 0, enterprise: 1, temporary: 2}
 import Sequelize from 'sequelize'
 import _ from 'underscore'
-
 const Op = Sequelize.Op
-import log4js from 'log4js'
 
+import log4js from 'log4js'
 const log = log4js.getLogger('app')
 
+const userType = {individual: 0, enterprise: 1, temporary: 2}
+const userTypeDesc = {0: 'individual', 1: 'enterprise', 2: 'temporary'}
+//type:0 means 基本标注类型, 1 means 可能对错类型
+const taskType = {normal: 0}
+const taskTypeDesc = {0: 'normal'}
 // 0:激活状态, 1: 未激活, 2, 冻结
 const status = {inactive: 0, active: 1, locked: 2, temp: 3}
 //3 is means temp account just have machineId
@@ -141,6 +143,8 @@ export {
   resErrorBuild,
   getReqId,
   resUpdate,
+  taskType,
+  taskTypeDesc,
   status,
   statusDesc,
   userTypeDesc,

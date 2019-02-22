@@ -8,6 +8,7 @@ import DataSet from './DataSet';
 import Project from './Project';
 import Sku from './Sku';
 import UserProjects from './UserProjects';
+import UserTasks from './UserTasks';
 import Invitation from './Invitation';
 import Reference from './Reference';
 import UserLogin from './UserLogin';
@@ -37,7 +38,7 @@ User.belongsToMany(Team, { through: UserTeams });
  * User N to N user
  */
 User.belongsToMany(User, { as: 'contacts', foreignKey: 'userId', through: UserContacts });
-User.belongsToMany(User, { as: 'user', foreignKey: 'contactId', through: UserContacts });
+User.belongsToMany(User, { as: 'users', foreignKey: 'contactId', through: UserContacts });
 
 /**
  *  User 1 to 1 membership
@@ -49,19 +50,19 @@ User.belongsTo(Company,{foreignKey:'companyId'})
  * User N to N projects
  */
 User.belongsToMany(Project, { as: 'projects', foreignKey: 'userId',through: UserProjects });
-Project.belongsToMany(User, { as: 'user', foreignKey:'projectId', through: UserProjects });
+Project.belongsToMany(User, { as: 'users', foreignKey:'projectId', through: UserProjects });
+
+/**
+ * User N to N tasks
+ */
+User.belongsToMany(Task, { as: 'tasks', foreignKey: 'userId',through: UserTasks });
+Task.belongsToMany(User, { as: 'users', foreignKey:'taskId', through: UserTasks });
 
 /**
  * User 1 to N invitation
  */
 User.hasMany(Invitation, { foreignKey: 'userId', as: 'Invitations' });
 Invitation.belongsTo(User, { foreignKey: 'userId', as: 'User' });
-
-/**
- * User 1 to N tasks
- */
-User.hasMany(Task, { foreignKey: 'userId', as: 'Tasks' });
-Task.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 
 /**
  * User 1 to N feedback

@@ -10,7 +10,7 @@ const TaskType = new ObjectType({
     id: { type: StringType },
     name: { type: StringType },
     type: { type: IntType },
-
+    localTaskId: { type: IntType },
     /**
      * progress 进度最大值100
      */
