@@ -1,13 +1,8 @@
-import Project from '../../data/models/Project'
+import Task from '../../data/models/Task'
 import User from '../../data/models/User'
 import {
-  generateColor,
   resBuild,
   resErrorBuild,
-  statusDesc,
-  userTypeDesc,
-  userType,
-  status,
   resUpdate,
 } from '../../data/dataUtils'
 import express from 'express'
