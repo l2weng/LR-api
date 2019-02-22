@@ -6,12 +6,15 @@ import {
   resUpdate,
 } from '../../data/dataUtils'
 import express from 'express'
-import _ from 'underscore'
+import Sequelize from 'sequelize';
+const Op = Sequelize.Op;
+
+import Project from '../../data/models/Project'
 
 const router = express.Router()
 
 router.post('/create', (req, res) => {
-  Task.create(req.body).then(task=>{
+  Task.create(req.body).then(task => {
     res.json(resBuild(task))
   }).catch(err => {
     resErrorBuild(res, 500, err)
@@ -30,13 +33,17 @@ router.post('/update', (req, res) => {
 })
 
 /**
- * Add worker to project
+ * Add workers to task and project
  */
 router.post('/addWorker', (req, res) => {
-  const {workerId, taskId, projectId} = req.body
+  const {workerIds, taskId, projectId} = req.body
   return Task.findById(taskId).then(task => {
-    return User.findById(workerId).then(worker => {
-      task.addUser(worker, {through: {projectId}})
+    return User.findAll({where: {userId: {[Op.in]:JSON.parse("[" + workerIds + "]")}}}).then(workers => {
+      task.addUsers(workers, {through: {projectId}}).then(() => {
+        return Project.findById(projectId).then(project => {
+          project.addUsers(workers)
+        })
+      })
       res.json(resBuild(task))
     })
   }).catch(err => {
