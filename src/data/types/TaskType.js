@@ -7,7 +7,7 @@ import {
 const TaskType = new ObjectType({
   name: 'taskStory',
   fields: {
-    id: { type: StringType },
+    taskId: { type: StringType },
     name: { type: StringType },
     type: { type: IntType },
     localTaskId: { type: IntType },

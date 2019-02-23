@@ -4,7 +4,6 @@ import User from '../models/User'
 import { criteriaBuild } from '../dataUtils'
 import { GraphQLString, GraphQLList as List, GraphQLBoolean } from 'graphql'
 import __ from 'underscore'
-import UserProjects from '../models/UserProjects'
 
 const projectQueryById = {
   name: 'ProjectQueryById',
