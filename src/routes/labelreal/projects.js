@@ -17,8 +17,8 @@ import _ from 'underscore'
 const router = express.Router()
 
 router.post('/create', (req, res) => {
-  const {userId, fileDirectory, machineId} = req.body
-  const name = path.basename(fileDirectory, '.lbr')
+  const {userId, projectFile, machineId} = req.body
+  const name = path.basename(projectFile, '.lbr')
   let projectObj = {name, ...req.body}
   Project.create(projectObj).then(project => {
     //创建方式, createType:0 means has userId, createType:1 means only has machineId

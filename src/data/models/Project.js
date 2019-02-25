@@ -14,7 +14,7 @@ const Project = Model.define('Project', {
   /**
    * project file directory
    */
-  fileDirectory: {type: DataTypes.STRING},
+  projectFile: {type: DataTypes.STRING},
   /**
    * project type, 0: true or false question , 1: label, 2: review //todo extend much more type project
    */
@@ -30,7 +30,18 @@ const Project = Model.define('Project', {
   /**
    * 远程项目封面
    */
-  remoteCover: {type:DataTypes.STRING}
+  // remoteCover: {type:DataTypes.STRING},
+  //
+  // remoteProjectFile:{type:DataTypes.STRING},
+  // /**
+  //  * Item 总数
+  //  */
+  // itemCount: {type:DataTypes.INTEGER},
+  //
+  // /**
+  //  * 本地项目id
+  //  */
+  // localProjectId: {type:DataTypes.UUIDV1}
 });
 
 export default Project;
