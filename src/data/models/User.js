@@ -9,7 +9,7 @@ const User = Model.define('User', {
     primaryKey: true,
   },
 
-  nickname: {
+  name: {
     type: DataTypes.STRING,
     unique: true,
     allowNull: false,
@@ -42,7 +42,7 @@ const User = Model.define('User', {
   userType: { type: DataTypes.INTEGER },
   userTypeDesc: { type: DataTypes.STRING },
   statusDesc: { type: DataTypes.STRING },
-  avatarColor: {type: DataTypes.STRING(10)},
+  avatarColor: { type: DataTypes.STRING(10) },
 
   password: {
     type: DataTypes.VIRTUAL,
@@ -59,12 +59,11 @@ const User = Model.define('User', {
       },
     },
   },
-  machineId: { type: DataTypes.STRING},
+  machineId: { type: DataTypes.STRING },
   /**
    * 手机号区域
    */
-  prefix: { type: DataTypes.STRING}
-
+  prefix: { type: DataTypes.STRING },
 });
 
 export default User;
