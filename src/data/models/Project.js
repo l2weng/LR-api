@@ -1,5 +1,5 @@
-import { DataTypes } from 'sequelize';
-import Model from '../sequelize';
+import { DataTypes } from 'sequelize'
+import Model from '../sequelize'
 
 const Project = Model.define('Project', {
   projectId: {
@@ -8,9 +8,9 @@ const Project = Model.define('Project', {
     primaryKey: true,
   },
 
-  name: { type: DataTypes.STRING },
-  desc: { type: DataTypes.STRING(1000) },
-  deadline: { type: DataTypes.FLOAT },
+  name: {type: DataTypes.STRING},
+  desc: {type: DataTypes.STRING(1000)},
+  deadline: {type: DataTypes.FLOAT},
   /**
    * project file directory
    */
@@ -18,30 +18,37 @@ const Project = Model.define('Project', {
   /**
    * project type, 0: true or false question , 1: label, 2: review //todo extend much more type project
    */
-  type: { type: DataTypes.INTEGER },
+  type: {type: DataTypes.INTEGER},
   /**
    * progress 进度最大值100
    */
-  progress: { type: DataTypes.INTEGER },
+  progress: {type: DataTypes.INTEGER},
   /**
    * 项目封面
    */
-  cover: {type:DataTypes.STRING},
+  cover: {type: DataTypes.STRING},
   /**
-   * 远程项目封面
+   * Item 总数
    */
-  // remoteCover: {type:DataTypes.STRING},
-  //
-  // remoteProjectFile:{type:DataTypes.STRING},
-  // /**
-  //  * Item 总数
-  //  */
-  // itemCount: {type:DataTypes.INTEGER},
-  //
-  // /**
-  //  * 本地项目id
-  //  */
-  // localProjectId: {type:DataTypes.UUIDV1}
-});
+  itemCount: {type: DataTypes.INTEGER},
 
-export default Project;
+  /**
+   * 同步状态
+   */
+  syncStatus: {type: DataTypes.BOOLEAN, defaultValue: false},
+  /**
+   * 已同步项目封面
+   */
+  syncCover: {type: DataTypes.STRING},
+
+  /**
+   * 已同步项目文件
+   */
+  syncProjectFile: {type: DataTypes.STRING},
+  /**
+   * 本地项目id
+   */
+  localProjectId: {type: DataTypes.STRING},
+})
+
+export default Project

@@ -9,21 +9,16 @@ const PhotoType = new ObjectType({
   name: 'photoStory',
   fields: {
     photoId: { type: StringType },
-    syncedWithCloud: { type: BooleanType },
-    /**
-     * 客户配置图片地址
-     */
     fileUrl: { type: StringType },
-    /**
-     * 云地址
-     */
-    cloudUrl: { type: StringType },
-    /**
-     * 图片status, 0: 正常, 1: 删除
-     */
     status: { type: IntType },
-
+    syncStatus: {type: BooleanType},
+    syncFileUrl: {type: StringType},
+    size: {type: IntType},
+    width: {type: IntType},
+    height: {type: IntType},
+    mimeType: {type: StringType},
     createdBy: { type: StringType },
+    orientation: {type: IntType},
   },
 });
 

@@ -13,17 +13,15 @@ const ProjectType = new ObjectType({
     name: { type: StringType },
     desc: { type: StringType },
     deadline: { type: FloatType },
-    /**
-     * project type, 0: true or false question , 1: label, 2: review //todo extend much more type project
-     */
-    type: { type: IntType },
-    /**
-     * progress 进度最大值100
-     */
-    progress: { type: IntType },
     projectFile: { type: StringType},
+    type: { type: IntType },
+    progress: { type: IntType },
     cover: { type: StringType},
-    isOwner: {type:BooleanType}
+    itemCount: { type: IntType },
+    syncStatus: { type: BooleanType },
+    syncCover: { type: StringType},
+    remoteProjectFile: { type: StringType},
+    localProjectId: { type: StringType},
   },
 });
 
