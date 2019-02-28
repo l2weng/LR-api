@@ -9,7 +9,7 @@ const User = Model.define('User', {
     primaryKey: true,
   },
 
-  name: {
+  nickname: {
     type: DataTypes.STRING,
     unique: true,
     allowNull: false,
@@ -59,7 +59,11 @@ const User = Model.define('User', {
       },
     },
   },
-  machineId: { type: DataTypes.STRING}
+  machineId: { type: DataTypes.STRING},
+  /**
+   * 手机号区域
+   */
+  prefix: { type: DataTypes.STRING}
 
 });
 

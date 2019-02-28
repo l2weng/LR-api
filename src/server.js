@@ -288,8 +288,8 @@ if (cluster.isMaster && usingCluster) {
 } else {
   // Launch the server
   // -----------------------------------------------------------------------------
-  const promise = LRModels.sync({force:true}).catch(err => console.error(err.stack));
-  // const promise = LRModels.sync().catch(err => console.error(err.stack));
+  // const promise = LRModels.sync({force:true}).catch(err => console.error(err.stack));
+  const promise = LRModels.sync().catch(err => console.error(err.stack));
   if (!module.hot) {
     promise.then(() => {
       if (config.port === '443') {
