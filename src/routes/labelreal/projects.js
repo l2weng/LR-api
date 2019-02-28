@@ -68,13 +68,43 @@ router.post('/update', (req, res) => {
   })
 })
 
+router.post('/syncProject', (req, res) => {
+  const {syncStatus, syncProjectFile, projectFile, itemCount, localProjectId, name, userId, syncProjectFileName} = req.body
+  return User.findById(userId).then(user => {
+    return user.getProjects(
+      {
+        joinTableAttributes: ['isOwner'],
+        order: [['createdAt', 'DESC']],
+      }).
+      then(projects => {
+        projects.map(project => {
+          if (project.projectFile === projectFile) {
+            project.update({
+              syncStatus,
+              syncProjectFile,
+              projectFile,
+              itemCount,
+              localProjectId,
+              name,
+              syncProjectFileName,
+            }).then(project => {
+              res.json(resUpdate(project))
+            })
+          }
+        })
+      })
+  }).catch(err => {
+    resErrorBuild(res, 500, err)
+  })
+})
+
 /**
  * Add colleague to project
  */
 router.post('/addColleague', (req, res) => {
   const {colleagueId, projectId} = req.body
   return Project.findById(projectId).then(project => {
-    return User.findById(colleagueId).then(colleague=>{
+    return User.findById(colleagueId).then(colleague => {
       project.addUser(colleague)
       res.json(resBuild(project))
     })

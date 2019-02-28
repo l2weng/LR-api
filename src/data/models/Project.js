@@ -40,11 +40,14 @@ const Project = Model.define('Project', {
    * 已同步项目封面
    */
   syncCover: {type: DataTypes.STRING},
-
   /**
    * 已同步项目文件
    */
   syncProjectFile: {type: DataTypes.STRING},
+  /**
+   *
+   */
+  syncProjectFileName: {type: DataTypes.STRING},
   /**
    * 本地项目id
    */

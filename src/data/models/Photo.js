@@ -25,6 +25,7 @@ const Photo = Model.define('Photo', {
    * 云地址
    */
   syncFileUrl: {type: DataTypes.STRING},
+  syncFileName: {type: DataTypes.STRING},
   size: {type: DataTypes.INTEGER},
   width: {type: DataTypes.INTEGER},
   height: {type: DataTypes.INTEGER},

@@ -13,6 +13,7 @@ const PhotoType = new ObjectType({
     status: { type: IntType },
     syncStatus: {type: BooleanType},
     syncFileUrl: {type: StringType},
+    syncFileName: {type: StringType},
     size: {type: IntType},
     width: {type: IntType},
     height: {type: IntType},

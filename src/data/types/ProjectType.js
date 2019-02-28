@@ -22,6 +22,7 @@ const ProjectType = new ObjectType({
     syncCover: { type: StringType},
     remoteProjectFile: { type: StringType},
     localProjectId: { type: StringType},
+    syncProjectFileName: { type: StringType},
     isOwner: {type:BooleanType}
   },
 });
