@@ -71,13 +71,13 @@ const userQueryActiveContacts = {
   resolve (_, {companyId}) {
     let criteria = {}
     criteria = Object.assign(
-      {companyId: {$eq: null}, status: status.active}, criteria)
+      {companyId: companyId?companyId:{$eq: null}, status: status.active}, criteria)
     return User.findAll({
       where: criteria,
     }).then(users => { return users})
   },
   args: {
-    companyId: {type: GraphQLInt},
+    companyId: {type: GraphQLString},
   },
 }
 
