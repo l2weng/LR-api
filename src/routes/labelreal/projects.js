@@ -81,7 +81,7 @@ router.post('/syncProject', (req, res) => {
           if (project.projectFile === projectFile) {
             project.update({
               syncStatus,
-              syncProjectFile,
+              syncProjectFile:syncProjectFile,
               projectFile,
               itemCount,
               localProjectId:localProjectId,
