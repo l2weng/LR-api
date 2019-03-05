@@ -73,7 +73,7 @@ Feedback.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 /**
  * User 1 to N user login record
  */
-User.hasMany(UserLogin, { foreignKey: 'userId', as: 'LoginRecord' });
+User.hasMany(UserLogin, { foreignKey: 'userId', as: 'loginRecords' });
 UserLogin.belongsTo(User, { foreignKey: 'userId', as: 'User' });
 
 /**

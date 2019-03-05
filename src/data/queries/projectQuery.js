@@ -4,6 +4,7 @@ import User from '../models/User'
 import { criteriaBuild } from '../dataUtils'
 import { GraphQLString, GraphQLList as List, GraphQLBoolean } from 'graphql'
 import __ from 'underscore'
+import UserLogin from '../models/UserLogin'
 
 const projectQueryById = {
   name: 'ProjectQueryById',
@@ -34,12 +35,22 @@ const projectQueryByUser = {
         then(projects => {
           projects.map(project => {
             project.isOwner = project.UserProjects.isOwner
+            console.log(user)
+            project.user = user;
           })
           return projects
         })
     }
     if (!__.isEmpty(userId)) {
-      return User.findById(userId).then(user => {
+      return User.findOne({
+        where: {userId}, include: [
+          {
+            model: UserLogin,
+            as: 'loginRecords',
+            order: [['createdAt', 'DESC']],
+          }
+        ],
+      }).then(user => {
         return getRelatedProjects(user)
       })
     } else if (!__.isEmpty(machineId)) {

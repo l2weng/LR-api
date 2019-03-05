@@ -2,7 +2,9 @@ import {
   GraphQLObjectType as ObjectType,
   GraphQLString as StringType,
   GraphQLInt as IntType,
+  GraphQLList as List,
 } from 'graphql';
+import UserLoginType from './UserLoginType'
 
 const UserType = new ObjectType({
   name: 'userStory',
@@ -22,6 +24,7 @@ const UserType = new ObjectType({
     avatarColor: { type: StringType },
     machineId: { type: StringType },
     prefix: { type: StringType },
+    loginRecords: { type: new List(UserLoginType)}
   },
 });
 

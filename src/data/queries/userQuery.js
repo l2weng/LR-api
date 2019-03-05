@@ -12,13 +12,21 @@ import {
   GraphQLBoolean,
 } from 'graphql'
 import Team from '../models/Team'
+import UserLogin from '../models/UserLogin'
 
 const userQueryById = {
   name: 'UserQueryById',
   description: 'Finding User by ID',
   type: UserType,
   resolve (_, {id}) {
-    return User.findById(id).then(user => user)
+    return User.findOne({
+      where: {userId: id},
+      include: [
+        {
+          model: UserLogin,
+          as: 'loginRecords',
+        }],
+    }).then(user => user)
   },
   args: {
     id: {type: GraphQLString},
@@ -71,7 +79,8 @@ const userQueryActiveContacts = {
   resolve (_, {companyId}) {
     let criteria = {}
     criteria = Object.assign(
-      {companyId: companyId?companyId:{$eq: null}, status: status.active}, criteria)
+      {companyId: companyId ? companyId : {$eq: null}, status: status.active},
+      criteria)
     return User.findAll({
       where: criteria,
     }).then(users => { return users})
@@ -127,5 +136,5 @@ export {
   userQueryWhere,
   userQueryContacts,
   usersQueryByTeamId,
-  userQueryActiveContacts
+  userQueryActiveContacts,
 }

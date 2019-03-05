@@ -5,6 +5,7 @@ import {
   GraphQLFloat as FloatType,
   GraphQLBoolean as BooleanType,
 } from 'graphql';
+import UserType from './UserType'
 
 const ProjectType = new ObjectType({
   name: 'projectStory',
@@ -24,7 +25,8 @@ const ProjectType = new ObjectType({
     localProjectId: { type: StringType},
     syncProjectFileName: { type: StringType},
     syncProjectFile: { type: StringType},
-    isOwner: {type:BooleanType}
+    isOwner: {type:BooleanType},
+    user: { type: UserType}
   },
 });
 
