@@ -35,7 +35,6 @@ const projectQueryByUser = {
         then(projects => {
           projects.map(project => {
             project.isOwner = project.UserProjects.isOwner
-            console.log(user)
             project.user = user;
           })
           return projects

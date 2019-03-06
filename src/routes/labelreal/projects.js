@@ -104,10 +104,8 @@ router.post('/syncProject', (req, res) => {
  */
 router.post('/addColleague', (req, res) => {
   const {colleagueId, localProjectId} = req.body
-  console.log(colleagueId, localProjectId)
   return Project.findOne({where: {localProjectId: localProjectId}}).
     then(project => {
-      console.log(project)
       return User.findById(colleagueId).then(colleague => {
         project.addUser(colleague)
         res.json(resBuild(project))
