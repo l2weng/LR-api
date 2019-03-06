@@ -1,23 +1,14 @@
-import Project from '../../data/models/Project'
 import User from '../../data/models/User'
 import {
-  generateColor,
-  resBuild,
   resErrorBuild,
-  statusDesc,
-  userTypeDesc,
-  userType,
-  status,
   resUpdate,
 } from '../../data/dataUtils'
 import express from 'express'
-import path from 'path'
-import _ from 'underscore'
 
 const router = express.Router()
 
 router.post('/syncProject', (req, res) => {
-  const {syncStatus, syncProjectFile, projectFile, itemCount, localProjectId, name, userId, syncProjectFileName} = req.body
+  const {syncStatus, syncProjectFile, projectFile, itemCount, localProjectId, name, userId, syncProjectFileName,syncProjectSize} = req.body
   return User.findById(userId).then(user => {
     return user.getProjects(
       {
@@ -35,6 +26,7 @@ router.post('/syncProject', (req, res) => {
               localProjectId,
               name,
               syncProjectFileName,
+              syncProjectSize
             }).then(project => {
               res.json(resUpdate(project))
             })

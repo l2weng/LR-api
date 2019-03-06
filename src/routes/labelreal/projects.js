@@ -69,7 +69,7 @@ router.post('/update', (req, res) => {
 })
 
 router.post('/syncProject', (req, res) => {
-  const {syncStatus, syncProjectFile, projectFile, itemCount, localProjectId, name, userId, syncProjectFileName} = req.body
+  const {syncStatus, syncProjectFile, projectFile, itemCount, localProjectId, name, userId, syncProjectFileName, syncProjectSize} = req.body
   return User.findById(userId).then(user => {
     return user.getProjects(
       {
@@ -81,12 +81,13 @@ router.post('/syncProject', (req, res) => {
           if (project.projectFile === projectFile) {
             project.update({
               syncStatus,
-              syncProjectFile:syncProjectFile,
+              syncProjectFile: syncProjectFile,
               projectFile,
               itemCount,
-              localProjectId:localProjectId,
+              localProjectId: localProjectId,
               name,
               syncProjectFileName,
+              syncProjectSize,
             }).then(project => {
               res.json(resUpdate(project))
             })
@@ -103,16 +104,18 @@ router.post('/syncProject', (req, res) => {
  */
 router.post('/addColleague', (req, res) => {
   const {colleagueId, localProjectId} = req.body
-  console.log(colleagueId,localProjectId)
-  return Project.findOne({where:{localProjectId:localProjectId}}).then(project => {
-    console.log(project)
-    return User.findById(colleagueId).then(colleague => {
-      project.addUser(colleague)
-      res.json(resBuild(project))
+  console.log(colleagueId, localProjectId)
+  return Project.findOne({where: {localProjectId: localProjectId}}).
+    then(project => {
+      console.log(project)
+      return User.findById(colleagueId).then(colleague => {
+        project.addUser(colleague)
+        res.json(resBuild(project))
+      })
+    }).
+    catch(err => {
+      resErrorBuild(res, 500, err)
     })
-  }).catch(err => {
-    resErrorBuild(res, 500, err)
-  })
 })
 
 export default router

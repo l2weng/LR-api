@@ -45,9 +45,13 @@ const Project = Model.define('Project', {
    */
   syncProjectFile: {type: DataTypes.STRING},
   /**
-   *
+   * 已同步项目名
    */
   syncProjectFileName: {type: DataTypes.STRING},
+  /**
+   * 已同步项目大小
+   */
+  syncProjectSize: {type: DataTypes.STRING},
   /**
    * 本地项目id
    */
