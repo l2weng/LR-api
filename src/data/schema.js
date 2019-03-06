@@ -9,6 +9,7 @@ import {
   usersQueryByTeamId,
   userQueryActiveContacts,
   userQueryById,
+  userQueryColleagues,
 } from './queries/userQuery'
 import { teamQueryWhere, teamQueryByUserId } from './queries/teamQuery'
 import { projectQueryByUser } from './queries/projectQuery'
@@ -26,7 +27,8 @@ const schema = new Schema({
       userQueryActiveContacts,
       projectQueryByUser,
       taskQueryByUser,
-      userQueryById
+      userQueryById,
+      userQueryColleagues
     },
   }),
 })

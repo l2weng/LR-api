@@ -92,7 +92,7 @@ const userQueryActiveContacts = {
 
 /**
  * User Query Contacts
- * Query 联系人和同事
+ * Query 联系人
  */
 const userQueryContacts = {
   name: 'userQueryContacts',
@@ -108,6 +108,21 @@ const userQueryContacts = {
   args: {
     userId: {type: GraphQLString},
     isOwner: {type: GraphQLBoolean},
+    companyId: {type: GraphQLString},
+  },
+}
+
+/**
+ * Query Colleague
+ */
+const userQueryColleagues = {
+  name: 'userQueryColleagues',
+  description: 'Finding user colleagues',
+  type: new List(UserType),
+  resolve (_, {companyId}) {
+    return User.findAll({where: {companyId}}).then(users => users)
+  },
+  args: {
     companyId: {type: GraphQLString},
   },
 }
@@ -133,6 +148,7 @@ const usersQueryByTeamId = {
 export {
   userQueryById,
   userQueryAll,
+  userQueryColleagues,
   userQueryWhere,
   userQueryContacts,
   usersQueryByTeamId,
