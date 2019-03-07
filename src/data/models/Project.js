@@ -51,7 +51,7 @@ const Project = Model.define('Project', {
   /**
    * 已同步项目大小
    */
-  syncProjectSize: {type: DataTypes.STRING},
+  syncProjectSize: {type: DataTypes.INTEGER},
   /**
    * 本地项目id
    */
