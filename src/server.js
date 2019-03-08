@@ -147,14 +147,16 @@ app.post(
   (req, res) => {
     let ip = req.body.ip
     const expiresIn = 60 * 60 * 24 * 10; // 10 days
-    const token = jwt.sign({ name: req.user.name }, config.auth.jwt.secret, {
+    const token = jwt.sign({ name: req.user.user.name }, config.auth.jwt.secret, {
       expiresIn,
     });
-    UserLogin.create({ip,userId:req.user.userId})
+    UserLogin.create({ip,userId:req.user.user.userId})
     res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
     res.status(200).send({
       token,
-      user: req.user,
+      lastProject: req.user.projects[0],
+      hasProject: req.user.hasProject,
+      user: req.user.user,
       ip,
       status: 'ok',
     });
