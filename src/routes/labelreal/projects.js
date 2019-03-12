@@ -72,7 +72,7 @@ router.post('/syncLocalProject', (req, res) => {
   const {file, id, owner} = req.body
   return Project.findOne({where: {localProjectId: id}}).then(project => {
     if (project) {
-      res.json({projectId: project.projectId})
+      res.json({project})
     } else {
       return User.findById(owner).then(user => {
         return user.getProjects(
@@ -86,7 +86,7 @@ router.post('/syncLocalProject', (req, res) => {
                 project.update({
                   localProjectId: id,
                 }).then(project => {
-                  res.json({projectId: project.projectId})
+                  res.json({project})
                 })
               }
             })
