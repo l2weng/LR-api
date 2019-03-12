@@ -68,6 +68,36 @@ router.post('/update', (req, res) => {
   })
 })
 
+router.post('/syncLocalProject', (req, res) => {
+  const {file, id, owner} = req.body
+  return Project.findOne({where: {localProjectId: id}}).then(project=>{
+    if(project){
+      res.json({projectId: project.projectId})
+    }else{
+      return User.findById(owner).then(user => {
+        return user.getProjects(
+          {
+            joinTableAttributes: ['isOwner'],
+            order: [['createdAt', 'DESC']],
+          }).
+          then(projects => {
+            projects.map(project => {
+              if (project.projectFile === file) {
+                project.update({
+                  localProjectId: id,
+                }).then(project => {
+                  res.json({projectId: project.projectId})
+                })
+              }
+            })
+          })
+      }).catch(err => {
+        resErrorBuild(res, 500, err)
+      })
+    }
+  })
+})
+
 router.post('/syncProject', (req, res) => {
   const {syncStatus, syncProjectFile, projectFile, itemCount, localProjectId, name, userId, syncProjectFileName, syncProjectSize} = req.body
   return User.findById(userId).then(user => {
