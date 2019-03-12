@@ -38,13 +38,20 @@ router.post('/update', (req, res) => {
 router.post('/addWorker', (req, res) => {
   const {workerIds, taskId, projectId} = req.body
   return Task.findById(taskId).then(task => {
-    return User.findAll({where: {userId: {[Op.in]:JSON.parse("[" + workerIds + "]")}}}).then(workers => {
-      task.addUsers(workers, {through: {projectId}}).then(() => {
+    return User.findAll({where: {userId: {[Op.in]: workerIds}}}).then(workers => {
+      return task.addUsers(workers, {through: {projectId}}).then(() => {
         return Project.findById(projectId).then(project => {
           project.addUsers(workers)
+          workers.map(worker=>{
+            delete worker.dataValues.password_hash
+            delete worker.dataValues.machineId
+          })
+          res.status(200).send({
+            result: 'success',
+            workers
+          })
         })
       })
-      res.json(resBuild(task))
     })
   }).catch(err => {
     resErrorBuild(res, 500, err)
