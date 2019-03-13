@@ -18,7 +18,7 @@ const router = express.Router()
 
 router.post('/create', (req, res) => {
   const {userId, projectFile, machineId} = req.body
-  const name = path.basename(projectFile, '.lbr')
+  const name = path.win32.basename(projectFile, '.lbr')
   let projectObj = {name, ...req.body}
   Project.create(projectObj).then(project => {
     //创建方式, createType:0 means has userId, createType:1 means only has machineId
