@@ -24,8 +24,6 @@ router.post('/create', (req, res) => {
   }
   const userSave = function () {
     return User.create(userObj).then(user => {
-      delete user.dataValues.password
-      delete user.dataValues.password_hash
       res.json(resBuild(user))
     }).catch(err => {
       resErrorBuild(res, 500, err)
