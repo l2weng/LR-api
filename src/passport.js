@@ -32,7 +32,8 @@ passport.use(
           order: [['createdAt', 'DESC']],
         }).
         then(projects => {
-          return done(null, {user, hasProject: projects.length !== 0, projects:projects.filter(p=>p.syncStatus===true)})
+          let syncProjects = projects.filter(p=>p.syncStatus===true);
+          return done(null, {user, hasProject: syncProjects.length !== 0, projects:syncProjects})
         })
     })
   }),
