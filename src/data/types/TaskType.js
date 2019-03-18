@@ -3,6 +3,7 @@ import {
   GraphQLString as StringType,
   GraphQLInt as IntType,
 } from 'graphql';
+import ProjectType from './ProjectType'
 
 const TaskType = new ObjectType({
   name: 'taskStory',
@@ -17,6 +18,7 @@ const TaskType = new ObjectType({
     progress: { type: IntType },
     projectId: { type: StringType},
     createdAt: {type: StringType},
+    project: { type : ProjectType}
   },
 });
 

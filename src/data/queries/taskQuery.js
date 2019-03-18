@@ -33,7 +33,7 @@ const taskQueryByUser = {
         }).
         then(tasks => {
           tasks.map(task => {
-            task.projectId = task.UserTasks.projectId
+            task.project = task.getProject
           })
           return tasks
         })
