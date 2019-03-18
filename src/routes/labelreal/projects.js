@@ -9,6 +9,7 @@ import {
   userType,
   status,
   resUpdate,
+  getRandomVersion,
 } from '../../data/dataUtils'
 import express from 'express'
 import path from 'path'
@@ -19,7 +20,7 @@ const router = express.Router()
 router.post('/create', (req, res) => {
   const {userId, projectFile, machineId} = req.body
   const name = path.win32.basename(projectFile, '.lbr')
-  let projectObj = {name, ...req.body}
+  let projectObj = {name,syncVersion:getRandomVersion(), ...req.body}
   Project.create(projectObj).then(project => {
     //创建方式, createType:0 means has userId, createType:1 means only has machineId
     if (!_.isEmpty(userId)) {
@@ -85,6 +86,7 @@ router.post('/syncLocalProject', (req, res) => {
               if (project.projectFile === file) {
                 project.update({
                   localProjectId: id,
+                  syncVersion:getRandomVersion()
                 }).then(project => {
                   res.json({project})
                 })
@@ -109,6 +111,7 @@ router.post('/syncProject', (req, res) => {
       name,
       syncProjectFileName,
       syncProjectSize,
+      syncVersion:getRandomVersion()
     }).then(project => {
       res.json(resUpdate(project))
     })

@@ -138,9 +138,18 @@ function getReqId (req) {
   return ip.replace(/^.*:/, '')
 }
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+function getRandomVersion() {
+  return getRandomInt(99999999);
+}
+
 export {
   resBuild,
   resErrorBuild,
+  getRandomVersion,
   getReqId,
   resUpdate,
   taskType,

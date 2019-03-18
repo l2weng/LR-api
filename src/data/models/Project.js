@@ -56,6 +56,7 @@ const Project = Model.define('Project', {
    * 本地项目id
    */
   localProjectId: {type: DataTypes.STRING},
+  syncVersion: {type: DataTypes.INTEGER}
 })
 
 export default Project

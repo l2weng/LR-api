@@ -27,7 +27,8 @@ const ProjectType = new ObjectType({
     syncProjectFile: { type: StringType},
     syncProjectSize: { type: IntType},
     isOwner: {type:BooleanType},
-    user: { type: UserType}
+    user: { type: UserType},
+    syncVersion: { type: IntType},
   },
 });
 
