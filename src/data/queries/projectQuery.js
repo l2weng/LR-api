@@ -46,6 +46,7 @@ const projectQueryByUser = {
           {
             model: UserLogin,
             as: 'loginRecords',
+            limit: 3,
             order: [['createdAt', 'DESC']],
           }
         ],

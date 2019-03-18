@@ -101,7 +101,7 @@ router.post('/syncLocalProject', (req, res) => {
 })
 
 router.post('/syncProject', (req, res) => {
-  const {syncStatus, syncProjectFile, projectFile, itemCount, syncProjectId, name, userId, syncProjectFileName, syncProjectSize} = req.body
+  const {syncStatus, syncProjectFile, projectFile, itemCount, syncProjectId, name, userId, syncProjectFileName, syncCover, syncProjectSize} = req.body
   Project.findById(syncProjectId).then(project => {
     project.update({
       syncStatus,
@@ -111,6 +111,7 @@ router.post('/syncProject', (req, res) => {
       name,
       syncProjectFileName,
       syncProjectSize,
+      syncCover,
       syncVersion:getRandomVersion()
     }).then(project => {
       res.json(resUpdate(project))

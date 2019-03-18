@@ -15,6 +15,8 @@ const TaskType = new ObjectType({
      * progress 进度最大值100
      */
     progress: { type: IntType },
+    projectId: { type: StringType},
+    createdAt: {type: StringType},
   },
 });
 
