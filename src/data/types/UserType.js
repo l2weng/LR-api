@@ -3,7 +3,6 @@ import {
   GraphQLString as StringType,
   GraphQLInt as IntType,
   GraphQLList as List,
-  GraphQLBoolean as BooleanType,
 } from 'graphql';
 import UserLoginType from './UserLoginType'
 

@@ -58,6 +58,9 @@ Project.belongsToMany(User, { as: 'users', foreignKey:'projectId', through: User
 User.belongsToMany(Task, { as: 'tasks', foreignKey: 'userId',through: UserTasks });
 Task.belongsToMany(User, { as: 'users', foreignKey:'taskId', through: UserTasks });
 
+User.hasMany(Task, { as: 'myTasks', foreignKey: 'userId' });
+Task.belongsTo(User, { foreignKey: 'userId', as: 'Owner' });
+
 /**
  * User 1 to N invitation
  */
