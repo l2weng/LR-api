@@ -181,8 +181,8 @@ Reference.belongsTo(FilterQuestion, {
 /**
  * Task N to N Photos
  */
-Task.belongsToMany(Photo, { through: TaskPhotos });
-Photo.belongsToMany(Task, { through: TaskPhotos });
+Task.belongsToMany(Photo, { foreignKey: 'taskId', through: TaskPhotos });
+Photo.belongsToMany(Task, { foreignKey: 'photoId', through: TaskPhotos });
 
 /**
  * Sku 1 to N reference
