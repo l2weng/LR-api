@@ -53,13 +53,22 @@ User.belongsToMany(Project, { as: 'projects', foreignKey: 'userId',through: User
 Project.belongsToMany(User, { as: 'users', foreignKey:'projectId', through: UserProjects });
 
 /**
- * User N to N tasks
+ * User N to N tasks (task assign)
  */
 User.belongsToMany(Task, { as: 'tasks', foreignKey: 'userId',through: UserTasks });
 Task.belongsToMany(User, { as: 'users', foreignKey:'taskId', through: UserTasks });
 
+/**
+ * User 1: N Task (task owner)
+ */
 User.hasMany(Task, { as: 'myTasks', foreignKey: 'userId' });
 Task.belongsTo(User, { foreignKey: 'userId', as: 'Owner' });
+
+/**
+ * User 1: N Photo (photo owner)
+ */
+User.hasMany(Photo, { as: 'myPhotos', foreignKey: 'userId' });
+Photo.belongsTo(User, { foreignKey: 'userId', as: 'Owner' });
 
 /**
  * User 1 to N invitation

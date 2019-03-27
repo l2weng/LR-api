@@ -30,7 +30,7 @@ const Photo = Model.define('Photo', {
   width: {type: DataTypes.INTEGER},
   height: {type: DataTypes.INTEGER},
   mimeType: {type: DataTypes.STRING},
-  createdBy: {type: DataTypes.STRING},
+  protocol: {type: DataTypes.STRING},
   orientation: {type: DataTypes.INTEGER},
 })
 
