@@ -28,6 +28,7 @@ import teams from './routes/labelreal/teams';
 import projects from './routes/labelreal/projects';
 import tasks from './routes/labelreal/tasks';
 import photos from './routes/labelreal/photos';
+import labels from './routes/labelreal/labels';
 import compression from 'compression';
 import UserLogin from './data/models/UserLogin'
 
@@ -111,6 +112,7 @@ app.use('/lr/teams', teams);
 app.use('/lr/projects', projects);
 app.use('/lr/tasks', tasks);
 app.use('/lr/photos', photos);
+app.use('/lr/labels', labels);
 
 //
 // Authentication
