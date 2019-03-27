@@ -27,6 +27,7 @@ import users from './routes/labelreal/users';
 import teams from './routes/labelreal/teams';
 import projects from './routes/labelreal/projects';
 import tasks from './routes/labelreal/tasks';
+import photos from './routes/labelreal/photos';
 import compression from 'compression';
 import UserLogin from './data/models/UserLogin'
 
@@ -109,6 +110,7 @@ app.use('/lr/users', users);
 app.use('/lr/teams', teams);
 app.use('/lr/projects', projects);
 app.use('/lr/tasks', tasks);
+app.use('/lr/photos', photos);
 
 //
 // Authentication
@@ -291,9 +293,9 @@ if (cluster.isMaster && usingCluster) {
   // Launch the server
   // -----------------------------------------------------------------------------
   // const promise = LRModels.sync({force:true}).catch(err => console.error(err.stack));
-  // const promise = LRModels.sync().catch(err => console.error(err.stack));
+  const promise = LRModels.sync().catch(err => console.error(err.stack));
   if (!module.hot) {
-    // promise.then(() => {
+    promise.then(() => {
       if (config.port === '443') {
         const options = {
           pfx: fs.readFileSync('./public/retailservice.pfx'),
@@ -311,7 +313,7 @@ if (cluster.isMaster && usingCluster) {
           );
         });
       }
-    // })
+    })
   }
 }
 

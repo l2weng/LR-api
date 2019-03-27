@@ -14,6 +14,8 @@ const LabelType = new ObjectType({
      * label type, 0: 矩形框, 1:......
      */
     type: { type: IntType },
+    status: { type: IntType}
+
   },
 });
 

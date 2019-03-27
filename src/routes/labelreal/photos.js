@@ -1,42 +1,23 @@
-import User from '../../data/models/User'
+import Photo from '../../data/models/Photo'
+import Task from '../../data/models/Task'
 import {
+  resBuild,
   resErrorBuild,
-  resUpdate,
 } from '../../data/dataUtils'
 import express from 'express'
 
 const router = express.Router()
 
-router.post('/syncProject', (req, res) => {
-  const {syncStatus, syncProjectFile, projectFile, itemCount, localProjectId, name, userId, syncProjectFileName,syncProjectSize} = req.body
-  return User.findById(userId).then(user => {
-    return user.getProjects(
-      {
-        joinTableAttributes: ['isOwner'],
-        order: [['createdAt', 'DESC']],
-      }).
-      then(projects => {
-        projects.map(project => {
-          if (project.projectFile === projectFile) {
-            project.update({
-              syncStatus,
-              syncProjectFile,
-              projectFile,
-              itemCount,
-              localProjectId,
-              name,
-              syncProjectFileName,
-              syncProjectSize
-            }).then(project => {
-              res.json(resUpdate(project))
-            })
-          }
-        })
-      })
+router.post('/syncPhoto', (req, res) => {
+  const {taskId} = req.body
+  return Task.findById(taskId).then(task => {
+    return Photo.create({...req.body}).then(photo => {
+      task.addPhoto(photo);
+      res.json(resBuild(photo))
+    })
   }).catch(err => {
     resErrorBuild(res, 500, err)
   })
 })
-
 
 export default router

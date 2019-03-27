@@ -85,8 +85,7 @@ router.post('/syncLocalProject', (req, res) => {
             projects.map(project => {
               if (project.projectFile === file) {
                 project.update({
-                  localProjectId: id,
-                  syncVersion:getRandomVersion()
+                  localProjectId: id
                 }).then(project => {
                   res.json({project})
                 })

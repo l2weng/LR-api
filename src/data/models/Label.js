@@ -14,6 +14,10 @@ const Label = Model.define('Label', {
    * label type, 0: 矩形框, 1:......
    */
   type: { type: DataTypes.INTEGER },
+  /**
+   * 0: new, 1: updated, removed
+   */
+  status: { type: DataTypes.INTEGER}
 });
 
 export default Label;
