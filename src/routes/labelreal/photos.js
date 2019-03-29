@@ -10,24 +10,46 @@ const router = express.Router()
 
 router.post('/syncPhoto', (req, res) => {
   const {taskId, photoId} = req.body
-  return Task.findById(taskId).then(task => {
-    return Photo.findById(photoId).then(photo => {
-      if (photo) {
-        return photo.update({...req.body}).then(photo => {
-          task.addPhoto(photo)
-          res.json(resBuild(photo))
-        })
-      }
-      else {
-        return Photo.create({...req.body}).then(photo => {
-          task.addPhoto(photo)
-          res.json(resBuild(photo))
-        })
-      }
+  if(taskId){
+    return Task.findById(taskId).then(task => {
+      return Photo.findById(photoId).then(photo => {
+        if (photo) {
+          return photo.update({...req.body}).then(photo => {
+            task.addPhoto(photo)
+            res.json(resBuild(photo))
+          })
+        }
+        else {
+          return Photo.create({...req.body}).then(photo => {
+            task.addPhoto(photo)
+            res.json(resBuild(photo))
+          })
+        }
+      })
+    }).catch(err => {
+      resErrorBuild(res, 500, err)
     })
-  }).catch(err => {
-    resErrorBuild(res, 500, err)
-  })
+  }else{
+    if(photoId){
+      return Photo.findById(photoId).then(photo => {
+        if (photo) {
+          return photo.update({...req.body}).then(photo => {
+            res.json(resBuild(photo))
+          })
+        }
+        else {
+          return Photo.create({...req.body}).then(photo => {
+            res.json(resBuild(photo))
+          })
+        }
+      })
+    }else {
+      delete req.body.photoId
+      return Photo.create({...req.body}).then(photo => {
+        res.json(resBuild(photo))
+      })
+    }
+  }
 })
 
 export default router
