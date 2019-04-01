@@ -1,7 +1,7 @@
 import {
   GraphQLObjectType as ObjectType,
   GraphQLInt as IntType,
-  GraphQLFloat as FloatType,
+  GraphQLString as StringType,
   GraphQLBoolean as BooleanType,
 } from 'graphql';
 
@@ -16,7 +16,8 @@ const LabelType = new ObjectType({
     width: { type: IntType },
     height: { type: IntType },
     type: { type: IntType },
-    status: { type: IntType}
+    status: { type: IntType},
+    photoId: { type: StringType },
   },
 });
 
