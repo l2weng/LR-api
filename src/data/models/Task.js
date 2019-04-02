@@ -26,11 +26,6 @@ const Task = Model.define('Task', {
   progress: {type: DataTypes.INTEGER, defaultValue: 0, max: 100},
 
   /**
-   * owner task归属人
-   */
-  owner: {type: DataTypes.STRING},
-
-  /**
    * 分配状态, false 未分配, true 已分配
    */
   assignStatus: {type: DataTypes.BOOLEAN, defaultValue: false}

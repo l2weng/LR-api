@@ -19,7 +19,6 @@ const TaskType = new ObjectType({
     progress: { type: IntType },
     projectId: { type: StringType},
     createdAt: {type: StringType},
-    owner:{ type:StringType},
     assignStatus: {type: BooleanType},
     project: { type : ProjectType}
   },

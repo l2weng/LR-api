@@ -53,6 +53,29 @@ const taskQueryByUser = {
     machineId: {type: GraphQLString},
   },
 }
+/**
+ * 我创建的task
+ */
+const taskQueryByOwner = {
+  name: 'TaskQueryByOwner',
+  description: 'Finding Task by owner userId',
+  type: new List(TaskType),
+  resolve (_, {userId}) {
+    let getRelatedTasks = function (user) {
+      return user.getMyTasks().then(tasks => {
+        return tasks
+      })
+    }
+    if (!__.isEmpty(userId)) {
+      return User.findById(userId).then(user => {
+        return getRelatedTasks(user)
+      })
+    }
+  },
+  args: {
+    userId: {type: GraphQLString},
+  },
+}
 
 const taskQueryAll = {
   name: 'TaskQueryAll',
@@ -83,5 +106,6 @@ const taskQueryWhere = {
 
 export {
   taskQueryById,
+  taskQueryByOwner,
   taskQueryByUser,
 }
