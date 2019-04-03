@@ -63,6 +63,9 @@ const taskQueryByOwner = {
   resolve (_, {userId}) {
     let getRelatedTasks = function (user) {
       return user.getMyTasks().then(tasks => {
+        tasks.map(task => {
+          task.project = task.getProject
+        })
         return tasks
       })
     }
