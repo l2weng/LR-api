@@ -10,11 +10,11 @@ const projectQueryById = {
   name: 'ProjectQueryById',
   description: 'Finding Project by ID',
   type: ProjectType,
-  resolve (_, {id}) {
-    return Project.findById(id).then(project => project)
+  resolve (_, {projectId}) {
+    return Project.findById(projectId).then(project => project)
   },
   args: {
-    id: {type: GraphQLString},
+    projectId: {type: GraphQLString},
   },
 }
 

@@ -12,7 +12,7 @@ import {
   userQueryColleagues,
 } from './queries/userQuery'
 import { teamQueryWhere, teamQueryByUserId } from './queries/teamQuery'
-import { projectQueryByUser } from './queries/projectQuery'
+import { projectQueryByUser, projectQueryById } from './queries/projectQuery'
 import { taskQueryByUser, taskQueryByOwner } from './queries/taskQuery'
 import { labelQueryByPhoto } from './queries/labelQuery'
 
@@ -31,7 +31,8 @@ const schema = new Schema({
       userQueryById,
       userQueryColleagues,
       labelQueryByPhoto,
-      taskQueryByOwner
+      taskQueryByOwner,
+      projectQueryById
     },
   }),
 })

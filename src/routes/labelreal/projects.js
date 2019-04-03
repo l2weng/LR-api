@@ -48,7 +48,7 @@ router.post('/create', (req, res) => {
           }
           return User.create(userObj).then(user => {
             user.addProjects(project, {through: {isOwner: true}})
-            res.json(resBuild(user))
+            res.json(resBuild(project))
           })
         }
       })
