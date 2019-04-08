@@ -14,6 +14,7 @@ const SlothSku = Model.define('SlothSku', {
   url:{type:DataTypes.STRING},
   isEmpty:{type:DataTypes.INTEGER},
   type: {type:DataTypes.INTEGER},
+  profit: {type:DataTypes.FLOAT},
 });
 
 export default SlothSku;

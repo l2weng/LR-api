@@ -31,8 +31,8 @@ router.post('/create', (req, res) => {
 
 router.post('/skuCount', (req, res) => {
   let {slothSkuId} = req.body
-  return SlothSku.findById(slothSkuId).then(slothSku=>{
-    return slothSku.update({count:slothSku.count+1}).then(affactRows=>{
+  return SlothSku.findById(slothSkuId).then(slothSku => {
+    return slothSku.update({count: slothSku.count + 1}).then(affactRows => {
       res.status(200).send('success')
     }).catch(err => {
       res.status(500).send('error', err)
@@ -41,23 +41,24 @@ router.post('/skuCount', (req, res) => {
 })
 
 router.post('/skuUpdate', (req, res) => {
-  let {row,col,type} = req.body
+  let {row, col, type} = req.body
   return SlothSku.findOne({
-    where: {row,col,type},
+    where: {row, col, type},
   }).then(sku => {
-    if(sku===null){
-      res.status(404).send({result: 'error', msg: 'sku not exists'});
-    }else{
-      sku.update({isEmpty: 1}).then(eResult=>{
-      res.status(200).send('success')
-    })}
+    if (sku === null) {
+      res.status(404).send({result: 'error', msg: 'sku not exists'})
+    } else {
+      sku.update({isEmpty: 1}).then(eResult => {
+        res.status(200).send('success')
+      })
+    }
   })
 })
 
 router.post('/skuRemoveEmpty', (req, res) => {
   let {slothSkuId} = req.body
-  return SlothSku.findById(slothSkuId).then(slothSku=>{
-    return slothSku.update({isEmpty:0}).then(affactRows=>{
+  return SlothSku.findById(slothSkuId).then(slothSku => {
+    return slothSku.update({isEmpty: 0}).then(affactRows => {
       res.status(200).send('success')
     }).catch(err => {
       res.status(500).send('error', err)
@@ -67,12 +68,14 @@ router.post('/skuRemoveEmpty', (req, res) => {
 
 router.post('/fridgeCount', (req, res) => {
   let {slothFridgeId} = req.body
-  return SlothFridge.findById(slothFridgeId).then(slothFridge=>{
-    return slothFridge.update({openCount:slothFridge.openCount+1}).then(affactRows=>{
-      res.status(200).send('success')
-    }).catch(err => {
-      res.status(500).send('error', err)
-    })
+  return SlothFridge.findById(slothFridgeId).then(slothFridge => {
+    return slothFridge.update({openCount: slothFridge.openCount + 1}).
+      then(affactRows => {
+        res.status(200).send('success')
+      }).
+      catch(err => {
+        res.status(500).send('error', err)
+      })
   })
 })
 
@@ -87,6 +90,63 @@ router.post('/remove', (req, res) => {
     res.status(200).send('success')
   }).catch(err => {
     res.status(500).send('error', err)
+  })
+})
+
+router.post('/getV2Data', (req, res) => {
+  let {type} = req.body
+  let skuInfo = {
+    'smartId': 999999,
+    'info': {
+      'openCount': 0,
+      'saleCount': 27,
+      'payoffDay': 924,
+      'purity': 89.55,
+      'cols': [
+        10,
+        12,
+        11,
+        11,
+        11,
+        12,
+      ],
+      'boxes': [
+        {
+          'skuid': 18,
+          'col': 0,
+          'row': 0,
+        },
+      ],
+    },
+  }
+  let totalCount = 0
+  let totalProfit = 0
+  let emptyTotal = 0
+  let myBoxes = []
+  return SlothSku.findAll({
+    where: {type},
+    order: [['row', 'ASC'], ['col', 'ASC']],
+  }).then(slothSkus => {
+    slothSkus.map(sku => {
+      totalCount += sku.count
+      let tempProfit = sku.count * sku.profit
+      totalProfit += tempProfit===0?0:parseFloat(sku.count * sku.profit).toFixed(2)
+      if (sku.isEmpty===1) {
+        emptyTotal += 1
+      }
+      let oneBox = {skuid: sku.skuId, col: sku.col, row: sku.row}
+      myBoxes.push(oneBox)
+    })
+    SlothFridge.findOne({
+      where: {type},
+    }).then(slothFridge => {
+      skuInfo.info.openCount = slothFridge.openCount
+      skuInfo.info.saleCount = totalCount
+      skuInfo.info.payoffDay = totalProfit===0?9999:parseInt(5400 / totalProfit)
+      skuInfo.info.purity = emptyTotal===0?100:(1-emptyTotal / slothSkus.length)
+      skuInfo.info.boxes = myBoxes
+      res.json(skuInfo)
+    })
   })
 })
 

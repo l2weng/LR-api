@@ -2,6 +2,7 @@ import {
   GraphQLObjectType as ObjectType,
   GraphQLString as StringType,
   GraphQLInt as IntType,
+  GraphQLFloat as FloatType,
 } from 'graphql'
 
 const SlothSkuType = new ObjectType({
@@ -15,6 +16,7 @@ const SlothSkuType = new ObjectType({
     url: {type: StringType},
     type: {type: IntType},
     isEmpty: {type: IntType},
+    profit: {type: FloatType},
   },
 })
 

@@ -35,7 +35,7 @@ const slothSkuQueryWhere = {
     }
     return SlothSku.findAll({
       where: criteria,
-      order: [['row', 'ASC']],
+      order: [['row', 'ASC'],['col', 'ASC']],
     }).then(slothSkus => slothSkus)
   },
   args: {
