@@ -103,12 +103,12 @@ router.post('/getV2Data', (req, res) => {
       'payoffDay': 924,
       'purity': 89.55,
       'cols': [
-        10,
-        12,
+        9,
+        9,
+        9,
+        9,
         11,
         11,
-        11,
-        12,
       ],
       'boxes': [
         {
@@ -130,20 +130,21 @@ router.post('/getV2Data', (req, res) => {
     slothSkus.map(sku => {
       totalCount += sku.count
       let tempProfit = sku.count * sku.profit
-      totalProfit += tempProfit===0?0:parseFloat(sku.count * sku.profit).toFixed(2)
+      totalProfit = totalProfit + tempProfit===0?0:parseFloat(tempProfit).toFixed(2)
       if (sku.isEmpty===1) {
         emptyTotal += 1
       }
       let oneBox = {skuid: sku.skuId, col: sku.col, row: sku.row}
       myBoxes.push(oneBox)
     })
+    console.log(totalProfit>0?parseInt(5400 / totalProfit):9999)
     SlothFridge.findOne({
       where: {type},
     }).then(slothFridge => {
       skuInfo.info.openCount = slothFridge.openCount
       skuInfo.info.saleCount = totalCount
-      skuInfo.info.payoffDay = totalProfit===0?9999:parseInt(5400 / totalProfit)
-      skuInfo.info.purity = emptyTotal===0?100:(1-emptyTotal / slothSkus.length)
+      skuInfo.info.payoffDay = totalProfit>0?parseInt(5400 / totalProfit):9999
+      skuInfo.info.purity = emptyTotal===0?100:parseFloat((1-emptyTotal / slothSkus.length)*100).toFixed(2)
       skuInfo.info.boxes = myBoxes
       res.json(skuInfo)
     })
