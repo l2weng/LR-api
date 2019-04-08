@@ -95,27 +95,24 @@ router.post('/remove', (req, res) => {
 
 router.post('/getV2Data', (req, res) => {
   let {type} = req.body
+  let baseline = type===0?5400:6000
   let skuInfo = {
-    'smartId': 999999,
+    'smartId': type===0?999999:999995,
     'info': {
       'openCount': 0,
       'saleCount': 27,
       'payoffDay': 924,
       'purity': 89.55,
-      'cols': [
+      'cols': type===0?[
         9,
         9,
         9,
         9,
         11,
         11,
-      ],
+      ]:[12,13,13,12,13,14],
       'boxes': [
-        {
-          'skuid': 18,
-          'col': 0,
-          'row': 0,
-        },
+
       ],
     },
   }
@@ -137,13 +134,13 @@ router.post('/getV2Data', (req, res) => {
       let oneBox = {skuid: sku.skuId, col: sku.col, row: sku.row}
       myBoxes.push(oneBox)
     })
-    console.log(totalProfit>0?parseInt(5400 / totalProfit):9999)
+    console.log(totalProfit>0?parseInt(baseline / totalProfit):9999)
     SlothFridge.findOne({
       where: {type},
     }).then(slothFridge => {
       skuInfo.info.openCount = slothFridge.openCount
       skuInfo.info.saleCount = totalCount
-      skuInfo.info.payoffDay = totalProfit>0?parseInt(5400 / totalProfit):9999
+      skuInfo.info.payoffDay = totalProfit>0?parseInt(baseline / totalProfit):9999
       skuInfo.info.purity = emptyTotal===0?100:parseFloat((1-emptyTotal / slothSkus.length)*100).toFixed(2)
       skuInfo.info.boxes = myBoxes
       res.json(skuInfo)
