@@ -25,8 +25,14 @@ const slothSkuQueryWhere = {
   name: 'slothSkuQueryWhere',
   description: 'Finding slothsku by Criteria',
   type: new List(SlothSkuType),
-  resolve (_, {type}) {
-    let criteria = {type:type}
+  resolve (_, {type,isEmpty}) {
+    let criteria = {}
+    if(type !==undefined&&type!==''){
+      criteria = {type,...criteria}
+    }
+    if(isEmpty!==undefined&&isEmpty!==''){
+      criteria = {isEmpty:isEmpty,...criteria}
+    }
     return SlothSku.findAll({
       where: criteria,
       order: [['row', 'ASC']],
@@ -34,6 +40,7 @@ const slothSkuQueryWhere = {
   },
   args: {
     type: {type: GraphQLInt},
+    isEmpty:  {type: GraphQLInt},
   },
 }
 

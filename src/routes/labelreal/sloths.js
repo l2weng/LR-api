@@ -2,8 +2,6 @@ import SlothKong from '../../data/models/SlothKong'
 import SlothSku from '../../data/models/SlothSku'
 import SlothFridge from '../../data/models/SlothFridge'
 import express from 'express'
-import User from '../../data/models/User'
-import UserLogin from '../../data/models/UserLogin'
 
 const router = express.Router()
 
