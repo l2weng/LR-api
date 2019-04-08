@@ -12,6 +12,7 @@ const SlothSku = Model.define('SlothSku', {
   col:  {type:DataTypes.INTEGER},
   count: {type:DataTypes.INTEGER, defaultValue:0},
   url:{type:DataTypes.STRING},
+  type: {type:DataTypes.INTEGER},
 });
 
 export default SlothSku;

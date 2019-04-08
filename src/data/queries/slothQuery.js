@@ -21,7 +21,7 @@ const slothSkuQueryAll = {
   type: new List(SlothSkuType),
   resolve() {
     return SlothSku.findAll({
-      order: [['row', 'ASC']],
+      order: [['row', 'DESC']],
     }).then(slothSkus => slothSkus);
   },
 };

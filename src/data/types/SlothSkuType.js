@@ -13,6 +13,7 @@ const SlothSkuType = new ObjectType({
     row: {type: IntType},
     count: {type: IntType},
     url: {type: StringType},
+    type: {type: IntType},
   },
 })
 
