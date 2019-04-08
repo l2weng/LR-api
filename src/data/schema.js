@@ -1,7 +1,7 @@
 import {
   GraphQLSchema as Schema,
   GraphQLObjectType as ObjectType,
-} from 'graphql'
+} from 'graphql';
 
 import {
   userQueryWhere,
@@ -10,12 +10,12 @@ import {
   userQueryActiveContacts,
   userQueryById,
   userQueryColleagues,
-} from './queries/userQuery'
-import { teamQueryWhere, teamQueryByUserId } from './queries/teamQuery'
-import { projectQueryByUser, projectQueryById } from './queries/projectQuery'
-import { taskQueryByUser, taskQueryByOwner } from './queries/taskQuery'
-import { labelQueryByPhoto } from './queries/labelQuery'
-import { slothQueryAll } from './queries/slothQuery'
+} from './queries/userQuery';
+import { teamQueryWhere, teamQueryByUserId } from './queries/teamQuery';
+import { projectQueryByUser, projectQueryById } from './queries/projectQuery';
+import { taskQueryByUser, taskQueryByOwner } from './queries/taskQuery';
+import { labelQueryByPhoto } from './queries/labelQuery';
+import { slothQueryAll, slothSkuQueryAll } from './queries/slothQuery';
 
 const schema = new Schema({
   query: new ObjectType({
@@ -34,9 +34,10 @@ const schema = new Schema({
       labelQueryByPhoto,
       taskQueryByOwner,
       projectQueryById,
-      slothQueryAll
+      slothQueryAll,
+      slothSkuQueryAll,
     },
   }),
-})
+});
 
-export default schema
+export default schema;
