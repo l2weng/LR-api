@@ -127,7 +127,7 @@ router.post('/getV2Data', (req, res) => {
     slothSkus.map(sku => {
       totalCount += sku.count
       let tempProfit = sku.count * sku.profit
-      totalProfit = totalProfit + tempProfit===0?0:parseFloat(tempProfit).toFixed(2)
+      totalProfit = totalProfit + tempProfit
       if (sku.isEmpty===1) {
         sku.skuId = 1044059
         emptyTotal += 1
@@ -137,6 +137,7 @@ router.post('/getV2Data', (req, res) => {
     })
     let btpResult = 9999
     let btp = baseline / totalProfit
+    console.log(btp)
     if(btp<9999&&btp>0){
       btpResult = parseInt(btp)
     }
