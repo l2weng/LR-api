@@ -1,11 +1,20 @@
 import SlothKong from '../../data/models/SlothKong'
 import SlothSku from '../../data/models/SlothSku'
+import SlothFridge from '../../data/models/SlothFridge'
 import express from 'express'
 
 const router = express.Router()
 
 router.post('/skuCreate', (req, res) => {
   return SlothSku.create(req.body).then(slothSku => {
+    res.status(200).send('success')
+  }).catch(err => {
+    res.status(500).send('error', err)
+  })
+})
+
+router.post('/fridgeCreate', (req, res) => {
+  return SlothFridge.create(req.body).then(slothFridge => {
     res.status(200).send('success')
   }).catch(err => {
     res.status(500).send('error', err)

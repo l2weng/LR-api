@@ -2,28 +2,37 @@ import SlothKongType from '../types/SlothKongType';
 import SlothSkuType from '../types/SlothSkuType';
 import SlothSku from '../models/SlothSku';
 import SlothKong from '../models/SlothKong';
-import { GraphQLList as List } from 'graphql';
+import { GraphQLList as List, GraphQLInt } from 'graphql'
 
-const slothQueryAll = {
-  name: 'slothQueryAll',
-  description: 'Finding Sloth all',
+const slothKongQueryWhere = {
+  name: 'slothKongQueryWhere',
+  description: 'Finding slothkong by Criteria',
   type: new List(SlothKongType),
-  resolve() {
+  resolve (_, {type}) {
+    let criteria = {type:type}
     return SlothKong.findAll({
-      order: [['row', 'ASC']],
-    }).then(slothKongs => slothKongs);
+      where: criteria,
+    }).then(slothKongs => slothKongs)
   },
-};
+  args: {
+    type: {type: GraphQLInt},
+  },
+}
 
-const slothSkuQueryAll = {
-  name: 'slothSkuQueryAll',
-  description: 'Finding Sloth sku all',
+const slothSkuQueryWhere = {
+  name: 'slothSkuQueryWhere',
+  description: 'Finding slothsku by Criteria',
   type: new List(SlothSkuType),
-  resolve() {
+  resolve (_, {type}) {
+    let criteria = {type:type}
     return SlothSku.findAll({
-      order: [['row', 'DESC']],
-    }).then(slothSkus => slothSkus);
+      where: criteria,
+      order: [['row', 'ASC']],
+    }).then(slothSkus => slothSkus)
   },
-};
+  args: {
+    type: {type: GraphQLInt},
+  },
+}
 
-export { slothQueryAll, slothSkuQueryAll };
+export { slothKongQueryWhere, slothSkuQueryWhere };

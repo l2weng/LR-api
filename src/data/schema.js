@@ -15,7 +15,7 @@ import { teamQueryWhere, teamQueryByUserId } from './queries/teamQuery';
 import { projectQueryByUser, projectQueryById } from './queries/projectQuery';
 import { taskQueryByUser, taskQueryByOwner } from './queries/taskQuery';
 import { labelQueryByPhoto } from './queries/labelQuery';
-import { slothQueryAll, slothSkuQueryAll } from './queries/slothQuery';
+import { slothKongQueryWhere, slothSkuQueryWhere } from './queries/slothQuery';
 
 const schema = new Schema({
   query: new ObjectType({
@@ -34,8 +34,8 @@ const schema = new Schema({
       labelQueryByPhoto,
       taskQueryByOwner,
       projectQueryById,
-      slothQueryAll,
-      slothSkuQueryAll,
+      slothKongQueryWhere,
+      slothSkuQueryWhere,
     },
   }),
 });

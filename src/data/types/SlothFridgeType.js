@@ -3,8 +3,8 @@ import {
   GraphQLInt as IntType,
 } from 'graphql'
 
-const SlothKongType = new ObjectType({
-  name: 'slothKongStory',
+const SlothFridgeType = new ObjectType({
+  name: 'slothFridgeStory',
   fields: {
     slothKongId: {type: IntType},
     row: {type: IntType},
@@ -13,4 +13,4 @@ const SlothKongType = new ObjectType({
   },
 })
 
-export default SlothKongType
+export default SlothFridgeType

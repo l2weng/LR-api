@@ -9,7 +9,8 @@ const SlothKong = Model.define('SlothKong', {
   },
 
   row: { type: DataTypes.INTEGER },
-  col: { type: DataTypes.INTEGER }
+  col: { type: DataTypes.INTEGER },
+  type: { type: DataTypes.INTEGER }
 
 });
 
