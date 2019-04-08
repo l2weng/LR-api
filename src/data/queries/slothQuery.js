@@ -40,10 +40,10 @@ const slothSkuQueryWhere = {
 const slothFridgeQueryWhere = {
   name: 'slothFridgeQueryWhere',
   description: 'Finding slothFridge by Criteria',
-  type: new List(SlothFridgeType),
+  type: SlothFridgeType,
   resolve (_, {type}) {
     let criteria = {type:type}
-    return SlothFridge.findAll({
+    return SlothFridge.findOne({
       where: criteria,
     }).then(slothFridges => slothFridges)
   },

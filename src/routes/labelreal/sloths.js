@@ -2,6 +2,8 @@ import SlothKong from '../../data/models/SlothKong'
 import SlothSku from '../../data/models/SlothSku'
 import SlothFridge from '../../data/models/SlothFridge'
 import express from 'express'
+import User from '../../data/models/User'
+import UserLogin from '../../data/models/UserLogin'
 
 const router = express.Router()
 
@@ -33,11 +35,29 @@ router.post('/skuCount', (req, res) => {
   let {slothSkuId} = req.body
   return SlothSku.findById(slothSkuId).then(slothSku=>{
     return slothSku.update({count:slothSku.count+1}).then(affactRows=>{
-      if(affactRows>0){
-        res.status(200).send('success')
-      }else {
-        res.status(500).send('error')
-      }
+      res.status(200).send('success')
+    }).catch(err => {
+      res.status(500).send('error', err)
+    })
+  })
+})
+
+router.post('/skuUpdate', (req, res) => {
+  let {row,col,type} = req.body
+  return SlothSku.findOne({
+    where: {row,col,type},
+  }).then(sku => {
+    sku.update({isEmpty: 1}).then(eResult=>{
+      res.status(200).send('success')
+    })
+  })
+})
+
+router.post('/fridgeCount', (req, res) => {
+  let {slothFridgeId} = req.body
+  return SlothFridge.findById(slothFridgeId).then(slothFridge=>{
+    return slothFridge.update({openCount:slothFridge.openCount+1}).then(affactRows=>{
+      res.status(200).send('success')
     }).catch(err => {
       res.status(500).send('error', err)
     })

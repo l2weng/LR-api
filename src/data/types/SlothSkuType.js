@@ -14,6 +14,7 @@ const SlothSkuType = new ObjectType({
     count: {type: IntType},
     url: {type: StringType},
     type: {type: IntType},
+    isEmpty: {type: IntType},
   },
 })
 
