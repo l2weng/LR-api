@@ -129,6 +129,7 @@ router.post('/getV2Data', (req, res) => {
       let tempProfit = sku.count * sku.profit
       totalProfit = totalProfit + tempProfit===0?0:parseFloat(tempProfit).toFixed(2)
       if (sku.isEmpty===1) {
+        sku.skuId = 1044059
         emptyTotal += 1
       }
       let oneBox = {skuid: sku.skuId, col: sku.col, row: sku.row}
