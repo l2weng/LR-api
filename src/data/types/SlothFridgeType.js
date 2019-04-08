@@ -6,9 +6,9 @@ import {
 const SlothFridgeType = new ObjectType({
   name: 'slothFridgeStory',
   fields: {
-    slothKongId: {type: IntType},
-    row: {type: IntType},
-    col: {type: IntType},
+    slothFridgeId: {type: IntType},
+    openCount: {type: IntType},
+    fridgeId: {type: IntType},
     type: {type: IntType},
   },
 })

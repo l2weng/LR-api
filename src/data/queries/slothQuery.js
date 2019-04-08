@@ -1,7 +1,9 @@
 import SlothKongType from '../types/SlothKongType';
 import SlothSkuType from '../types/SlothSkuType';
+import SlothFridgeType from '../types/SlothFridgeType';
 import SlothSku from '../models/SlothSku';
 import SlothKong from '../models/SlothKong';
+import SlothFridge from '../models/SlothFridge';
 import { GraphQLList as List, GraphQLInt } from 'graphql'
 
 const slothKongQueryWhere = {
@@ -35,4 +37,19 @@ const slothSkuQueryWhere = {
   },
 }
 
-export { slothKongQueryWhere, slothSkuQueryWhere };
+const slothFridgeQueryWhere = {
+  name: 'slothFridgeQueryWhere',
+  description: 'Finding slothFridge by Criteria',
+  type: new List(SlothFridgeType),
+  resolve (_, {type}) {
+    let criteria = {type:type}
+    return SlothFridge.findAll({
+      where: criteria,
+    }).then(slothFridges => slothFridges)
+  },
+  args: {
+    type: {type: GraphQLInt},
+  },
+}
+
+export { slothKongQueryWhere, slothSkuQueryWhere,slothFridgeQueryWhere };
