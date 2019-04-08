@@ -45,8 +45,22 @@ router.post('/skuUpdate', (req, res) => {
   return SlothSku.findOne({
     where: {row,col,type},
   }).then(sku => {
-    sku.update({isEmpty: 1}).then(eResult=>{
+    if(sku===null){
+      res.status(404).send({result: 'error', msg: 'sku not exists'});
+    }else{
+      sku.update({isEmpty: 1}).then(eResult=>{
       res.status(200).send('success')
+    })}
+  })
+})
+
+router.post('/skuRemoveEmpty', (req, res) => {
+  let {slothSkuId} = req.body
+  return SlothSku.findById(slothSkuId).then(slothSku=>{
+    return slothSku.update({isEmpty:0}).then(affactRows=>{
+      res.status(200).send('success')
+    }).catch(err => {
+      res.status(500).send('error', err)
     })
   })
 })
