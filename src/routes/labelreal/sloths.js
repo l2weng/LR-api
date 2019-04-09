@@ -1,9 +1,11 @@
 import SlothKong from '../../data/models/SlothKong'
 import SlothSku from '../../data/models/SlothSku'
 import SlothFridge from '../../data/models/SlothFridge'
+import Sequelize from 'sequelize';
 import express from 'express'
 
 const router = express.Router()
+const Op = Sequelize.Op;
 
 router.post('/skuCreate', (req, res) => {
   return SlothSku.create(req.body).then(slothSku => {
@@ -76,6 +78,35 @@ router.post('/fridgeCount', (req, res) => {
       catch(err => {
         res.status(500).send('error', err)
       })
+  })
+})
+
+router.post('/skuMove',(req, res) => {
+  let {oRow,oCol,nRow,nCol,type} = req.body
+  return SlothSku.findOne({
+    where: {row:oRow, col:oCol, type},
+  }).then(oSku=>{
+    if(oSku!==null){
+      SlothSku.findOne({
+        where: {row:nRow, col:nCol, type},
+      }).then(nSku=>{
+        if(nSku!==null){
+          console.log('oSku update',{row:nRow,col:nCol})
+          console.log('nSku update',{row:oRow,col:oCol})
+          oSku.update({row:nRow,col:nCol})
+          nSku.update({row:oRow,col:oCol})
+        }
+        res.status(200).send('success')
+      })
+    }
+  })
+})
+
+router.post('/skuTotal',(req, res) => {
+  return SlothSku.findAll({
+    where: {count:{[Op.ne]: 0}},
+  }).then(skus=>{
+    res.json(skus)
   })
 })
 
