@@ -20,6 +20,7 @@ router.post('/syncPhoto', (req, res) => {
           })
         }
         else {
+          delete req.body.photoId
           return Photo.create({...req.body}).then(photo => {
             task.addPhoto(photo)
             res.json(resBuild(photo))
@@ -34,11 +35,6 @@ router.post('/syncPhoto', (req, res) => {
       return Photo.findById(photoId).then(photo => {
         if (photo) {
           return photo.update({...req.body}).then(photo => {
-            res.json(resBuild(photo))
-          })
-        }
-        else {
-          return Photo.create({...req.body}).then(photo => {
             res.json(resBuild(photo))
           })
         }
