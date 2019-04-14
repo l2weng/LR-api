@@ -17,7 +17,9 @@ const LabelType = new ObjectType({
     height: { type: IntType },
     type: { type: IntType },
     status: { type: IntType},
+    id: { type: IntType},
     photoId: { type: StringType },
+    userId: { type: StringType },
   },
 });
 

@@ -28,7 +28,13 @@ const Task = Model.define('Task', {
   /**
    * 分配状态, false 未分配, true 已分配
    */
-  assignStatus: {type: DataTypes.BOOLEAN, defaultValue: false}
+  assignStatus: {type: DataTypes.BOOLEAN, defaultValue: false},
+
+  /**
+   * 0: open, 1: working, 2: Complete, 3: Confirmed
+   * 0: 新建, 1: 工作中, 2: 待审核, 3: 已确认
+   */
+  workStatus:{type: DataTypes.INTEGER, defaultValue: 0},
 })
 
 export default Task
