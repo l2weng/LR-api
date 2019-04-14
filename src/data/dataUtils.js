@@ -1,8 +1,10 @@
 import Sequelize from 'sequelize'
 import _ from 'underscore'
+
 const Op = Sequelize.Op
 
 import log4js from 'log4js'
+
 const log = log4js.getLogger('app')
 
 const userType = {individual: 0, enterprise: 1, temporary: 2}
@@ -14,7 +16,8 @@ const taskTypeDesc = {0: 'normal'}
 const status = {inactive: 0, active: 1, locked: 2, temp: 3}
 //3 is means temp account just have machineId
 const statusDesc = {0: 'inactive', 1: 'active', 2: 'locked', 3: 'temp'}
-const photoStatus = {active:0, removed:1}
+const photoStatus = {active: 0, removed: 1}
+const taskStatus = {open: 0, working: 1, complete: 2, confirmed: 3}
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -139,12 +142,12 @@ function getReqId (req) {
   return ip.replace(/^.*:/, '')
 }
 
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
+function getRandomInt (max) {
+  return Math.floor(Math.random() * Math.floor(max))
 }
 
-function getRandomVersion() {
-  return getRandomInt(99999999);
+function getRandomVersion () {
+  return getRandomInt(99999999)
 }
 
 export {
@@ -152,7 +155,8 @@ export {
   resErrorBuild,
   getRandomVersion,
   resUpdate,
-  photoStatus,
+  // photoStatus,
+  taskStatus,
   status,
   statusDesc,
   userTypeDesc,
