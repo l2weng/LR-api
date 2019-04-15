@@ -31,28 +31,10 @@ router.post('/saveLabels', (req, res) => {
   }).then(result => {
     res.json(resBuild(result))
     // Transaction has been committed
-    // result is whatever the result of the promise chain returned to the transaction callback
   }).catch(err => {
-    console.log(err)
+    resErrorBuild(res, 500, err)
     // Transaction has been rolled back
-    // err is whatever rejected the promise chain returned to the transaction callback
   });
-  // return Photo.findById(photoId).then(photo => {
-  //   return photo.getTasks().then(tasks => {
-  //     tasks.map(task=>{
-  //       if(task.taskId = myTaskId){
-  //         task.TaskPhotos.photoStatus = taskStatus.complete
-  //         return task.TaskPhotos.save()
-  //       }
-  //     })
-  //   })
-  // }).then(photo=>{
-  //   return Label.bulkCreate(labels, {returning: true}).then(labels => {
-  //     res.json(resBuild(labels))
-  //   }).catch(err => {
-  //     resErrorBuild(res, 500, err)
-  //   })
-  // })
 })
 
 export default router
