@@ -29,7 +29,6 @@ import projects from './routes/labelreal/projects';
 import tasks from './routes/labelreal/tasks';
 import photos from './routes/labelreal/photos';
 import labels from './routes/labelreal/labels';
-import sloths from './routes/labelreal/sloths';
 import compression from 'compression';
 import UserLogin from './data/models/UserLogin'
 
@@ -114,7 +113,6 @@ app.use('/lr/projects', projects);
 app.use('/lr/tasks', tasks);
 app.use('/lr/photos', photos);
 app.use('/lr/labels', labels);
-app.use('/lr/sloths', sloths);
 
 //
 // Authentication

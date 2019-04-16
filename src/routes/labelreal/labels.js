@@ -16,10 +16,9 @@ router.post('/saveLabels', (req, res) => {
 
     // chain all your queries here. make sure you return them.
     return Photo.findById(photoId).then(photo => {
-      console.log(photo)
       return photo.getTasks().then(tasks => {
         tasks.map(task=>{
-          if(task.taskId = myTaskId){
+          if(task.taskId === myTaskId){
             task.TaskPhotos.photoStatus = taskStatus.complete
             return task.TaskPhotos.save()
           }

@@ -34,6 +34,26 @@ router.post('/update', (req, res) => {
   })
 })
 
+router.post('/updateUserTaskStatus', (req, res) => {
+  const {taskId, userId} = req.body
+  return Task.findById(taskId).then(task=>{
+    if(task.userId === userId){
+
+    }
+  })
+  return User.findById(userId).then(user=>{
+    return user.getTasks().then(tasks=>{
+      console.log(tasks.length)
+      tasks.map(task=>{
+        if(task.taskId === taskId){
+          task.UserTasks.taskStatus = taskStatus.complete
+          return task.UserTasks.save()
+        }
+      })
+    })
+  })
+})
+
 /**
  * Add workers to task and project
  */
