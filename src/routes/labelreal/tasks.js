@@ -36,20 +36,32 @@ router.post('/update', (req, res) => {
 
 router.post('/updateUserTaskStatus', (req, res) => {
   const {taskId, userId} = req.body
-  return Task.findById(taskId).then(task=>{
-    if(task.userId === userId){
-
-    }
-  })
   return User.findById(userId).then(user=>{
     return user.getTasks().then(tasks=>{
-      console.log(tasks.length)
-      tasks.map(task=>{
-        if(task.taskId === taskId){
-          task.UserTasks.taskStatus = taskStatus.complete
-          return task.UserTasks.save()
-        }
-      })
+      let fTasks = tasks.filter(task=> task.taskId === taskId)
+      let updateTaskStatus = function () {
+        return Task.update({workStatus: taskStatus.complete}, {
+          where: {taskId},
+        }).then(task => {
+          res.json(resUpdate(task))
+        }).catch(err => {
+          resErrorBuild(res, 500, err)
+        })
+      }
+//任务未分配过
+      if(fTasks.length===0){
+        return updateTaskStatus()
+      }
+      //任务分配过
+      else{
+        tasks.map(task=>{
+          if(task.taskId === taskId){
+            task.UserTasks.taskStatus = taskStatus.complete
+            return task.UserTasks.save()
+          }
+        })
+        return updateTaskStatus()
+      }
     })
   })
 })
