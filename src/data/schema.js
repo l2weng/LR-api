@@ -13,7 +13,7 @@ import {
 } from './queries/userQuery';
 import { teamQueryWhere, teamQueryByUserId } from './queries/teamQuery';
 import { projectQueryByUser, projectQueryById } from './queries/projectQuery';
-import { taskQueryByUser, taskQueryByOwner } from './queries/taskQuery';
+import { taskQueryByUser, taskQueryByOwner, taskQueryById } from './queries/taskQuery';
 import { labelQueryByPhoto } from './queries/labelQuery';
 
 const schema = new Schema({
@@ -32,7 +32,8 @@ const schema = new Schema({
       userQueryColleagues,
       labelQueryByPhoto,
       taskQueryByOwner,
-      projectQueryById
+      projectQueryById,
+      taskQueryById
     },
   }),
 });
