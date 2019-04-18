@@ -11,6 +11,7 @@ const SkuType = new ObjectType({
     name: { type: StringType },
     color: { type: StringType },
     bizId: { type: StringType },
+    localSkuId: { type: IntType },
   },
 });
 

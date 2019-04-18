@@ -1,24 +1,24 @@
-import Task from '../../data/models/Sku'
+import Sku from '../../data/models/Sku'
+import Project from '../../data/models/Project'
 import {
   resBuild,
   resErrorBuild,
-  taskStatus,
 } from '../../data/dataUtils'
 import express from 'express'
-import Sequelize from 'sequelize'
-
-const Op = Sequelize.Op
-
 
 const router = express.Router()
 
 router.post('/create', (req, res) => {
-  Task.create({workStatus: taskStatus.open, ...req.body}).then(task => {
-    res.json(resBuild(task))
+  const {projectId} = req.body
+  return Sku.create({...req.body}).then(sku => {
+    Project.findById(projectId).then(project=>{
+      sku.addProject(project).then(sku=>{
+        res.json(resBuild(sku))
+      })
+    })
   }).catch(err => {
     resErrorBuild(res, 500, err)
   })
 })
-
 
 export default router

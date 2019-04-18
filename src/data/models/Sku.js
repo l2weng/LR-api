@@ -11,6 +11,7 @@ const Sku = Model.define('Sku', {
   name: { type: DataTypes.STRING },
   color: { type: DataTypes.STRING },
   bizId: { type: DataTypes.STRING },
+  localSkuId: { type: DataTypes.INTEGER },
 });
 
 export default Sku;
