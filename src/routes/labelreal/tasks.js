@@ -35,12 +35,12 @@ router.post('/update', (req, res) => {
 })
 
 router.post('/updateUserTaskStatus', (req, res) => {
-  const {taskId, userId} = req.body
+  const {taskId, userId, workStatus} = req.body
   return User.findById(userId).then(user=>{
     return user.getTasks().then(tasks=>{
       let fTasks = tasks.filter(task=> task.taskId === taskId)
       let updateTaskStatus = function () {
-        return Task.update({workStatus: taskStatus.complete}, {
+        return Task.update({workStatus}, {
           where: {taskId},
         }).then(task => {
           res.json(resUpdate(task))
