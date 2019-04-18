@@ -9,6 +9,7 @@ const SkuType = new ObjectType({
   fields: {
     skuId: { type: IntType },
     name: { type: StringType },
+    color: { type: StringType },
     bizId: { type: StringType },
   },
 });

@@ -17,6 +17,7 @@ import UserTeams from './UserTeams';
 import UserContacts from './UserContacts'
 import Photo from './Photo';
 import TaskPhotos from './TaskPhotos';
+import SkuProjects from './SkuProjects';
 import Label from './Label';
 import Activity from './Activity';
 import Feedback from './Feedback';
@@ -119,6 +120,12 @@ Project.hasMany(Task, { foreignKey: 'projectId', as: 'Tasks' });
 Task.belongsTo(Project, { foreignKey: 'projectId', as: 'Project' });
 
 /**
+ * User 1 to N skus
+ */
+User.hasMany(Sku, { foreignKey: 'userId', as: 'Skus' });
+Sku.belongsTo(User, { foreignKey: 'userId', as: 'User' });
+
+/**
  * Project 1 to N FilterQuestions
  */
 Project.hasMany(FilterQuestion, {
@@ -192,6 +199,12 @@ Reference.belongsTo(FilterQuestion, {
  */
 Task.belongsToMany(Photo, { foreignKey: 'taskId', through: TaskPhotos });
 Photo.belongsToMany(Task, { foreignKey: 'photoId', through: TaskPhotos });
+
+/**
+ * Project N to N Skus
+ */
+Sku.belongsToMany(Project, { foreignKey: 'skuId', through: SkuProjects });
+Project.belongsToMany(Sku, { foreignKey: 'projectId', through: SkuProjects });
 
 /**
  * Sku 1 to N reference

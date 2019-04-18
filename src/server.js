@@ -295,9 +295,9 @@ if (cluster.isMaster && usingCluster) {
   // Launch the server
   // -----------------------------------------------------------------------------
   // const promise = LRModels.sync({force:true}).catch(err => console.error(err.stack));
-  // const promise = LRModels.sync().catch(err => console.error(err.stack));
+  const promise = LRModels.sync().catch(err => console.error(err.stack));
   if (!module.hot) {
-    // promise.then(() => {
+    promise.then(() => {
       if (config.port === '443') {
         const options = {
           pfx: fs.readFileSync('./public/retailservice.pfx'),
@@ -315,7 +315,7 @@ if (cluster.isMaster && usingCluster) {
           );
         });
       }
-    // })
+    })
   }
 }
 
