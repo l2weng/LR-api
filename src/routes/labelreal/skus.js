@@ -13,7 +13,7 @@ router.post('/create', (req, res) => {
   return Sku.create({...req.body}).then(sku => {
     Project.findById(projectId).then(project=>{
       sku.addProject(project).then(sku=>{
-        res.json(resBuild(sku))
+        res.json(resBuild(sku[0][0]))
       })
     })
   }).catch(err => {
