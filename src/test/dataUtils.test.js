@@ -3,8 +3,13 @@ import User from '../data/models/User'
 import _ from 'underscore'
 
 test('see result', () => {
-  let result = _.isEmpty(undefined)
-  console.log(result)
+  let refs = {}
+  let refArray = Object.values(refs)
+  refArray.idx = {}
+  refArray.map((r,i)=>{
+    refArray.idx[r.id] = i
+  })
+  console.log(refArray)
 })
 
 test('generate criteria', () => {

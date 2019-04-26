@@ -3,9 +3,6 @@ import Label from '../models/Label'
 import { criteriaBuild } from '../dataUtils'
 import { GraphQLString, GraphQLList as List, GraphQLInt } from 'graphql'
 
-/**
- * 我参与的task
- */
 const labelQueryByPhoto = {
   name: 'LabelQueryByPhoto',
   description: 'Finding Label by photoId',

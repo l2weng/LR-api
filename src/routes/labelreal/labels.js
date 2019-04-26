@@ -1,12 +1,13 @@
 import Label from '../../data/models/Label'
+import Task from '../../data/models/Task'
 import Photo from '../../data/models/Photo'
-import {taskStatus} from '../../data/dataUtils'
+import { taskStatus } from '../../data/dataUtils'
 import {
   resBuild,
   resErrorBuild,
 } from '../../data/dataUtils'
 import express from 'express'
-import sequelize from '../../data/sequelize';
+import sequelize from '../../data/sequelize'
 
 const router = express.Router()
 
@@ -17,15 +18,15 @@ router.post('/saveLabels', (req, res) => {
     // chain all your queries here. make sure you return them.
     return Photo.findById(photoId).then(photo => {
       return photo.getTasks().then(tasks => {
-        tasks.map(task=>{
-          if(task.taskId === myTaskId){
+        tasks.map(task => {
+          if (task.taskId === myTaskId) {
             task.TaskPhotos.photoStatus = taskStatus.complete
             return task.TaskPhotos.save()
           }
         })
       })
     }, {transaction: t}).then(photo => {
-      return Label.bulkCreate(labels, {returning: true}, {transaction: t});
+      return Label.bulkCreate(labels, {returning: true}, {transaction: t})
     })
   }).then(result => {
     res.json(resBuild(result))
@@ -33,7 +34,25 @@ router.post('/saveLabels', (req, res) => {
   }).catch(err => {
     resErrorBuild(res, 500, err)
     // Transaction has been rolled back
-  });
+  })
+})
+
+router.post('/queryLabels', (req, res) => {
+  const {taskId} = req.body
+  return Task.findById(taskId).then(task => {
+    return task.getPhotos({
+      include: [
+        {
+          model: Label,
+          as: 'Labels',
+        }]
+    }).then(photos=>{
+      res.json(photos)
+    }).catch(err => {
+      console.log(err)
+      resErrorBuild(res, 500, err)
+    })
+  })
 })
 
 export default router
