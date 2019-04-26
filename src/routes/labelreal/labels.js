@@ -44,6 +44,7 @@ router.post('/queryLabels', (req, res) => {
       include: [
         {
           model: Label,
+          required: true,
           as: 'Labels',
         }]
     }).then(photos=>{
