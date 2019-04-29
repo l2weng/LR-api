@@ -10,7 +10,7 @@ const sequelize = new Sequelize(
     dialect: 'mysql',
     port: '3306',
     pool: {
-      max: 5,
+      max: 100,
       min: 0,
       idle: 10000,
     },

@@ -15,7 +15,6 @@ router.post('/saveLabels', (req, res) => {
   const {labels, photoId, myTaskId} = req.body
   return sequelize.transaction(t => {
 
-    // chain all your queries here. make sure you return them.
     return Photo.findById(photoId).then(photo => {
       return photo.getTasks().then(tasks => {
         tasks.map(task => {
