@@ -13,6 +13,10 @@ const router = express.Router()
 
 router.post('/saveLabels', (req, res) => {
   const {labels, photoId, myTaskId} = req.body
+  const updatedTime = Date.now()
+  for (let i = 0; i < labels.length; i++) {
+    labels[i].updatedTime = updatedTime
+  }
   return sequelize.transaction(t => {
 
     return Photo.findById(photoId).then(photo => {
@@ -20,6 +24,7 @@ router.post('/saveLabels', (req, res) => {
         tasks.map(task => {
           if (task.taskId === myTaskId) {
             task.TaskPhotos.photoStatus = taskStatus.complete
+            task.TaskPhotos.updatedTime = updatedTime
             return task.TaskPhotos.save()
           }
         })
@@ -45,8 +50,8 @@ router.post('/queryLabels', (req, res) => {
           model: Label,
           required: true,
           as: 'Labels',
-        }]
-    }).then(photos=>{
+        }],
+    }).then(photos => {
       res.json(photos)
     }).catch(err => {
       console.log(err)

@@ -3,6 +3,7 @@ import {
   GraphQLInt as IntType,
   GraphQLString as StringType,
   GraphQLBoolean as BooleanType,
+  GraphQLFloat as FloatType,
 } from 'graphql';
 
 const LabelType = new ObjectType({
@@ -20,6 +21,7 @@ const LabelType = new ObjectType({
     id: { type: IntType},
     photoId: { type: StringType },
     userId: { type: StringType },
+    updatedTime: {type: FloatType}
   },
 });
 

@@ -32,6 +32,7 @@ const Photo = Model.define('Photo', {
   mimeType: {type: DataTypes.STRING},
   protocol: {type: DataTypes.STRING},
   orientation: {type: DataTypes.INTEGER},
+  labelsCache: {type: DataTypes.STRING}
 })
 
 export default Photo
