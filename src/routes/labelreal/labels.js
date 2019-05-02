@@ -30,7 +30,10 @@ router.post('/saveLabels', (req, res) => {
         })
       })
     }, {transaction: t}).then(photo => {
-      return Label.bulkCreate(labels, {returning: true}, {transaction: t})
+      return Label.bulkCreate(labels, {
+        returning: true,
+        updateOnDuplicate: ['x', 'y', 'angle', 'mirror', 'width','height'],
+      }, {transaction: t})
     })
   }).then(result => {
     res.json(resBuild(result))
