@@ -20,7 +20,7 @@ const router = express.Router()
 router.post('/create', (req, res) => {
   const {userId, projectFile, machineId} = req.body
   const name = path.win32.basename(projectFile, '.lbr')
-  let projectObj = {name,syncVersion:getRandomVersion(), ...req.body}
+  let projectObj = {name,syncVersion: Date.now(), ...req.body}
   Project.create(projectObj).then(project => {
     //创建方式, createType:0 means has userId, createType:1 means only has machineId
     if (!_.isEmpty(userId)) {
@@ -111,7 +111,7 @@ router.post('/syncProject', (req, res) => {
       syncProjectFileName,
       syncProjectSize,
       syncCover,
-      syncVersion:getRandomVersion()
+      syncVersion:Date.now()
     }).then(project => {
       res.json(resUpdate(project))
     })
