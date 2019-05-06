@@ -8,8 +8,7 @@ import {
   userTypeDesc,
   userType,
   status,
-  resUpdate,
-  getRandomVersion,
+  resUpdate
 } from '../../data/dataUtils'
 import express from 'express'
 import path from 'path'
