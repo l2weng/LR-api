@@ -30,6 +30,7 @@ import tasks from './routes/labelreal/tasks';
 import skus from './routes/labelreal/skus';
 import photos from './routes/labelreal/photos';
 import labels from './routes/labelreal/labels';
+import summarys from './routes/labelreal/summarys';
 import compression from 'compression';
 import UserLogin from './data/models/UserLogin'
 
@@ -114,6 +115,7 @@ app.use('/lr/projects', projects);
 app.use('/lr/tasks', tasks);
 app.use('/lr/photos', photos);
 app.use('/lr/labels', labels);
+app.use('/lr/summarys', summarys);
 app.use('/lr/skus', skus);
 
 //

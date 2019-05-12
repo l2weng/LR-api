@@ -17,6 +17,7 @@ const status = {inactive: 0, active: 1, locked: 2, temp: 3}
 //3 is means temp account just have machineId
 const statusDesc = {0: 'inactive', 1: 'active', 2: 'locked', 3: 'temp'}
 const photoStatus = {active: 0, removed: 1}
+const labelStatus = {open: 0, skipped: 1, submitted: 2}
 const taskStatus = {open: 0, working: 1, complete: 2, confirmed: 3}
 
 const codeMessage = {
@@ -153,9 +154,8 @@ function getRandomVersion () {
 export {
   resBuild,
   resErrorBuild,
-  getRandomVersion,
   resUpdate,
-  // photoStatus,
+  labelStatus,
   taskStatus,
   status,
   statusDesc,

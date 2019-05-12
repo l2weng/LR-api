@@ -1,7 +1,7 @@
 import Label from '../../data/models/Label';
 import Task from '../../data/models/Task';
 import Photo from '../../data/models/Photo';
-import { taskStatus } from '../../data/dataUtils';
+import { labelStatus } from '../../data/dataUtils';
 import { resBuild, resErrorBuild } from '../../data/dataUtils';
 import express from 'express';
 import sequelize from '../../data/sequelize';
@@ -22,7 +22,7 @@ router.post('/saveLabels', (req, res) => {
             photo.getTasks().then(tasks => {
               tasks.map(task => {
                 if (task.taskId === myTaskId) {
-                  task.TaskPhotos.photoStatus = taskStatus.complete;
+                  task.TaskPhotos.photoStatus = labelStatus.submitted;
                   task.TaskPhotos.updatedTime = updatedTime;
                   task.TaskPhotos.projectId = task.projectId;
                   return task.TaskPhotos.save();
