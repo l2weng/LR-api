@@ -35,6 +35,11 @@ const Task = Model.define('Task', {
    * 0: 新建, 1: 工作中, 2: 待审核, 3: 已确认
    */
   workStatus:{type: DataTypes.INTEGER, defaultValue: 0},
+
+  /**
+   * task active status 0: active 1: deleted
+   */
+  active:{type:DataTypes.INTEGER, defaultValue:0}
 })
 
 export default Task

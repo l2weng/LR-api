@@ -21,6 +21,7 @@ const TaskType = new ObjectType({
     createdAt: {type: StringType},
     assignStatus: {type: BooleanType},
     workStatus: {type: IntType},
+    active: {type: IntType},
     project: {type: ProjectType},
   },
 })
