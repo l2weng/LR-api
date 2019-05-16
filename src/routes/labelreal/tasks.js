@@ -36,24 +36,41 @@ router.post('/update', (req, res) => {
   })
 })
 
+let updateActive = function (taskId, res, activeStatus) {
+  return sequelize.transaction(t => {
+    return Task.update({active: activeStatus}, {
+      where: {taskId},
+    }, {transaction: t}).then(user => {
+      return sequelize.query(
+        `UPDATE taskphotos SET active = ${activeStatus} where taskId='${taskId}'`)
+    })
+  }).then(result => {
+    res.status(200).send({result: 'success'})
+  }).catch(err => {
+    resErrorBuild(res, 500, err)
+  })
+}
+
 /**
  * 临时删除task
  */
 router.post('/remove', (req, res) => {
   const {taskId} = req.body
 
-  return sequelize.transaction(t => {
-    return Task.update({active:commonStatus.removed}, {
-      where: {taskId},
-    }, {transaction: t}).then(user => {
-      sequelize.query(`UPDATE taskphotos SET active = ${commonStatus.removed} where taskId='${taskId}'`)
-    })
-  }).then(result => {
-    res.status(200).send({result:'success'})
-  }).catch(err => {
-    resErrorBuild(res, 500, err);
-  })
+  return updateActive(taskId, res, commonStatus.removed)
 })
+
+
+/**
+ * 恢复临时删除的task
+ */
+router.post('/revert', (req, res) => {
+  const {taskId} = req.body
+
+  return updateActive(taskId, res, commonStatus.active)
+})
+
+
 
 
 router.post('/updateUserTaskStatus', (req, res) => {
