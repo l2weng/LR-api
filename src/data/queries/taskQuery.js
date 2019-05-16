@@ -1,7 +1,7 @@
 import TaskType from '../types/TaskType'
 import Task from '../models/Task'
 import User from '../models/User'
-import { criteriaBuild } from '../dataUtils'
+import { criteriaBuild, commonStatus} from '../dataUtils'
 import { GraphQLString, GraphQLList as List, GraphQLBoolean } from 'graphql'
 import __ from 'underscore'
 
@@ -35,7 +35,7 @@ const taskQueryByUser = {
           tasks.map(task => {
             task.project = task.getProject
           })
-          return tasks
+          return tasks.filter(task=> task.active === commonStatus.active)
         })
     }
     if (!__.isEmpty(userId)) {
@@ -66,7 +66,7 @@ const taskQueryByOwner = {
         tasks.map(task => {
           task.project = task.getProject
         })
-        return tasks
+        return tasks.filter(task=> task.active === commonStatus.active)
       })
     }
     if (!__.isEmpty(userId)) {

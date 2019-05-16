@@ -5,7 +5,7 @@ import {
   resErrorBuild,
   resUpdate,
   taskStatus,
-  commonStatus, labelStatus,
+  commonStatus,
 } from '../../data/dataUtils'
 import express from 'express'
 import Sequelize from 'sequelize'
