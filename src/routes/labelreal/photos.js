@@ -9,42 +9,27 @@ import express from 'express'
 const router = express.Router()
 
 router.post('/syncPhoto', (req, res) => {
-  const {taskId, photoId} = req.body
-  if(taskId){
-    return Task.findById(taskId).then(task => {
+  const {photoId, tasks} = req.body
+  try {
+    if (photoId) {
       return Photo.findById(photoId).then(photo => {
         if (photo) {
           return photo.update({...req.body}).then(photo => {
-            task.addPhoto(photo)
-            res.json(resBuild(photo))
-          })
-        }
-        else {
-          delete req.body.photoId
-          return Photo.create({...req.body}).then(photo => {
-            task.addPhoto(photo)
-            res.json(resBuild(photo))
+            Task.findAll({where: {taskId: tasks}}).then(_tasks => {
+              photo.setTasks(_tasks)
+              res.json(resBuild(photo))
+            })
           })
         }
       })
-    }).catch(err => {
-      resErrorBuild(res, 500, err)
-    })
-  }else{
-    if(photoId){
-      return Photo.findById(photoId).then(photo => {
-        if (photo) {
-          return photo.update({...req.body}).then(photo => {
-            res.json(resBuild(photo))
-          })
-        }
-      })
-    }else {
+    } else {
       delete req.body.photoId
       return Photo.create({...req.body}).then(photo => {
         res.json(resBuild(photo))
       })
     }
+  } catch (e) {
+    resErrorBuild(res, 500, err)
   }
 })
 
