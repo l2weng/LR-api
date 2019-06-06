@@ -15,7 +15,7 @@ router.post('/syncPhoto', (req, res) => {
       return Photo.findById(photoId).then(photo => {
         if (photo) {
           return photo.update({...req.body}).then(photo => {
-            Task.findAll({where: {taskId: tasks}}).then(_tasks => {
+            return Task.findAll({where: {taskId: tasks}}).then(_tasks => {
               photo.setTasks(_tasks)
               res.json(resBuild(photo))
             })
@@ -25,7 +25,10 @@ router.post('/syncPhoto', (req, res) => {
     } else {
       delete req.body.photoId
       return Photo.create({...req.body}).then(photo => {
-        res.json(resBuild(photo))
+        return Task.findAll({where: {taskId: tasks}}).then(_tasks => {
+          photo.setTasks(_tasks)
+          res.json(resBuild(photo))
+        })
       })
     }
   } catch (e) {

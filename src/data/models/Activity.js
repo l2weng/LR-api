@@ -9,17 +9,17 @@ const Activity = Model.define('Activity', {
   },
 
   /**
-   * 0: submitted 1: skipped, 2: reviewed
+   * 0: create 1: delete, 2: update
    */
-  type: { type: DataTypes.STRING },
+  type: { type: DataTypes.INTEGER },
+  /**
+   * 0: project, 1: task, 2: photo, 3: sku, 4: label
+   */
+  category: { type: DataTypes.INTEGER},
   /**
    * user
    */
   createdBy: { type: DataTypes.STRING },
-  /**
-   * data set name
-   */
-  dataSetName: { type: DataTypes.STRING },
   /**
    * calc with seconds. eg. 10, 20, 45
    */
