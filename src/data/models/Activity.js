@@ -17,7 +17,11 @@ const Activity = Model.define('Activity', {
    */
   category: { type: DataTypes.INTEGER},
   /**
-   * user
+   * Enum: projectId, taskId, photoId, skuId, labelId
+   */
+  categoryId: { type: DataTypes.STRING},
+  /**
+   * user Id
    */
   createdBy: { type: DataTypes.STRING },
   /**

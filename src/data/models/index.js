@@ -223,12 +223,6 @@ Label.belongsTo(Photo, { foreignKey: 'photoId', as: 'Photo' });
  */
 Label.belongsTo(Sku, { foreignKey: 'skuId' });
 
-/**
- * Photo 1 to N Activity
- */
-Photo.hasMany(Activity, { foreignKey: 'photoId', as: 'Activities' });
-Activity.belongsTo(Photo, { foreignKey: 'photoId', as: 'Photo' });
-
 function sync(...args) {
   return sequelize.sync(...args);
 }
