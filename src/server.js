@@ -31,6 +31,7 @@ import skus from './routes/labelreal/skus';
 import photos from './routes/labelreal/photos';
 import labels from './routes/labelreal/labels';
 import summarys from './routes/labelreal/summarys';
+import activities from './routes/labelreal/activities';
 import compression from 'compression';
 import UserLogin from './data/models/UserLogin'
 
@@ -117,6 +118,7 @@ app.use('/lr/photos', photos);
 app.use('/lr/labels', labels);
 app.use('/lr/summarys', summarys);
 app.use('/lr/skus', skus);
+app.use('/lr/activities', activities);
 
 //
 // Authentication
