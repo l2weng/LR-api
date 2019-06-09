@@ -31,7 +31,7 @@ const Task = Model.define('Task', {
   assignStatus: {type: DataTypes.BOOLEAN, defaultValue: false},
 
   /**
-   * 0: open, 1: working, 2: Complete, 3: Confirmed
+   * 0: open, 1: working, 2: complete, 3: confirmed
    * 0: 新建, 1: 工作中, 2: 待审核, 3: 已确认
    */
   workStatus:{type: DataTypes.INTEGER, defaultValue: 0},
