@@ -60,7 +60,6 @@ router.post('/remove', (req, res) => {
   return updateActive(taskId, res, commonStatus.removed)
 })
 
-
 /**
  * 恢复临时删除的task
  */
@@ -69,9 +68,6 @@ router.post('/revert', (req, res) => {
 
   return updateActive(taskId, res, commonStatus.active)
 })
-
-
-
 
 router.post('/updateUserTaskStatus', (req, res) => {
   const {taskId, userId, workStatus} = req.body

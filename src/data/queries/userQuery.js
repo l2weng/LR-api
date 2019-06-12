@@ -1,9 +1,6 @@
 import UserType from '../types/UserType'
 import User from '../models/User'
 import { criteriaBuild, status } from '../dataUtils'
-import Sequelize from 'sequelize'
-
-const Op = Sequelize.Op
 
 import {
   GraphQLString,
