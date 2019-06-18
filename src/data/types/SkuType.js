@@ -8,6 +8,7 @@ const SkuType = new ObjectType({
   name: 'skuStory',
   fields: {
     skuId: { type: IntType },
+    shapeType: { type: IntType },
     name: { type: StringType },
     color: { type: StringType },
     bizId: { type: StringType },
