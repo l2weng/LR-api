@@ -8,7 +8,7 @@ import {
   userTypeDesc,
   userType,
   status,
-  resUpdate
+  resUpdate,
 } from '../../data/dataUtils'
 import express from 'express'
 import path from 'path'
@@ -69,10 +69,16 @@ router.post('/update', (req, res) => {
 })
 
 router.post('/syncLocalProject', (req, res) => {
-  const {file, id, owner} = req.body
+  const {file, id, owner, cover} = req.body
   return Project.findOne({where: {localProjectId: id}}).then(project => {
     if (project) {
-      res.json({project})
+      if(!project.cover&&cover){
+        project.update({cover:cover}).then(project=>{
+          res.json({project})
+        })
+      }else{
+        res.json({project})
+      }
     } else {
       return User.findById(owner).then(user => {
         return user.getProjects(
@@ -84,6 +90,7 @@ router.post('/syncLocalProject', (req, res) => {
             projects.map(project => {
               if (project.projectFile === file) {
                 project.update({
+                  cover:cover?cover:'',
                   localProjectId: id,
                 }).then(project => {
                   res.json({project})
