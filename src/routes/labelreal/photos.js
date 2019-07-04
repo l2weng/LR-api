@@ -32,7 +32,7 @@ router.post('/syncPhoto', (req, res) => {
       })
     }
   } catch (e) {
-    resErrorBuild(res, 500, err)
+    resErrorBuild(res, 500, e)
   }
 })
 

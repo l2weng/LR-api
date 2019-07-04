@@ -9,10 +9,6 @@ const Reference = Model.define('Reference', {
     primaryKey: true,
   },
   /**
-   * 图片已经同步上云
-   */
-  syncedWithCloud: { type: DataTypes.BOOLEAN, defaultValue: false },
-  /**
    * 客户配置图片地址
    */
   fileUrl: { type: DataTypes.STRING },
@@ -23,10 +19,8 @@ const Reference = Model.define('Reference', {
   /**
    * 云地址
    */
-  cloudUrl: { type: DataTypes.STRING },
-  /**
-   * 图片status, 0: 正常, 1: 删除
-   */
+  syncFileUrl: { type: DataTypes.STRING },
+  syncFileName: {type: DataTypes.STRING}
 });
 
 export default Reference;
