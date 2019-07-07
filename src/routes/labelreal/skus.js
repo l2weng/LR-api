@@ -2,7 +2,7 @@ import Sku from '../../data/models/Sku'
 import Project from '../../data/models/Project'
 import {
   resBuild,
-  resErrorBuild,
+  resErrorBuild, resRemove,
 } from '../../data/dataUtils'
 import express from 'express'
 
@@ -16,6 +16,18 @@ router.post('/create', (req, res) => {
         res.json(resBuild(sku[0][0]))
       })
     })
+  }).catch(err => {
+    resErrorBuild(res, 500, err)
+  })
+})
+
+router.post('' +
+  '/remove', (req, res) => {
+  const {skuId} = req.body
+  return Sku.destroy({
+    where: { skuId},
+  }).then(result=>{
+    res.json(resRemove(result))
   }).catch(err => {
     resErrorBuild(res, 500, err)
   })

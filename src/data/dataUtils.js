@@ -87,6 +87,13 @@ function resUpdate (updateResult = [], resType = 0) {
   }
 }
 
+function resRemove(affactLine){
+  return {
+    result: resMessage[affactLine>0?0:1],
+    message: `Remove ${resMessage[affactLine>0?0:1]}`,
+  }
+}
+
 /**
  * email validation
  * @param email
@@ -146,14 +153,11 @@ function getRandomInt (max) {
   return Math.floor(Math.random() * Math.floor(max))
 }
 
-function getRandomVersion () {
-  return getRandomInt(99999999)
-}
-
 export {
   resBuild,
   resErrorBuild,
   resUpdate,
+  resRemove,
   labelStatus,
   taskStatus,
   status,
