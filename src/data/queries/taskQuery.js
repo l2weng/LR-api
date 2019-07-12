@@ -2,7 +2,7 @@ import TaskType from '../types/TaskType'
 import Task from '../models/Task'
 import User from '../models/User'
 import { criteriaBuild, commonStatus} from '../dataUtils'
-import { GraphQLString, GraphQLList as List, GraphQLBoolean } from 'graphql'
+import { GraphQLString, GraphQLList as List } from 'graphql'
 import __ from 'underscore'
 
 const taskQueryById = {

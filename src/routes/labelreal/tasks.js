@@ -52,6 +52,16 @@ let updateActive = function (taskId, res, activeStatus) {
 }
 
 /**
+ * Load tasks
+ */
+router.post('/loadTasks', (req, res) => {
+  const {taskIds} = req.body
+  return Task.findAll({where: {taskId: taskIds}}).then(_tasks => {
+    res.json(resBuild(_tasks,0,3))
+  })
+})
+
+/**
  * 临时删除task
  */
 router.post('/remove', (req, res) => {
