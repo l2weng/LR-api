@@ -9,10 +9,11 @@ import sequelize from '../../data/sequelize'
 const router = express.Router()
 
 router.post('/saveLabels', (req, res) => {
-  const {labels, photoId, myTaskId} = req.body
+  const {labels, photoId, myTaskId, status} = req.body
   const updatedTime = Date.now()
   for (let i = 0; i < labels.length; i++) {
     labels[i].updatedTime = updatedTime
+    labels[i].status = status
   }
   return sequelize.transaction(t =>
     Photo.findById(photoId).then(
