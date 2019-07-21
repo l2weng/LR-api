@@ -24,6 +24,7 @@ const Label = Model.define('Label', {
    */
   status: {type: DataTypes.INTEGER},
   userId: {type: DataTypes.STRING},
+  color: {type: DataTypes.STRING},
   updatedTime: {type: DataTypes.BIGINT, defaultValue: 0}
 })
 

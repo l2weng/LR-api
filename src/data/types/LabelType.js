@@ -21,6 +21,7 @@ const LabelType = new ObjectType({
     id: { type: IntType},
     photoId: { type: StringType },
     userId: { type: StringType },
+    color: { type:StringType },
     updatedTime: {type: FloatType}
   },
 });

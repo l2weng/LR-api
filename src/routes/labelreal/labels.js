@@ -88,6 +88,17 @@ router.post('/remove', (req, res) => {
   })
 })
 
+router.post('/revert', (req, res) => {
+  const {labelId,status} = req.body
+  return Label.update({status}, {
+    where: {labelId},
+  }).then(label => {
+    res.json(resUpdate(label))
+  }).catch(err => {
+    resErrorBuild(res, 500, err)
+  })
+})
+
 router.post('/skipLabel', (req, res) => {
   const {photoId, myTaskId} = req.body
   const updatedTime = Date.now()
