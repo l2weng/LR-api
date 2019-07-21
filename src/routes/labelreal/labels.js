@@ -1,7 +1,7 @@
 import Label from '../../data/models/Label'
 import Task from '../../data/models/Task'
 import Photo from '../../data/models/Photo'
-import { labelStatus } from '../../data/dataUtils'
+import { commonStatus, photoStatus,labelStatus, resUpdate } from '../../data/dataUtils'
 import { resBuild, resErrorBuild } from '../../data/dataUtils'
 import express from 'express'
 import sequelize from '../../data/sequelize'
@@ -21,7 +21,7 @@ router.post('/saveLabels', (req, res) => {
         photo.getTasks().then(tasks => {
           tasks.map(task => {
             if (task.taskId === myTaskId) {
-              task.TaskPhotos.photoStatus = labelStatus.submitted
+              task.TaskPhotos.photoStatus = photoStatus.submitted
               task.TaskPhotos.updatedTime = updatedTime
               task.TaskPhotos.projectId = task.projectId
               return task.TaskPhotos.save()
@@ -75,6 +75,17 @@ router.post('/queryLabels', (req, res) => {
       resErrorBuild(res, 500, err)
     }),
   )
+})
+
+router.post('/remove', (req, res) => {
+  const {labelId} = req.body
+  return Label.update({status:labelStatus.delete}, {
+    where: {labelId},
+  }).then(label => {
+    res.json(resUpdate(label))
+  }).catch(err => {
+    resErrorBuild(res, 500, err)
+  })
 })
 
 router.post('/skipLabel', (req, res) => {
