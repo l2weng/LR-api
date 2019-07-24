@@ -78,8 +78,9 @@ router.post('/queryLabels', (req, res) => {
 })
 
 router.post('/remove', (req, res) => {
+  const updatedTime = Date.now()
   const {labelId} = req.body
-  return Label.update({status:labelStatus.delete}, {
+  return Label.update({status:labelStatus.delete,updatedTime}, {
     where: {labelId},
   }).then(label => {
     res.json(resUpdate(label))
