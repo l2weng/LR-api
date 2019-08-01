@@ -221,7 +221,7 @@ Label.belongsTo(Photo, { foreignKey: 'photoId', as: 'Photo' });
 /**
  *  Label 1 to 1 Sku
  */
-Label.belongsTo(Sku, { foreignKey: 'skuId' });
+Label.belongsTo(Sku, { foreignKey: 'skuId', as: 'Label' });
 
 function sync(...args) {
   return sequelize.sync(...args);

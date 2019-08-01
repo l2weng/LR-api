@@ -31,7 +31,7 @@ import skus from './routes/labelreal/skus';
 import photos from './routes/labelreal/photos';
 import references from './routes/labelreal/references';
 import labels from './routes/labelreal/labels';
-import summarys from './routes/labelreal/summarys';
+import summaries from './routes/labelreal/summaries';
 import activities from './routes/labelreal/activities';
 import compression from 'compression';
 import UserLogin from './data/models/UserLogin'
@@ -118,7 +118,7 @@ app.use('/lr/tasks', tasks);
 app.use('/lr/photos', photos);
 app.use('/lr/references', references);
 app.use('/lr/labels', labels);
-app.use('/lr/summarys', summarys);
+app.use('/lr/summaries', summaries);
 app.use('/lr/skus', skus);
 app.use('/lr/activities', activities);
 

@@ -2,6 +2,7 @@ import LabelType from '../types/LabelType'
 import Label from '../models/Label'
 import { criteriaBuild } from '../dataUtils'
 import { GraphQLString, GraphQLList as List, GraphQLInt } from 'graphql'
+import Project from '../models/Project'
 
 const labelQueryByPhoto = {
   name: 'LabelQueryByPhoto',
@@ -18,7 +19,6 @@ const labelQueryByPhoto = {
     skuId: {type: GraphQLInt},
   },
 }
-
 
 export {
   labelQueryByPhoto,
