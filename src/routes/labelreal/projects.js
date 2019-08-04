@@ -121,7 +121,7 @@ router.post('/syncProject', (req, res) => {
       syncCover,
       syncVersion: Date.now(),
     }).then(project => {
-      res.json(resUpdate(project))
+      res.json(resBuild(project))
     })
   }).catch(err => {
     resErrorBuild(res, 500, err)
