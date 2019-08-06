@@ -23,7 +23,7 @@ router.post('/countSkus', (req, res) => {
         if(skuIds.length>0){
           let skuIdString = skuIds.join(',')
           return Model.query(
-            `select l.skuId, s.name, count(*) as count from labels as l join skus as s where l.skuId=s.skuId and l.skuId in (${skuIdString}) group by l.skuId`,
+            `select l.skuId, s.name, s.color, count(*) as count from labels as l join skus as s where l.skuId=s.skuId and l.skuId in (${skuIdString}) group by l.skuId order by s.name desc`,
             {
               type: Model.QueryTypes.SELECT,
             },
