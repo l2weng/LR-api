@@ -1,5 +1,5 @@
-import { DataTypes } from 'sequelize';
-import Model from '../sequelize';
+import { DataTypes } from 'sequelize'
+import Model from '../sequelize'
 
 const Activity = Model.define('Activity', {
   activityId: {
@@ -11,23 +11,47 @@ const Activity = Model.define('Activity', {
   /**
    * 0: create 1: delete, 2: update
    */
-  type: { type: DataTypes.INTEGER },
+  type: {type: DataTypes.INTEGER},
   /**
-   * 0: project, 1: task, 2: photo, 3: sku, 4: label
+   * 0: photo, 1: label 2: video
    */
-  category: { type: DataTypes.INTEGER},
+  category: {type: DataTypes.INTEGER},
   /**
-   * Enum: projectId, taskId, photoId, skuId, labelId
+   * labelId
    */
-  categoryId: { type: DataTypes.STRING},
+  labelId: {type: DataTypes.STRING},
+  /**
+   * photoId
+   */
+  photoId: {type: DataTypes.STRING},
+  /**
+   * projectId
+   */
+  projectId:  {type: DataTypes.STRING},
+  /**
+   * Role
+   */
+  role: {type: DataTypes.STRING},
   /**
    * user Id
    */
-  createdBy: { type: DataTypes.STRING },
+  createdById: {type:DataTypes.STRING},
   /**
-   * calc with seconds. eg. 10, 20, 45
+   * user name
    */
-  time: { type: DataTypes.FLOAT },
-});
+  createdBy: {type: DataTypes.STRING},
+  /**
+   * spend time
+   */
+  time: {type: DataTypes.FLOAT},
+  /**
+   * count
+   */
+  count: {type: DataTypes.INTEGER},
+  /**
+   * Finished time
+   */
+  finishedTime: {type: DataTypes.BIGINT, defaultValue: 0},
+})
 
-export default Activity;
+export default Activity
