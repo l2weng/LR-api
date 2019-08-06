@@ -9,7 +9,7 @@ const Project = Model.define('Project', {
   },
 
   name: {type: DataTypes.STRING},
-  desc: {type: DataTypes.STRING(1000)},
+  desc: {type: DataTypes.STRING},
   deadline: {type: DataTypes.FLOAT},
   fileUuid: {type: DataTypes.STRING},
   /**

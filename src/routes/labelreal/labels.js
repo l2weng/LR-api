@@ -9,7 +9,7 @@ import sequelize from '../../data/sequelize'
 const router = express.Router()
 
 router.post('/saveLabels', (req, res) => {
-  const {labels, photoId, myTaskId, status} = req.body
+  const {labels, photoId, myTaskId, status, spendTime} = req.body
   const updatedTime = Date.now()
   for (let i = 0; i < labels.length; i++) {
     labels[i].updatedTime = updatedTime
@@ -23,6 +23,7 @@ router.post('/saveLabels', (req, res) => {
             if (task.taskId === myTaskId) {
               task.TaskPhotos.photoStatus = photoStatus.submitted
               task.TaskPhotos.updatedTime = updatedTime
+              task.TaskPhotos.spendTime = spendTime
               task.TaskPhotos.projectId = task.projectId
               return task.TaskPhotos.save()
             }

@@ -75,7 +75,7 @@ router.post('/syncLocalProject', (req, res) => {
   return Project.findOne({where: {localProjectId: id}}).then(project => {
     if (project) {
       if(!project.cover&&cover){
-        project.update({cover:cover}).then(project=>{
+        return project.update({cover:cover}).then(project=>{
           res.json({project})
         })
       }else{
@@ -92,7 +92,7 @@ router.post('/syncLocalProject', (req, res) => {
             projects.map(project => {
               if (project.projectFile === file) {
                 project.update({
-                  cover:cover?cover:'',
+                  cover:cover?cover:project.cover,
                   localProjectId: id,
                 }).then(project => {
                   res.json({project})
