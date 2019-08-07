@@ -29,21 +29,25 @@ const Activity = Model.define('Activity', {
    */
   projectId:  {type: DataTypes.STRING},
   /**
+   * TaskId
+   */
+  taskId:  {type: DataTypes.STRING},
+  /**
    * Role
    */
   role: {type: DataTypes.STRING},
   /**
    * user Id
    */
-  createdById: {type:DataTypes.STRING},
+  userId: {type:DataTypes.STRING},
   /**
    * user name
    */
-  createdBy: {type: DataTypes.STRING},
+  userName: {type: DataTypes.STRING},
   /**
    * spend time
    */
-  time: {type: DataTypes.FLOAT},
+  spendTime: {type: DataTypes.FLOAT},
   /**
    * count
    */

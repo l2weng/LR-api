@@ -26,7 +26,7 @@ const Label = Model.define('Label', {
   userId: {type: DataTypes.STRING},
   color: {type: DataTypes.STRING},
   updatedTime: {type: DataTypes.BIGINT, defaultValue: 0},
-  spendTime: {type: DataTypes.INTEGER, defaultValue: 0}
+  spendTime: {type: DataTypes.FLOAT, defaultValue: 0}
 })
 
 export default Label

@@ -1,19 +1,95 @@
 import Label from '../../data/models/Label'
 import Task from '../../data/models/Task'
 import Photo from '../../data/models/Photo'
-import { commonStatus, photoStatus,labelStatus, resUpdate } from '../../data/dataUtils'
-import { resBuild, resErrorBuild } from '../../data/dataUtils'
+import User from '../../data/models/User'
+import Activity from '../../data/models/Activity'
+import {
+  activityCategory,
+  photoStatus,
+  labelStatus,
+  resUpdate,
+  resBuild,
+  resErrorBuild,
+} from '../../data/dataUtils'
 import express from 'express'
 import sequelize from '../../data/sequelize'
+import __ from 'underscore'
 
 const router = express.Router()
 
+let saveActivities = function (
+  userId, photoId, projectId, myTaskId, spendTime, result, updatedTime,
+  newActivityLabels) {
+  let needSaveActivities = []
+  User.findById(userId).then(user => {
+    Activity.findOne({where: {userId, photoId, taskId:myTaskId}}).then(activity => {
+      if (!activity) {
+        Activity.create({
+          category: activityCategory.photo,
+          photoId,
+          projectId,
+          taskId: myTaskId,
+          userId: userId,
+          role: '同事',
+          userName: user.name,
+          spendTime,
+          count: result.length,
+          finishedTime: updatedTime,
+        })
+      } else {
+        activity.update({
+          spendTime: activity.spendTime + spendTime,
+          count: result.length,
+          finishedTime: updatedTime,
+        })
+      }
+    })
+    for (const label of result) {
+      if (__.contains(newActivityLabels, label.id)) {
+        needSaveActivities.push({
+          type: label.status,
+          category: activityCategory.label,
+          labelId: label.labelId,
+          photoId,
+          projectId,
+          taskId: myTaskId,
+          userId: userId,
+          role: '同事',
+          userName: user.name,
+          spendTime: label.spendTime,
+          count: 1,
+          finishedTime: label.updatedTime,
+        })
+      }
+    }
+    if (needSaveActivities.length > 0) {
+      Activity.bulkCreate(
+        needSaveActivities,
+        {
+          returning: true,
+        },
+      )
+    }
+  })
+}
+
 router.post('/savePhotoLabels', (req, res) => {
-  const {labels, photoId, myTaskId, status, spendTime} = req.body
+  const {labels, photoId, myTaskId, spendTime} = req.body
   const updatedTime = Date.now()
+  let projectId = ''
+  let userId = ''
+  let newActivityLabels = []
+
   for (let i = 0; i < labels.length; i++) {
-    labels[i].updatedTime = updatedTime
-    labels[i].status = status
+    let lab = labels[i]
+    if (lab.status === labelStatus.new) {
+      newActivityLabels.push(lab.id)
+    }
+    lab.updatedTime = updatedTime
+    lab.status = labelStatus.saved
+    if (!userId) {
+      userId = lab.userId
+    }
   }
   return sequelize.transaction(t =>
     Photo.findById(photoId).then(
@@ -25,6 +101,9 @@ router.post('/savePhotoLabels', (req, res) => {
               task.TaskPhotos.updatedTime = updatedTime
               task.TaskPhotos.spendTime += spendTime
               task.TaskPhotos.projectId = task.projectId
+              if (!projectId) {
+                projectId = task.projectId
+              }
               return task.TaskPhotos.save()
             }
           })
@@ -44,12 +123,15 @@ router.post('/savePhotoLabels', (req, res) => {
             'height',
             'updatedTime',
             'id',
+            'spendTime',
           ],
         },
         {transaction: t},
       ),
     ),
   ).then(result => {
+    saveActivities(userId, photoId, projectId, myTaskId, spendTime, result,
+      updatedTime, newActivityLabels)
     res.json(resBuild(result))
     // Transaction has been committed
   }).catch(err => {
@@ -81,7 +163,7 @@ router.post('/queryLabels', (req, res) => {
 router.post('/remove', (req, res) => {
   const updatedTime = Date.now()
   const {labelId} = req.body
-  return Label.update({status:labelStatus.delete,updatedTime}, {
+  return Label.update({status: labelStatus.delete, updatedTime}, {
     where: {labelId},
   }).then(label => {
     res.json(resUpdate(label))
@@ -91,7 +173,7 @@ router.post('/remove', (req, res) => {
 })
 
 router.post('/revert', (req, res) => {
-  const {labelId,status} = req.body
+  const {labelId, status} = req.body
   return Label.update({status}, {
     where: {labelId},
   }).then(label => {
@@ -116,7 +198,7 @@ router.post('/skipLabel', (req, res) => {
             res.json(photo)
           }
         })
-      })
+      }),
   ).catch(err => {
     resErrorBuild(res, 500, err)
   })

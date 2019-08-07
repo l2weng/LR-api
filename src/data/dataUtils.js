@@ -16,8 +16,9 @@ const status = {inactive: 0, active: 1, locked: 2, temp: 3}
 //3 is means temp account just have machineId
 const statusDesc = {0: 'inactive', 1: 'active', 2: 'locked', 3: 'temp'}
 const photoStatus = {open: 0, skipped: 1, submitted: 2}
-const labelStatus = {new: 0, update: 1, delete: 2}
+const labelStatus = {new: 0, remove: 1, update: 2, saved:3}
 const taskStatus = {open: 0, working: 1, complete: 2, confirmed: 3}
+const activityCategory ={photo:0, label:1, video:2}
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -170,4 +171,5 @@ export {
   getMessageByCode,
   criteriaBuild,
   generateColor,
+  activityCategory
 }
