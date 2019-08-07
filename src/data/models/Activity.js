@@ -9,7 +9,7 @@ const Activity = Model.define('Activity', {
   },
 
   /**
-   * 0: create 1: delete, 2: update
+   * 0: create 1: remove, 2. revert 3: update
    */
   type: {type: DataTypes.INTEGER},
   /**
