@@ -21,7 +21,7 @@ const router = express.Router()
 router.post('/create', (req, res) => {
   const {userId, machineId, projectFile, name} = req.body
   const fileUuid = path.win32.basename(projectFile, '.lbr')
-  let projectObj = {name, fileUuid ,syncVersion: Date.now(), ...req.body}
+  let projectObj = {name, fileUuid, syncVersion: Date.now(), ...req.body}
   Project.create(projectObj).then(project => {
     //创建方式, createType:0 means has userId, createType:1 means only has machineId
     if (!_.isEmpty(userId)) {
@@ -74,11 +74,11 @@ router.post('/syncLocalProject', (req, res) => {
   const {file, id, owner, cover} = req.body
   return Project.findOne({where: {localProjectId: id}}).then(project => {
     if (project) {
-      if(!project.cover&&cover){
-        return project.update({cover:cover}).then(project=>{
+      if (!project.cover && cover) {
+        return project.update({cover: cover}).then(project => {
           res.json({project})
         })
-      }else{
+      } else {
         res.json({project})
       }
     } else {
@@ -92,7 +92,7 @@ router.post('/syncLocalProject', (req, res) => {
             projects.map(project => {
               if (project.projectFile === file) {
                 project.update({
-                  cover:cover?cover:project.cover,
+                  cover: cover ? cover : project.cover,
                   localProjectId: id,
                 }).then(project => {
                   res.json({project})
@@ -104,6 +104,15 @@ router.post('/syncLocalProject', (req, res) => {
         resErrorBuild(res, 500, err)
       })
     }
+  })
+})
+
+router.post('/syncProjectByUuid', (req, res) => {
+  const {fileUuid} = req.body
+  return Project.findOne({where: {fileUuid}}).then(project => {
+    res.json({project})
+  }).catch(err => {
+    resErrorBuild(res, 500, err)
   })
 })
 
