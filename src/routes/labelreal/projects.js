@@ -1,6 +1,5 @@
 import Project from '../../data/models/Project'
 import User from '../../data/models/User'
-import Label from '../../data/models/Label'
 import {
   generateColor,
   resBuild,
@@ -14,7 +13,6 @@ import {
 import express from 'express'
 import path from 'path'
 import _ from 'underscore'
-import Model from '../../data/sequelize'
 
 const router = express.Router()
 

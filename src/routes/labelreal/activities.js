@@ -15,4 +15,13 @@ router.post('/create', (req, res) => {
   })
 })
 
+router.post('/queryLog', (req, res) => {
+  const {projectId} = req.body
+  Activity.findAll({
+    where: {projectId, type:null}
+  }).then(activities => {
+    res.json(resBuild(activities))
+  })
+})
+
 export default router
