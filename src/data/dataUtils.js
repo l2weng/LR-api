@@ -68,13 +68,15 @@ const optTypes = {0: 'create', 1: 'update', 3: 'read', 4: 'delete'}
  * @param resType
  * @param optType
  * @param message
+ * @param total
  * @returns {{result: *, message: string, model: string, obj: *}}
  */
-function resBuild (obj = null, resType = 0, optType = 0, message = '') {
+function resBuild (obj = null, resType = 0, optType = 0, message = '', total = 0) {
   return {
     result: resMessage[resType],
     message: `${optTypes[optType]} ${obj.constructor.name} ${message}`,
-    model: obj !== null ? obj.constructor.name : '',
+    model: obj.constructor.name,
+    total,
     obj,
   }
 }

@@ -24,6 +24,11 @@ const Activity = Model.define('Activity', {
    * photoId
    */
   photoId: {type: DataTypes.STRING},
+
+  /**
+   * photoName
+   */
+  photoName: {type: DataTypes.STRING},
   /**
    * projectId
    */

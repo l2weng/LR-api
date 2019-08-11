@@ -19,7 +19,7 @@ const router = express.Router()
 
 let saveActivities = function (
   userId, photoId, projectId, myTaskId, spendTime, result, updatedTime,
-  newActivityLabels) {
+  newActivityLabels, photoName) {
   let needSaveActivities = []
   User.findById(userId).then(user => {
     Activity.findOne({where: {userId, photoId, taskId:myTaskId}}).then(activity => {
@@ -33,6 +33,7 @@ let saveActivities = function (
           role: '同事',
           userName: user.name,
           spendTime,
+          photoName,
           count: result.length,
           finishedTime: updatedTime,
         })
@@ -79,6 +80,7 @@ router.post('/savePhotoLabels', (req, res) => {
   let projectId = ''
   let userId = ''
   let newActivityLabels = []
+  let cPhoto = {}
 
   for (let i = 0; i < labels.length; i++) {
     let lab = labels[i]
@@ -101,6 +103,7 @@ router.post('/savePhotoLabels', (req, res) => {
               task.TaskPhotos.updatedTime = updatedTime
               task.TaskPhotos.spendTime += spendTime
               task.TaskPhotos.projectId = task.projectId
+              cPhoto = photo
               if (!projectId) {
                 projectId = task.projectId
               }
@@ -131,7 +134,7 @@ router.post('/savePhotoLabels', (req, res) => {
     ),
   ).then(result => {
     saveActivities(userId, photoId, projectId, myTaskId, spendTime, result,
-      updatedTime, newActivityLabels)
+      updatedTime, newActivityLabels,cPhoto.syncFileName)
     res.json(resBuild(result))
     // Transaction has been committed
   }).catch(err => {

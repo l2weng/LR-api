@@ -16,11 +16,14 @@ router.post('/create', (req, res) => {
 })
 
 router.post('/queryLog', (req, res) => {
-  const {projectId} = req.body
-  Activity.findAll({
-    where: {projectId, type:null}
-  }).then(activities => {
-    res.json(resBuild(activities))
+  const {projectId, page, results, sortField, sortOrder} = req.body
+  Activity.findAndCountAll({
+    where: {projectId, type:null},
+    order: [[sortField, sortOrder === 'descend' ? 'DESC' : 'ASC']],
+    offset: page,
+    limit: results,
+  }).then(result => {
+    res.json(resBuild(result.rows, 0, 3, '', result.count))
   })
 })
 
