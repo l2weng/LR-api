@@ -21,6 +21,7 @@ router.post('/queryLog', (req, res) => {
   Activity.findAndCountAll({
     where: {projectId, type:null},
     order: [[sortField, sortOrder === 'descend' ? 'DESC' : 'ASC']],
+    distinct: true,
     offset: _offset,
     limit: _offset+results,
     include: [
@@ -30,6 +31,7 @@ router.post('/queryLog', (req, res) => {
       },
     ],
   }).then(result => {
+    console.log(result.count)
     res.json(resBuild(result.rows, 0, 3, '', result.count))
   })
 })
