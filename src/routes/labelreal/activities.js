@@ -4,7 +4,6 @@ import {
   resErrorBuild,
 } from '../../data/dataUtils'
 import express from 'express'
-import Label from '../../data/models/Label'
 
 const router = express.Router()
 
@@ -18,11 +17,12 @@ router.post('/create', (req, res) => {
 
 router.post('/queryLog', (req, res) => {
   const {projectId, page, results, sortField, sortOrder} = req.body
+  let _offset = (page-1)*results
   Activity.findAndCountAll({
     where: {projectId, type:null},
     order: [[sortField, sortOrder === 'descend' ? 'DESC' : 'ASC']],
-    offset: page,
-    limit: results,
+    offset: _offset,
+    limit: _offset+results,
     include: [
       {
         model: Activity,
