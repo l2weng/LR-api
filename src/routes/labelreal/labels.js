@@ -21,10 +21,12 @@ let saveActivities = function (
   userId, photoId, projectId, myTaskId, spendTime, result, updatedTime,
   newActivityLabels, photoName) {
   let needSaveActivities = []
-  User.findById(userId).then(user => {
-    Activity.findOne({where: {userId, photoId, taskId:myTaskId}}).then(activity => {
+  User.findById(userId).then(async user => {
+    let parentId = ''
+    await Activity.findOne(
+      {where: {userId, photoId, taskId: myTaskId}}).then(async activity => {
       if (!activity) {
-        Activity.create({
+        await Activity.create({
           category: activityCategory.photo,
           photoId,
           projectId,
@@ -36,9 +38,10 @@ let saveActivities = function (
           photoName,
           count: result.length,
           finishedTime: updatedTime,
-        })
+        }).then(_activity => { parentId = _activity.activityId })
       } else {
-        activity.update({
+        parentId = activity.activityId
+        await activity.update({
           spendTime: activity.spendTime + spendTime,
           count: result.length,
           finishedTime: updatedTime,
@@ -51,6 +54,7 @@ let saveActivities = function (
           type: label.status,
           category: activityCategory.label,
           labelId: label.labelId,
+          parentId,
           photoId,
           projectId,
           taskId: myTaskId,
@@ -134,7 +138,7 @@ router.post('/savePhotoLabels', (req, res) => {
     ),
   ).then(result => {
     saveActivities(userId, photoId, projectId, myTaskId, spendTime, result,
-      updatedTime, newActivityLabels,cPhoto.syncFileName)
+      updatedTime, newActivityLabels, cPhoto.syncFileName)
     res.json(resBuild(result))
     // Transaction has been committed
   }).catch(err => {

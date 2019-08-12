@@ -223,6 +223,8 @@ Label.belongsTo(Photo, { foreignKey: 'photoId', as: 'Photo' });
  */
 Label.belongsTo(Sku, { foreignKey: 'skuId', as: 'Label' });
 
+Activity.hasMany(Activity, { as: 'children', foreignKey: 'parentId', useJunctionTable: false })
+
 function sync(...args) {
   return sequelize.sync(...args);
 }

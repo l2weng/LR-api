@@ -4,6 +4,7 @@ import {
   resErrorBuild,
 } from '../../data/dataUtils'
 import express from 'express'
+import Label from '../../data/models/Label'
 
 const router = express.Router()
 
@@ -22,6 +23,12 @@ router.post('/queryLog', (req, res) => {
     order: [[sortField, sortOrder === 'descend' ? 'DESC' : 'ASC']],
     offset: page,
     limit: results,
+    include: [
+      {
+        model: Activity,
+        as: 'children',
+      },
+    ],
   }).then(result => {
     res.json(resBuild(result.rows, 0, 3, '', result.count))
   })
