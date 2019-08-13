@@ -28,6 +28,7 @@ let saveActivities = function (
       if (!activity) {
         await Activity.create({
           category: activityCategory.photo,
+          type: labelStatus.photoLevel,
           photoId,
           projectId,
           taskId: myTaskId,

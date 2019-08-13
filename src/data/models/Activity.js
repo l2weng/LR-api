@@ -40,7 +40,7 @@ const Activity = Model.define('Activity', {
   /**
    * Role
    */
-  role: {type: DataTypes.STRING},
+  role: {type: DataTypes.INTEGER},
   /**
    * user Id
    */
