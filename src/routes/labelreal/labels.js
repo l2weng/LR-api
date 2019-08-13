@@ -198,7 +198,7 @@ router.post('/skipLabel', (req, res) => {
       photo.getTasks().then(tasks => {
         tasks.map(task => {
           if (task.taskId === myTaskId) {
-            task.TaskPhotos.photoStatus = labelStatus.skipped
+            task.TaskPhotos.photoStatus = photoStatus.skipped
             task.TaskPhotos.updatedTime = updatedTime
             task.TaskPhotos.projectId = task.projectId
             task.TaskPhotos.save()

@@ -9,14 +9,15 @@ import express from 'express'
 const router = express.Router()
 
 router.post('/syncPhoto', (req, res) => {
-  const {photoId, tasks} = req.body
+  const {photoId, tasks, projectId} = req.body
   try {
     if (photoId) {
       return Photo.findById(photoId).then(photo => {
         if (photo) {
           return photo.update({...req.body}).then(photo => {
             return Task.findAll({where: {taskId: tasks}}).then(_tasks => {
-              photo.setTasks(_tasks)
+              photo.setTasks(_tasks,
+                {through: {projectId, updatedTime: Date.now()}})
               res.json(resBuild(photo))
             })
           })
@@ -26,7 +27,8 @@ router.post('/syncPhoto', (req, res) => {
       delete req.body.photoId
       return Photo.create({...req.body}).then(photo => {
         return Task.findAll({where: {taskId: tasks}}).then(_tasks => {
-          photo.setTasks(_tasks)
+          photo.setTasks(_tasks,
+            {through: {projectId, updatedTime: Date.now()}})
           res.json(resBuild(photo))
         })
       })

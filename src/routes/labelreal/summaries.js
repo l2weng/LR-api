@@ -12,7 +12,7 @@ import { resErrorBuild } from '../../data/dataUtils'
 const router = express.Router()
 
 /**
- * Find labels from projectId
+ * count sku labelling by projectId
  */
 router.post('/countSkus', (req, res) => {
   const {projectId} = req.body
@@ -37,6 +37,23 @@ router.post('/countSkus', (req, res) => {
     }).catch(err => {
       resErrorBuild(res, 500, err)
     })
+})
+
+/**
+ * Count project status by projectId
+ */
+router.post('/countTaskStatus', (req, res) => {
+  const {projectId} = req.body
+  return Model.query(
+    `select count(tp.photoId) as count, tp.photoStatus from taskphotos tp where projectId = '${projectId}' group by photoStatus`,
+    {
+      type: Model.QueryTypes.SELECT,
+    },
+  ).then(taskStatuses => {
+    res.json(taskStatuses)
+  }).catch(err => {
+    resErrorBuild(res, 500, err)
+  })
 })
 
 export default router
