@@ -42,7 +42,7 @@ router.post('/countSkus', (req, res) => {
 /**
  * Count project status by projectId
  */
-router.post('/countTaskStatus', (req, res) => {
+router.post('/countPhotoStatus', (req, res) => {
   const {projectId} = req.body
   return Model.query(
     `select count(tp.photoId) as count, tp.photoStatus from taskphotos tp where projectId = '${projectId}' group by photoStatus`,
