@@ -28,7 +28,7 @@ GROUP BY hour(updatedAt)`
     sqlContent =
       `select DATE_FORMAT(updatedAt,'%d/%m/%Y') Time, Count(*) SumCount FROM activities
 WHERE type!=${labelStatus.photoLevel} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 7 DAY )
-GROUP BY week(updatedAt)`
+GROUP BY day(updatedAt)`
   }
   return Model.query(
     sqlContent,
