@@ -89,6 +89,7 @@ group BY ut.userId, tp.photoStatus`,
     }, {})
     for (const userId of Object.keys(res)) {
       cObj[userId].total = res[userId]
+      cObj[userId].submitted = cObj[userId].total - cObj[userId].open
       cObj[userId].procentage = Math.floor(Number((cObj[userId].total - cObj[userId].open) / cObj[userId].total * 100))
     }
     response.json(Object.values(cObj))
