@@ -79,20 +79,22 @@ group BY ut.userId, tp.photoStatus`,
       type: Model.QueryTypes.SELECT,
     },
   ).then(userStatuses => {
-    let cObj = {}
-    let res = userStatuses.reduce(function (obj, v) {
-      obj[v.userId] = (obj[v.userId] || 0) + v.photoCount
-      if (v.photoStatus === 0) {
-        cObj[v.userId] = {name: v.name, open: v.photoCount, userId: v.userId}
+    let res = userStatuses.reduce(function (obj = {total:0, submitted:0, percentage:0}, v) {
+      obj[v.userId] = {
+        total: ((obj[v.userId] ?  obj[v.userId].total
+          : 0 ) + v.photoCount),
+        submitted: v.photoStatus === 2||v.photoStatus === 1 ? ((obj[v.userId]
+          ? obj[v.userId].submitted : 0) + v.photoCount) : 0,
+        userId: v.userId,
+        name: v.name,
       }
       return obj
     }, {})
     for (const userId of Object.keys(res)) {
-      cObj[userId].total = res[userId]
-      cObj[userId].submitted = cObj[userId].total - cObj[userId].open
-      cObj[userId].procentage = Math.floor(Number((cObj[userId].total - cObj[userId].open) / cObj[userId].total * 100))
+      res[userId].open = res[userId].total - res[userId].submitted
+      res[userId].percentage = Math.floor(Number((res[userId].submitted) / res[userId].total * 100))
     }
-    response.json(Object.values(cObj))
+    response.json(Object.values(res))
   }).catch(err => {
     console.log(err)
     resErrorBuild(res, 500, err)

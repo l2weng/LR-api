@@ -92,7 +92,9 @@ router.post('/savePhotoLabels', (req, res) => {
     if (lab.status === labelStatus.new) {
       newActivityLabels.push(lab.id)
     }
-    lab.updatedTime = updatedTime
+    if(!lab.updatedTime){
+      lab.updatedTime = updatedTime
+    }
     lab.status = labelStatus.saved
     if (!userId) {
       userId = lab.userId

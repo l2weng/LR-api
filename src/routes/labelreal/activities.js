@@ -1,6 +1,6 @@
 import Activity from '../../data/models/Activity'
 import {
-  labelStatus,
+  labelStatus, photoStatus,
   resBuild,
   resErrorBuild,
 } from '../../data/dataUtils'
@@ -45,8 +45,10 @@ GROUP BY day(updatedAt)`
 router.post('/queryLog', (req, res) => {
   const {projectId, page, results, sortField, sortOrder} = req.body
   let _offset = (page - 1) * results
+  console.log(_offset)
+  console.log(_offset+results)
   Activity.findAndCountAll({
-    where: {projectId, type: 999},
+    where: {projectId, type: labelStatus.photoLevel},
     order: [[sortField, sortOrder === 'descend' ? 'DESC' : 'ASC']],
     distinct: true,
     offset: _offset,
@@ -58,6 +60,7 @@ router.post('/queryLog', (req, res) => {
       },
     ],
   }).then(result => {
+    console.log('....',result.count)
     res.json(resBuild(result.rows, 0, 3, '', result.count))
   })
 })
