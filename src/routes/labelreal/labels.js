@@ -35,7 +35,7 @@ let saveActivities = function (
       if (!activity) {
         await Activity.create({
           category: activityCategory.photo,
-          type: labelStatus.photoLevel,
+          type: labelStatus.photoSubmit,
           photoId,
           projectId,
           taskId: myTaskId,
@@ -87,10 +87,9 @@ let saveActivities = function (
 }
 
 router.post('/savePhotoLabels', (req, res) => {
-  const {labels, photoId, spendTime, myTaskId} = req.body
+  const {labels, photoId, spendTime, myTaskId, userId} = req.body
   const updatedTime = Date.now()
   let projectId = ''
-  let userId = ''
   let newActivityLabels = []
   let cPhoto = {}
 
@@ -103,9 +102,6 @@ router.post('/savePhotoLabels', (req, res) => {
       lab.updatedTime = updatedTime
     }
     lab.status = labelStatus.saved
-    if (!userId) {
-      userId = lab.userId
-    }
   }
   let saveTaskPhotoStatus = function (task, photo) {
     task.TaskPhotos.photoStatus = photoStatus.submitted
@@ -204,7 +200,7 @@ router.post('/revert', (req, res) => {
 })
 
 router.post('/skipLabel', (req, res) => {
-  const {photoId, myTaskId} = req.body
+  const {photoId, myTaskId, spendTime, userId} = req.body
   const updatedTime = Date.now()
   return Photo.findById(photoId).then(
     photo =>
@@ -214,7 +210,24 @@ router.post('/skipLabel', (req, res) => {
             task.TaskPhotos.photoStatus = photoStatus.skipped
             task.TaskPhotos.updatedTime = updatedTime
             task.TaskPhotos.projectId = task.projectId
+            task.TaskPhotos.spendTime += spendTime
             task.TaskPhotos.save()
+            User.findById(userId).then(user => {
+              Activity.create({
+                category: activityCategory.photo,
+                type: labelStatus.photoSkip,
+                photoId,
+                projectId: task.projectId,
+                taskId: myTaskId,
+                userId: userId,
+                role: '同事',
+                userName: user.name,
+                spendTime,
+                photoName: photo.syncFileName,
+                count: 0,
+                finishedTime: updatedTime,
+              })
+            })
             res.json(photo)
           }
         })

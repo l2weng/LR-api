@@ -22,12 +22,12 @@ router.post('/queryByDate', (req, res) => {
   const {type, projectId} = req.body
   //default set as last 7 hours
   let sqlContent = `select DATE_FORMAT(updatedAt,'%H:%i:%s') Time, Count(*) SumCount FROM activities
-WHERE type!=${labelStatus.photoLevel} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 1 DAY )
+WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 1 DAY )
 GROUP BY hour(updatedAt)`
   if (type && type === 'DD') {
     sqlContent =
       `select DATE_FORMAT(updatedAt,'%d/%m/%Y') Time, Count(*) SumCount FROM activities
-WHERE type!=${labelStatus.photoLevel} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 7 DAY )
+WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 7 DAY )
 GROUP BY day(updatedAt)`
   }
   return Model.query(
@@ -48,7 +48,7 @@ router.post('/queryLog', (req, res) => {
   console.log(_offset)
   console.log(_offset+results)
   Activity.findAndCountAll({
-    where: {projectId, type: labelStatus.photoLevel},
+    where: {projectId, type: [labelStatus.photoSubmit, labelStatus.photoSkip]},
     order: [[sortField, sortOrder === 'descend' ? 'DESC' : 'ASC']],
     distinct: true,
     offset: _offset,
@@ -60,7 +60,6 @@ router.post('/queryLog', (req, res) => {
       },
     ],
   }).then(result => {
-    console.log('....',result.count)
     res.json(resBuild(result.rows, 0, 3, '', result.count))
   })
 })
