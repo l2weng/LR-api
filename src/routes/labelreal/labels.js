@@ -24,7 +24,14 @@ let saveActivities = function (
   User.findById(userId).then(async user => {
     let parentId = ''
     await Activity.findOne(
-      {where: {userId, photoId, taskId: myTaskId}}).then(async activity => {
+      {
+        where: {
+          userId,
+          photoId,
+          taskId: myTaskId,
+          type: activityCategory.photo,
+        },
+      }).then(async activity => {
       if (!activity) {
         await Activity.create({
           category: activityCategory.photo,
@@ -80,7 +87,7 @@ let saveActivities = function (
 }
 
 router.post('/savePhotoLabels', (req, res) => {
-  const {labels, photoId, myTaskId, spendTime} = req.body
+  const {labels, photoId, spendTime, myTaskId} = req.body
   const updatedTime = Date.now()
   let projectId = ''
   let userId = ''
@@ -92,7 +99,7 @@ router.post('/savePhotoLabels', (req, res) => {
     if (lab.status === labelStatus.new) {
       newActivityLabels.push(lab.id)
     }
-    if(!lab.updatedTime){
+    if (!lab.updatedTime) {
       lab.updatedTime = updatedTime
     }
     lab.status = labelStatus.saved
@@ -100,21 +107,24 @@ router.post('/savePhotoLabels', (req, res) => {
       userId = lab.userId
     }
   }
+  let saveTaskPhotoStatus = function (task, photo) {
+    task.TaskPhotos.photoStatus = photoStatus.submitted
+    task.TaskPhotos.updatedTime = updatedTime
+    task.TaskPhotos.spendTime += spendTime
+    task.TaskPhotos.projectId = task.projectId
+    cPhoto = photo
+    if (!projectId) {
+      projectId = task.projectId
+    }
+    return task.TaskPhotos.save()
+  }
   return sequelize.transaction(t =>
     Photo.findById(photoId).then(
       photo =>
         photo.getTasks().then(tasks => {
           tasks.map(task => {
             if (task.taskId === myTaskId) {
-              task.TaskPhotos.photoStatus = photoStatus.submitted
-              task.TaskPhotos.updatedTime = updatedTime
-              task.TaskPhotos.spendTime += spendTime
-              task.TaskPhotos.projectId = task.projectId
-              cPhoto = photo
-              if (!projectId) {
-                projectId = task.projectId
-              }
-              return task.TaskPhotos.save()
+              return saveTaskPhotoStatus(task, photo)
             }
           })
         }),
