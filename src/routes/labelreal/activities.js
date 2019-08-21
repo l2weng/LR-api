@@ -23,7 +23,12 @@ router.post('/queryByDate', (req, res) => {
   let sqlContent = `select DATE_FORMAT(updatedAt,'%H:%i:%s') Time, Count(*) SumCount FROM activities
 WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 1 DAY )
 GROUP BY hour(updatedAt)`
-  if (type && type === 'DD') {
+  if (type && type === 'MM') {
+    sqlContent =
+      `select DATE_FORMAT(updatedAt,'%H:%i:%s') Time, Count(*) SumCount FROM activities
+WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 1 HOUR )
+GROUP BY minute(updatedAt)`
+  }if (type && type === 'DD') {
     sqlContent =
       `select DATE_FORMAT(updatedAt,'%d/%m/%Y') Time, Count(*) SumCount FROM activities
 WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 7 DAY )
