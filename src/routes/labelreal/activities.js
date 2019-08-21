@@ -1,10 +1,9 @@
 import Activity from '../../data/models/Activity'
 import {
-  labelStatus, photoStatus,
+  labelStatus,
   resBuild,
   resErrorBuild,
 } from '../../data/dataUtils'
-import moment from 'moment'
 import express from 'express'
 import Model from '../../data/sequelize'
 
@@ -45,8 +44,6 @@ GROUP BY day(updatedAt)`
 router.post('/queryLog', (req, res) => {
   const {projectId, page, results, sortField, sortOrder} = req.body
   let _offset = (page - 1) * results
-  console.log(_offset)
-  console.log(_offset+results)
   Activity.findAndCountAll({
     where: {projectId, type: [labelStatus.photoSubmit, labelStatus.photoSkip]},
     order: [[sortField, sortOrder === 'descend' ? 'DESC' : 'ASC']],
