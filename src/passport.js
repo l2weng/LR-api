@@ -29,7 +29,7 @@ passport.use(
       user.getProjects(
         {
           joinTableAttributes: ['isOwner'],
-          order: [['createdAt', 'DESC']],
+          order: [['updatedAt', 'DESC']],
         }).
         then(projects => {
           let syncProjects = projects.filter(p=>(p.syncStatus===true||p.UserProjects.isOwner===true));
