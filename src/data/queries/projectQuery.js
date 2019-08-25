@@ -1,10 +1,11 @@
 import ProjectType from '../types/ProjectType'
 import Project from '../models/Project'
 import User from '../models/User'
-import { criteriaBuild } from '../dataUtils'
-import { GraphQLString, GraphQLList as List, GraphQLBoolean } from 'graphql'
+import { criteriaBuild, photoStatus } from '../dataUtils'
+import { GraphQLList as List, GraphQLString } from 'graphql'
 import __ from 'underscore'
 import UserLogin from '../models/UserLogin'
+import Model from '../sequelize'
 
 const projectQueryById = {
   name: 'ProjectQueryById',
@@ -26,18 +27,48 @@ const projectQueryByUser = {
   description: 'Finding Project by userId',
   type: new List(ProjectType),
   resolve (_, {userId, machineId}) {
-    let getRelatedProjects = function (user) {
+    let calculateProgress = function (result) {
+      let progress
+      let _pStatus = { total: 0, progress: 100, open: 0, skipped: 0, submitted: 0 }
+      if (result.length > 0) {
+        for (const p of result) {
+          if (p.photoStatus === photoStatus.open) {
+            _pStatus.open = p.count
+            _pStatus.total += p.count
+          }
+          if (p.photoStatus === photoStatus.skipped) {
+            _pStatus.skipped = p.count
+            _pStatus.total += p.count
+          }
+          if (p.photoStatus === photoStatus.submitted) {
+            _pStatus.submitted = p.count
+            _pStatus.total += p.count
+          }
+        }
+      }
+      progress = _pStatus.total === 0 ? 0 : (((_pStatus.total - _pStatus.open) / _pStatus.total) * 100).toFixed(0)
+      return progress
+    }
+    let getRelatedProjects = async function (user) {
       return user.getProjects(
         {
           joinTableAttributes: ['isOwner'],
           order: [['createdAt', 'DESC']],
         }).
-        then(projects => {
-          projects.map(project => {
+        then(async projects => {
+          return Promise.all(projects.map(async project => {
             project.isOwner = project.UserProjects.isOwner
             project.user = user;
-          })
-          return projects
+            await Model.query(
+              `select count(tp.photoId) as count, tp.photoStatus from taskphotos tp where projectId = '${project.projectId}' group by photoStatus`,
+              {
+                type: Model.QueryTypes.SELECT,
+              },
+            ).then(result=>{
+              project.progress = calculateProgress(result)
+            })
+            return project
+          }))
         })
     }
     if (!__.isEmpty(userId)) {

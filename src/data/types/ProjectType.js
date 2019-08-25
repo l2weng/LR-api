@@ -16,7 +16,7 @@ const ProjectType = new ObjectType({
     deadline: {type: FloatType},
     projectFile: {type: StringType},
     type: {type: IntType},
-    progress: {type: IntType},
+    progress: {type: FloatType},
     cover: {type: StringType},
     itemCount: {type: IntType},
     syncStatus: {type: BooleanType},

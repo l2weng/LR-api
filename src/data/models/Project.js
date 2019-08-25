@@ -23,7 +23,7 @@ const Project = Model.define('Project', {
   /**
    * progress 进度最大值100
    */
-  progress: {type: DataTypes.INTEGER},
+  progress: {type: DataTypes.FLOAT},
   /**
    * 项目封面
    */
