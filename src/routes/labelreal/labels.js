@@ -6,6 +6,7 @@ import Activity from '../../data/models/Activity'
 import {
   activityCategory,
   photoStatus,
+  taskStatus,
   labelStatus,
   resUpdate,
   resBuild,
@@ -104,6 +105,9 @@ router.post('/savePhotoLabels', (req, res) => {
     lab.status = labelStatus.saved
   }
   let saveTaskPhotoStatus = function (task, photo) {
+    if (task.workStatus === taskStatus.open) {
+      return task.update({workStatus: taskStatus.working})
+    }
     task.TaskPhotos.photoStatus = photoStatus.submitted
     task.TaskPhotos.updatedTime = updatedTime
     task.TaskPhotos.spendTime += spendTime

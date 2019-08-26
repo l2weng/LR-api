@@ -72,8 +72,7 @@ where tp.taskId in (select taskId
                       and userId in
                           (select up.userId
                            from userprojects as up
-                           where up.isOwner is not true
-                             and up.projectId = '${projectId}'))
+                           where up.projectId = '${projectId}'))
 group BY ut.userId, tp.photoStatus`,
     {
       type: Model.QueryTypes.SELECT,
