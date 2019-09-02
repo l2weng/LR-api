@@ -19,8 +19,7 @@ const PhotoType = new ObjectType({
     height: {type: IntType},
     mimeType: {type: StringType},
     protocol: { type: StringType },
-    orientation: {type: IntType},
-    labelsCache: {type: StringType}
+    orientation: {type: IntType}
   },
 });
 
