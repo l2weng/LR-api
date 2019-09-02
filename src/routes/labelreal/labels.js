@@ -30,7 +30,7 @@ let saveActivities = function (
           userId,
           photoId,
           taskId: myTaskId,
-          type: activityCategory.photo,
+          category: activityCategory.photo,
         },
       }).then(async activity => {
       if (!activity) {
