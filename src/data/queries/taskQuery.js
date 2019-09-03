@@ -1,9 +1,10 @@
 import TaskType from '../types/TaskType'
 import Task from '../models/Task'
 import User from '../models/User'
-import { criteriaBuild, commonStatus} from '../dataUtils'
-import { GraphQLString, GraphQLList as List } from 'graphql'
+import { criteriaBuild, commonStatus, taskCategory } from '../dataUtils'
+import { GraphQLString, GraphQLList as List, GraphQLInt } from 'graphql'
 import __ from 'underscore'
+import sequelize from '../sequelize'
 
 const taskQueryById = {
   name: 'TaskQueryById',
@@ -17,40 +18,79 @@ const taskQueryById = {
   },
 }
 
+let getMyTasks = function (user) {
+  return user.getTasks({
+    joinTableAttributes: ['projectId'],
+    order: [['createdAt', 'DESC']],
+  }).then(tasks => {
+    tasks.map(task => {
+      task.project = task.getProject
+      task.category = taskCategory.my
+    })
+    return tasks.filter(task => task.active === commonStatus.active)
+  })
+}
+
+let getAssignedTasks = function (user) {
+  return user.getMyTasks({order: [['createdAt', 'DESC']]}).then(tasks => {
+    tasks.map(task => {
+      task.project = task.getProject
+      task.category = taskCategory.assigned
+    })
+    return tasks.filter(task => task.active === commonStatus.active)
+  })
+}
+
+let getAllTasks = function (user) {
+  return sequelize.transaction(t =>
+    user.getMyTasks({order: [['createdAt', 'DESC']]}, {transaction: t}).
+      then(tasks => {
+        tasks.map(task => {
+          task.project = task.getProject
+          task.category = taskCategory.my
+        })
+        return tasks.filter(task => task.active === commonStatus.active)
+      }).then(myTasks =>
+      user.getTasks({
+        joinTableAttributes: ['projectId'],
+        order: [['createdAt', 'DESC']],
+      }).then(tasks => {
+        tasks.map(task => {
+          task.project = task.getProject
+          task.category = taskCategory.assigned
+        })
+        tasks.filter(task => task.active === commonStatus.active)
+        return myTasks.concat(tasks)
+      }),
+    ),
+  )
+}
+
 /**
  * 我参与的task
  */
-const taskQueryByUser = {
+const taskQuery = {
   name: 'TaskQueryByUser',
   description: 'Finding Task by userId',
   type: new List(TaskType),
-  resolve (_, {userId, machineId}) {
-    let getRelatedTasks = function (user) {
-      return user.getTasks(
-        {
-          joinTableAttributes: ['projectId'],
-          order: [['createdAt', 'DESC']],
-        }).
-        then(tasks => {
-          tasks.map(task => {
-            task.project = task.getProject
-          })
-          return tasks.filter(task=> task.active === commonStatus.active)
-        })
-    }
+  resolve (_, {userId, type}) {
     if (!__.isEmpty(userId)) {
       return User.findById(userId).then(user => {
-        return getRelatedTasks(user)
-      })
-    } else if (!__.isEmpty(machineId)) {
-      return User.findOne({where: {machineId}}).then(user => {
-        return getRelatedTasks(user)
+        console.log('typetype', type)
+        // 1: my task, 2: assigned task, 0:all task
+        if (type === 1) {
+          return getMyTasks(user)
+        } else if (type === 2) {
+          return getAssignedTasks(user)
+        } else {
+          return getAllTasks(user)
+        }
       })
     }
   },
   args: {
     userId: {type: GraphQLString},
-    machineId: {type: GraphQLString},
+    type: {type: GraphQLInt},
   },
 }
 /**
@@ -66,7 +106,7 @@ const taskQueryByOwner = {
         tasks.map(task => {
           task.project = task.getProject
         })
-        return tasks.filter(task=> task.active === commonStatus.active)
+        return tasks.filter(task => task.active === commonStatus.active)
       })
     }
     if (!__.isEmpty(userId)) {
@@ -109,6 +149,5 @@ const taskQueryWhere = {
 
 export {
   taskQueryById,
-  taskQueryByOwner,
-  taskQueryByUser,
+  taskQuery,
 }
