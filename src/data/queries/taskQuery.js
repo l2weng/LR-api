@@ -19,6 +19,16 @@ const taskQueryById = {
 }
 
 let getMyTasks = function (user) {
+  return user.getMyTasks({order: [['createdAt', 'DESC']]}).then(tasks => {
+    tasks.map(task => {
+      task.project = task.getProject
+      task.category = taskCategory.assigned
+    })
+    return tasks.filter(task => task.active === commonStatus.active)
+  })
+}
+
+let getAssignedTasks = function (user) {
   return user.getTasks({
     joinTableAttributes: ['projectId'],
     order: [['createdAt', 'DESC']],
@@ -26,16 +36,6 @@ let getMyTasks = function (user) {
     tasks.map(task => {
       task.project = task.getProject
       task.category = taskCategory.my
-    })
-    return tasks.filter(task => task.active === commonStatus.active)
-  })
-}
-
-let getAssignedTasks = function (user) {
-  return user.getMyTasks({order: [['createdAt', 'DESC']]}).then(tasks => {
-    tasks.map(task => {
-      task.project = task.getProject
-      task.category = taskCategory.assigned
     })
     return tasks.filter(task => task.active === commonStatus.active)
   })
@@ -76,7 +76,6 @@ const taskQuery = {
   resolve (_, {userId, type}) {
     if (!__.isEmpty(userId)) {
       return User.findById(userId).then(user => {
-        console.log('typetype', type)
         // 1: my task, 2: assigned task, 0:all task
         if (type === 1) {
           return getMyTasks(user)

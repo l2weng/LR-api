@@ -162,6 +162,9 @@ router.post('/savePhotoLabels', (req, res) => {
 
 router.post('/queryLabels', (req, res) => {
   const {taskId} = req.body
+  if(__.isEmpty(taskId)){
+    res.json([])
+  }
   return Task.findById(taskId).then(task =>
     task.getPhotos({
       include: [
