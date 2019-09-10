@@ -119,8 +119,10 @@ router.post('/addWorker', (req, res) => {
   return Task.findById(taskId).then(task => {
     return User.findAll({where: {userId: {[Op.in]: workerIds}}}).
       then(workers => {
+        task.setUsers([])
         return task.addUsers(workers, {through: {projectId}}).then(() => {
           return Project.findById(projectId).then(project => {
+            project.setUsers([])
             project.addUsers(workers)
             workers.map(worker => {
               delete worker.dataValues.password_hash
