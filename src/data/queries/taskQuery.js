@@ -2,6 +2,7 @@ import TaskType from '../types/TaskType'
 import Task from '../models/Task'
 import User from '../models/User'
 import { criteriaBuild, commonStatus, taskCategory } from '../dataUtils'
+import {merge} from '../../utils/utils'
 import { GraphQLString, GraphQLList as List, GraphQLInt } from 'graphql'
 import __ from 'underscore'
 import sequelize from '../sequelize'
@@ -60,7 +61,7 @@ let getAllTasks = function (user) {
           task.category = taskCategory.assigned
         })
         tasks.filter(task => task.active === commonStatus.active)
-        return myTasks.concat(tasks)
+        return merge(myTasks,tasks,"taskId")
       }),
     ),
   )
