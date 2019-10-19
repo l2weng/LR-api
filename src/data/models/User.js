@@ -53,7 +53,7 @@ const User = Model.define('User', {
     },
     validate: {
       isLongEnough(val) {
-        if (val.length < 7) {
+        if (val.length < 5) {
           throw new Error('Please choose a longer password');
         }
       },

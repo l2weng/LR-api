@@ -8,12 +8,9 @@ import {
   commonStatus,
 } from '../../data/dataUtils'
 import express from 'express'
-import Sequelize from 'sequelize'
-
-const Op = Sequelize.Op
-
 import Project from '../../data/models/Project'
 import sequelize from '../../data/sequelize'
+import __ from 'underscore'
 
 const router = express.Router()
 
@@ -117,25 +114,38 @@ router.post('/updateUserTaskStatus', (req, res) => {
 router.post('/addWorker', (req, res) => {
   const {workerIds, taskId, projectId} = req.body
   return Task.findById(taskId).then(task => {
-    return User.findAll({where: {userId: {[Op.in]: workerIds}}}).
-      then(workers => {
-        task.setUsers([])
-        return task.addUsers(workers, {through: {projectId}}).then(() => {
-          return Project.findById(projectId).then(project => {
-            project.setUsers([])
-            project.addUsers(workers)
-            workers.map(worker => {
-              delete worker.dataValues.password_hash
-              delete worker.dataValues.machineId
-            })
-            res.status(200).send({
-              result: 'success',
-              workers,
+    return task.getUsers().then(oldUsers=>{
+      let oldUser = oldUsers[0]
+      return User.findAll({where: {userId: workerIds[0]}}).
+        then(workers => {
+          let worker = workers[0]
+          delete worker.dataValues.password_hash
+          delete worker.dataValues.machineId
+          console.log('---------', workerIds[0],oldUser.userId)
+          if(oldUser && (workerIds[0] !== oldUser.userId)){
+            task.removeUsers(oldUser)
+          }
+          return task.addUsers(worker, {through: {projectId}}).then(() => {
+            return Project.findById(projectId).then(project => {
+              return project.getUsers().then(projectUsers => {
+                projectUsers.map(pu=>{
+                  if (oldUser && pu.userId === oldUser.userId &&
+                    !pu.UserProjects.isOwner) {
+                    project.removeUsers(oldUser)
+                  }
+                })
+                project.addUsers(worker)
+                res.status(200).send({
+                  result: 'success',
+                  workers,
+                })
+              })
             })
           })
         })
-      })
+    })
   }).catch(err => {
+    console.log(err)
     resErrorBuild(res, 500, err)
   })
 })
