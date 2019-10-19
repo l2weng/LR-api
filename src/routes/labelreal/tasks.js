@@ -121,7 +121,6 @@ router.post('/addWorker', (req, res) => {
           let worker = workers[0]
           delete worker.dataValues.password_hash
           delete worker.dataValues.machineId
-          console.log('---------', workerIds[0],oldUser.userId)
           if(oldUser && (workerIds[0] !== oldUser.userId)){
             task.removeUsers(oldUser)
           }
@@ -132,6 +131,7 @@ router.post('/addWorker', (req, res) => {
                   projectUsers.map(pu=>{
                     if (oldUser && pu.userId === oldUser.userId &&
                       !pu.UserProjects.isOwner) {
+                      //if user didn't have any task in this project will block the project with him relationship
                       if(oldUserTasks.length===0){
                         project.removeUsers(oldUser)
                       }
