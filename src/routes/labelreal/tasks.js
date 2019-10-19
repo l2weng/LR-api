@@ -128,16 +128,20 @@ router.post('/addWorker', (req, res) => {
           return task.addUsers(worker, {through: {projectId}}).then(() => {
             return Project.findById(projectId).then(project => {
               return project.getUsers().then(projectUsers => {
-                projectUsers.map(pu=>{
-                  if (oldUser && pu.userId === oldUser.userId &&
-                    !pu.UserProjects.isOwner) {
-                    project.removeUsers(oldUser)
-                  }
-                })
-                project.addUsers(worker)
-                res.status(200).send({
-                  result: 'success',
-                  workers,
+                return oldUser.getTasks({where: {projectId}}).then(oldUserTasks=>{
+                  projectUsers.map(pu=>{
+                    if (oldUser && pu.userId === oldUser.userId &&
+                      !pu.UserProjects.isOwner) {
+                      if(oldUserTasks.length===0){
+                        project.removeUsers(oldUser)
+                      }
+                    }
+                  })
+                  project.addUsers(worker)
+                  res.status(200).send({
+                    result: 'success',
+                    workers,
+                  })
                 })
               })
             })
