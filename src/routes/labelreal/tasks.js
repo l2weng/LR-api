@@ -127,22 +127,30 @@ router.post('/addWorker', (req, res) => {
           return task.addUsers(worker, {through: {projectId}}).then(() => {
             return Project.findById(projectId).then(project => {
               return project.getUsers().then(projectUsers => {
-                return oldUser.getTasks({where: {projectId}}).then(oldUserTasks=>{
-                  projectUsers.map(pu=>{
-                    if (oldUser && pu.userId === oldUser.userId &&
-                      !pu.UserProjects.isOwner) {
-                      //if user didn't have any task in this project will block the project with him relationship
-                      if(oldUserTasks.length===0){
-                        project.removeUsers(oldUser)
+                if(oldUser){
+                  return oldUser.getTasks({where: {projectId}}).then(oldUserTasks=>{
+                    projectUsers.map(pu=>{
+                      if (oldUser && pu.userId === oldUser.userId &&
+                        !pu.UserProjects.isOwner) {
+                        //if user didn't have any task in this project will block the project with him relationship
+                        if(oldUserTasks.length===0){
+                          project.removeUsers(oldUser)
+                        }
                       }
-                    }
+                    })
+                    project.addUsers(worker)
+                    res.status(200).send({
+                      result: 'success',
+                      workers,
+                    })
                   })
+                }else{
                   project.addUsers(worker)
                   res.status(200).send({
                     result: 'success',
                     workers,
                   })
-                })
+                }
               })
             })
           })
