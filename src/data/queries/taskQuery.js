@@ -23,7 +23,7 @@ let getMyTasks = function (user) {
   return user.getMyTasks({order: [['createdAt', 'DESC']]}).then(tasks => {
     tasks.map(task => {
       task.project = task.getProject
-      task.category = taskCategory.assigned
+      task.category = taskCategory.my
     })
     return tasks.filter(task => task.active === commonStatus.active)
   })
@@ -36,7 +36,7 @@ let getAssignedTasks = function (user) {
   }).then(tasks => {
     tasks.map(task => {
       task.project = task.getProject
-      task.category = taskCategory.my
+      task.category = taskCategory.assigned
     })
     return tasks.filter(task => task.active === commonStatus.active)
   })
