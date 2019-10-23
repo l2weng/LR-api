@@ -31,7 +31,7 @@ const User = Model.define('User', {
 
   password_hash: DataTypes.STRING,
 
-  phone: {
+  mobile: {
     allowNull: true,
     type: DataTypes.STRING,
     validate: {

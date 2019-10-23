@@ -39,10 +39,11 @@ router.post('/create', (req, res) => {
           userObj = {companyId: company.companyId, ...userObj}
           userSave()
         } else {
-          Company.create({name: companyName, emailDomain}).then(company => {
+          return Company.create({name: companyName, emailDomain}).then(company => {
             userObj = {companyId: company.companyId, ...userObj}
             userSave()
-          }).catch(err => err)
+          }).catch(err => { console.log(err)
+            resErrorBuild(res, 500, err) })
         }
       }).catch(err => {
         resErrorBuild(res, 500, err)
