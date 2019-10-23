@@ -162,24 +162,28 @@ router.post('/savePhotoLabels', (req, res) => {
 
 router.post('/queryLabels', (req, res) => {
   const {taskId} = req.body
-  if(__.isEmpty(taskId)){
-    res.json([])
+  if (__.isEmpty(taskId)) {
+    return res.json([])
   }
-  return Task.findById(taskId).then(task =>
-    task.getPhotos({
-      include: [
-        {
-          model: Label,
-          required: true,
-          as: 'Labels',
-        },
-      ],
-    }).then(photos => {
-      res.json(photos)
-    }).catch(err => {
-      console.log(err)
-      resErrorBuild(res, 500, err)
-    }),
+  return Task.findById(taskId).then(task => {
+      if (__.isEmpty(task)) {
+        return res.json([])
+      }
+      return task.getPhotos({
+        include: [
+          {
+            model: Label,
+            required: true,
+            as: 'Labels',
+          },
+        ],
+      }).then(photos => {
+        res.json(photos)
+      }).catch(err => {
+        console.log(err)
+        resErrorBuild(res, 500, err)
+      })
+    },
   )
 })
 
