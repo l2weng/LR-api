@@ -6,8 +6,11 @@ import {
 import express from 'express'
 
 const router = express.Router()
-//
-router.post('/inviteUser', (req, res) => {
+
+/**
+ * invite Friend
+ */
+router.post('/inviteFriend', (req, res) => {
   const {projectId} = req.body
   let msgObj = {
     status: messageStatus.unread,
@@ -18,6 +21,18 @@ router.post('/inviteUser', (req, res) => {
     res.json(resBuild(msg))
   }).catch(err => {
     resErrorBuild(res, 500, err)
+  })
+})
+
+/**
+ * check if new message or not
+ */
+router.post('/checkNewMsg', (req, res) => {
+  const {userId} = req.body
+  return Message.findAll({
+    where: {userId, status: messageStatus.unread},
+  }).then(msgs => {
+    res.send(msgs && msgs.length > 0)
   })
 })
 
