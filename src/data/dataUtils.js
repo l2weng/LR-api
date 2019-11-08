@@ -16,6 +16,8 @@ const status = {inactive: 0, active: 1, locked: 2, temp: 3}
 //3 is means temp account just have machineId
 const statusDesc = {0: 'inactive', 1: 'active', 2: 'locked', 3: 'temp'}
 const photoStatus = {open: 0, skipped: 1, submitted: 2}
+const messageStatus = {unread: 0, read: 1}
+const messageType = {invitation: 0, system: 1}
 const labelStatus = {
   new: 0,
   remove: 1,
@@ -184,4 +186,6 @@ export {
   generateColor,
   taskCategory,
   activityCategory,
+  messageStatus,
+  messageType
 }

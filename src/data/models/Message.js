@@ -15,6 +15,25 @@ const Message = Model.define('Message', {
 
   // todo 暂时简单做, 之后可以上rich editor
   content: { type: DataTypes.STRING(1000) },
+
+  /**
+   * type: 0:invitations, 1:system...
+   */
+  type: { type: DataTypes.INTEGER},
+
+  /**
+   * 0: unread, 1: read
+   */
+  status: {type: DataTypes.INTEGER},
+
+  /**
+   * 0: yes, 1: no
+   */
+  result: {type:DataTypes.INTEGER},
+  /**
+   * Created by
+   */
+  createdBy: {type:DataTypes.STRING}
 });
 
 export default Message;

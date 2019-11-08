@@ -10,6 +10,10 @@ const MessageType = new ObjectType({
     messageId: { type: IntType },
     title: { type: StringType },
     content: { type: StringType },
+    type: { type: IntType },
+    status: { type: IntType },
+    result: { type: IntType },
+    createdBy: { type: StringType}
   },
 });
 
