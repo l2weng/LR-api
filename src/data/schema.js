@@ -15,6 +15,7 @@ import { teamQueryWhere, teamQueryByUserId } from './queries/teamQuery';
 import { projectQueryByUser, projectQueryById } from './queries/projectQuery';
 import { taskQuery, taskQueryById } from './queries/taskQuery';
 import { labelQueryByPhoto } from './queries/labelQuery';
+import { messageQuery } from './queries/messageQuery'
 
 const schema = new Schema({
   query: new ObjectType({
@@ -32,7 +33,8 @@ const schema = new Schema({
       labelQueryByPhoto,
       taskQuery,
       projectQueryById,
-      taskQueryById
+      taskQueryById,
+      messageQuery
     },
   }),
 });

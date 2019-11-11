@@ -11,14 +11,13 @@ const router = express.Router()
  * invite Friend
  */
 router.post('/inviteFriend', (req, res) => {
-  const {projectId} = req.body
   let msgObj = {
     status: messageStatus.unread,
     type: messageType.invitation,
     ...req.body,
   }
   return Message.create(msgObj).then(msg => {
-    res.json(resBuild(msg))
+    res.send(true)
   }).catch(err => {
     resErrorBuild(res, 500, err)
   })
