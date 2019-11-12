@@ -34,6 +34,11 @@ const Message = Model.define('Message', {
    * Created by
    */
   createdBy: {type:DataTypes.STRING},
+  /**
+   * Created by user name
+   */
+  createdByName: {type:DataTypes.STRING},
+  invited:  {type:DataTypes.STRING},
   remarks: {type:DataTypes.STRING(1000)}
 });
 

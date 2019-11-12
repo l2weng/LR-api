@@ -14,6 +14,8 @@ const MessageType = new ObjectType({
     status: {type: IntType},
     result: {type: IntType},
     createdBy: {type: StringType},
+    createdByName: {type: StringType},
+    invited: {type: StringType},
     remarks: {type: StringType},
   },
 })
