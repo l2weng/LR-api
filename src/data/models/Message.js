@@ -33,7 +33,8 @@ const Message = Model.define('Message', {
   /**
    * Created by
    */
-  createdBy: {type:DataTypes.STRING}
+  createdBy: {type:DataTypes.STRING},
+  remarks: {type:DataTypes.STRING(1000)}
 });
 
 export default Message;
