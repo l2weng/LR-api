@@ -18,6 +18,7 @@ const statusDesc = {0: 'inactive', 1: 'active', 2: 'locked', 3: 'temp'}
 const photoStatus = {open: 0, skipped: 1, submitted: 2}
 const messageStatus = {unread: 0, read: 1}
 const messageType = {invitation: 0, system: 1}
+const messageResult = {accept: 0, reject: 1}
 const labelStatus = {
   new: 0,
   remove: 1,

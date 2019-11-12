@@ -1,7 +1,6 @@
 import Message from '../../data/models/Message'
 import {
-  resBuild,
-  resErrorBuild, messageType, messageStatus,
+  resErrorBuild, messageType, messageStatus, resUpdate,
 } from '../../data/dataUtils'
 import express from 'express'
 
@@ -18,6 +17,18 @@ router.post('/inviteFriend', (req, res) => {
   }
   return Message.create(msgObj).then(msg => {
     res.send(true)
+  }).catch(err => {
+    resErrorBuild(res, 500, err)
+  })
+})
+
+router.post('/updateInvitation', (req, res) => {
+  const {result, messageId} = req.body
+  const status = messageStatus.read
+  return Message.update({status, result}, {
+    where: {messageId},
+  }).then(message => {
+    res.json(resUpdate(message))
   }).catch(err => {
     resErrorBuild(res, 500, err)
   })
