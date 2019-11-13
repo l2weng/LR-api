@@ -95,16 +95,15 @@ const userQueryContacts = {
   name: 'userQueryContacts',
   description: 'Finding user contacts',
   type: new List(UserType),
-  resolve (_, {userId, isOwner, companyId}) {
+  resolve (_, {userId, companyId}) {
     return User.findOne({where: {userId}}).then(user => {
       return user.getContacts(
-        {through: {where: {isOwner, companyId: companyId ? companyId : ''}}}).
+        {through: {where: {companyId: companyId ? companyId : ''}}}).
         then(contacts => contacts)
     })
   },
   args: {
     userId: {type: GraphQLString},
-    isOwner: {type: GraphQLBoolean},
     companyId: {type: GraphQLString},
   },
 }

@@ -42,6 +42,7 @@ router.post('/updateInvitation', (req, res) => {
       }).then(users=>{
         if(users.length===2){
           users[0].addContacts(users[1], {through: {isOwner: true}})
+          users[1].addContacts(users[0], {through: {isOwner: true}})
         }
       })
     })
