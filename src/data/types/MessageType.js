@@ -17,6 +17,8 @@ const MessageType = new ObjectType({
     createdByName: {type: StringType},
     invited: {type: StringType},
     remarks: {type: StringType},
+    createdAt: {type: StringType},
+    userId: {type: StringType},
   },
 })
 

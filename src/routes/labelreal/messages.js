@@ -1,8 +1,12 @@
 import Message from '../../data/models/Message'
+import Sequelize from 'sequelize'
 import {
   resErrorBuild, messageType, messageStatus, resUpdate,
 } from '../../data/dataUtils'
 import express from 'express'
+import sequelize from '../../data/sequelize'
+import User from '../../data/models/User'
+const Op = Sequelize.Op;
 
 const router = express.Router()
 
@@ -23,12 +27,26 @@ router.post('/inviteFriend', (req, res) => {
 })
 
 router.post('/updateInvitation', (req, res) => {
-  const {result, messageId} = req.body
+  const {result, messageId, userId, createdBy} = req.body
   const status = messageStatus.read
-  return Message.update({status, result}, {
-    where: {messageId},
-  }).then(message => {
-    res.json(resUpdate(message))
+  return sequelize.transaction(t => {
+    return Message.update({status, result}, {
+      where: {messageId},
+    }, {transaction: t}).then(message => {
+      return User.findAll({
+        where: {
+          userId: {
+            [Op.or]: [createdBy, userId]
+          }
+        }
+      }).then(users=>{
+        if(users.length===2){
+          users[0].addContacts(users[1], {through: {isOwner: true}})
+        }
+      })
+    })
+  }).then(result => {
+    res.status(200).send({result: 'success'})
   }).catch(err => {
     resErrorBuild(res, 500, err)
   })
