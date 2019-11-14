@@ -141,6 +141,7 @@ router.post('/savePhotoLabels', (req, res) => {
             'mirror',
             'width',
             'height',
+            'skuId',
             'updatedTime',
             'id',
             'spendTime',
