@@ -1,6 +1,6 @@
 import UserType from '../types/UserType'
 import User from '../models/User'
-import { criteriaBuild, status } from '../dataUtils'
+import { criteriaBuild, resErrorBuild, status } from '../dataUtils'
 
 import {
   GraphQLString,
@@ -10,6 +10,8 @@ import {
 } from 'graphql'
 import Team from '../models/Team'
 import UserLogin from '../models/UserLogin'
+import sequelize from '../sequelize'
+import Message from '../models/Message'
 
 const userQueryById = {
   name: 'UserQueryById',
@@ -87,6 +89,41 @@ const userQueryActiveContacts = {
   },
 }
 
+const queryColleaguesAndFriends = {
+  name: 'queryColleaguesAndFriends',
+  description: 'Finding colleagues and friends',
+  type: new List(UserType),
+  resolve (_, {userId, companyId}) {
+    let getFriends = function (colleagues=[]) {
+      return User.findOne({where: {userId}}).then(user => {
+        return user.getContacts(
+          {through: {where: {companyId: ''}}}).
+          then(contacts => {
+            return colleagues.concat(contacts)
+          })
+      })
+    }
+    if(companyId){
+      return sequelize.transaction(t => {
+        let criteria = {}
+        criteria = Object.assign({companyId: companyId, status: status.active},
+          criteria)
+        return User.findAll({
+          where: criteria,
+        }, {transaction: t}).then(colleagues => {
+          return getFriends(colleagues)
+        })
+      })
+    }else{
+      return getFriends()
+    }
+  },
+  args: {
+    userId: {type: GraphQLString},
+    companyId: {type: GraphQLString},
+  },
+}
+
 /**
  * User Query Contacts
  * Query 联系人
@@ -149,4 +186,5 @@ export {
   userQueryContacts,
   usersQueryByTeamId,
   userQueryActiveContacts,
+  queryColleaguesAndFriends,
 }

@@ -10,6 +10,7 @@ import {
   userQueryActiveContacts,
   userQueryById,
   userQueryColleagues,
+  queryColleaguesAndFriends
 } from './queries/userQuery';
 import { teamQueryWhere, teamQueryByUserId } from './queries/teamQuery';
 import { projectQueryByUser, projectQueryById } from './queries/projectQuery';
@@ -30,6 +31,7 @@ const schema = new Schema({
       projectQueryByUser,
       userQueryById,
       userQueryColleagues,
+      queryColleaguesAndFriends,
       labelQueryByPhoto,
       taskQuery,
       projectQueryById,
