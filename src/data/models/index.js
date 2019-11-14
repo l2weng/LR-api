@@ -218,11 +218,6 @@ Reference.belongsTo(Sku, { foreignKey: 'skuId', as: 'Sku' });
 Photo.hasMany(Label, { foreignKey: 'photoId', as: 'Labels' });
 Label.belongsTo(Photo, { foreignKey: 'photoId', as: 'Photo' });
 
-/**
- *  Label 1 to 1 Sku
- */
-Label.belongsTo(Sku, { foreignKey: 'skuId', as: 'Label' });
-
 Activity.hasMany(Activity, { as: 'children', foreignKey: 'parentId', useJunctionTable: false })
 
 function sync(...args) {
