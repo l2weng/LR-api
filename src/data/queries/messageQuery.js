@@ -20,6 +20,7 @@ const messageQuery = {
           }
         ]
       },
+      order: [['createdAt', 'DESC']],
     }).then(messages => messages)
   },
   args: {
