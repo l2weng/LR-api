@@ -168,7 +168,8 @@ app.post(
     res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
     res.status(200).send({
       token,
-      lastProject: req.user.projects[0],
+      lastOwnProject: req.user.ownProjects[0],
+      lastCloudProject: req.user.cloudProjects[0],
       hasProject: req.user.hasProject,
       user: req.user.user,
       ip,

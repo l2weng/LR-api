@@ -32,8 +32,15 @@ passport.use(
           order: [['updatedAt', 'DESC']],
         }).
         then(projects => {
-          let syncProjects = projects.filter(p=>(p.syncStatus===true||p.UserProjects.isOwner===true));
-          return done(null, {user, hasProject: syncProjects.length !== 0, projects:syncProjects})
+          const ownProjects = projects.filter(
+            p => p.UserProjects.isOwner === true)
+          const cloudProjects = projects.filter(p => p.syncStatus === true)
+          return done(null, {
+            user,
+            hasProject: ownProjects.length !== 0 || cloudProjects.length !== 0,
+            cloudProjects,
+            ownProjects,
+          })
         })
     })
   }),
