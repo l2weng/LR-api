@@ -96,6 +96,18 @@ router.post('/add2team', (req, res) => {
 })
 
 /**
+ * check user exists or not already
+ */
+router.post('/checkName', (req, res) => {
+  const {name} = req.body
+  User.findOne({where: {name}}).then(user => {
+      res.send(user === null)
+  }).catch(err => {
+    resErrorBuild(res, 400, err)
+  })
+})
+
+/**
  * Add contact to user
  */
 router.post('/addContact', (req, res) => {
