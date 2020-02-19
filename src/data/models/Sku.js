@@ -11,7 +11,7 @@ const Sku = Model.define('Sku', {
   name: { type: DataTypes.STRING },
   color: { type: DataTypes.STRING },
   bizId: { type: DataTypes.STRING },
-  shapeType: { type: DataTypes.INTEGER},
+  shapeType: { type: DataTypes.STRING},
   localSkuId: { type: DataTypes.INTEGER },
 });
 
