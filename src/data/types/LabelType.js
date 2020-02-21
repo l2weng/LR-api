@@ -16,14 +16,15 @@ const LabelType = new ObjectType({
     mirror: { type: BooleanType },
     width: { type: IntType },
     height: { type: IntType },
-    type: { type: IntType },
-    status: { type: IntType},
-    id: { type: IntType},
-    skuId: { type: IntType},
+    type: { type: StringType },
+    status: { type: IntType },
+    id: { type: IntType },
+    skuId: { type: IntType },
     photoId: { type: StringType },
     userId: { type: StringType },
-    color: { type:StringType },
-    updatedTime: {type: FloatType}
+    color: { type: StringType },
+    polygon: { type: StringType },
+    updatedTime: { type: FloatType },
   },
 });
 
