@@ -16,9 +16,9 @@ const Label = Model.define('Label', {
   height: { type: DataTypes.INTEGER, defaultValue: 0 },
   id: { type: DataTypes.INTEGER, defaultValue: 0 },
   /**
-   * label type, 0: 矩形框, 1:......
+   * label type, 0: 矩形框, 1:Polygon
    */
-  type: { type: DataTypes.STRING },
+  type: { type: DataTypes.INTEGER },
   /**
    * 0: new, 1: updated, 2: removed
    */

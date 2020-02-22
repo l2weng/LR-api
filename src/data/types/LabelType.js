@@ -16,7 +16,7 @@ const LabelType = new ObjectType({
     mirror: { type: BooleanType },
     width: { type: IntType },
     height: { type: IntType },
-    type: { type: StringType },
+    type: { type: IntType },
     status: { type: IntType },
     id: { type: IntType },
     skuId: { type: IntType },
