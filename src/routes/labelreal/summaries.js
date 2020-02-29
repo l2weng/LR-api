@@ -14,12 +14,17 @@ const router = express.Router()
 /**
  * count sku labelling by projectId
  */
-router.post('/countSkus', (req, res) => {
+router.post('/countTargets', (req, res) => {
   const {projectId} = req.body
   return Project.findById(projectId).
     then(project => {
       return project.getSkus().then(skus => {
-        const skuIds = skus.map(sku => sku.skuId)
+        const skuIds = []
+        let initCountArray = []
+        for (const sku of skus) {
+          skuIds.push(sku.skuId)
+          initCountArray.push({skuId:sku.skuId,name:sku.name,color:sku.color,count:0})
+        }
         if (skuIds.length > 0) {
           let skuIdString = skuIds.join(',')
           return Model.query(
@@ -28,7 +33,19 @@ router.post('/countSkus', (req, res) => {
               type: Model.QueryTypes.SELECT,
             },
           ).then(skuCounts => {
-            res.json(skuCounts)
+            if(skuCounts>0){
+              for (const initCount of initCountArray) {
+                for (const skuCount of skuCounts) {
+                  if(initCount.skuId === skuCount.skuId){
+                    initCount.name = skuCount.name
+                    initCount.color = skuCount.color
+                    initCount.count = skuCount.count
+                    break
+                  }
+                }
+              }
+            }
+            res.json(initCountArray)
           })
         } else {
           res.json([])
