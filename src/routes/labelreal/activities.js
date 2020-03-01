@@ -19,20 +19,31 @@ router.post('/create', (req, res) => {
 
 router.post('/queryByDate', (req, res) => {
   const {type, projectId} = req.body
-  //default set as last 7 hours
-  let sqlContent = `select DATE_FORMAT(updatedAt,'%H:%i:%s') Time, Count(*) SumCount FROM activities
-WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 1 DAY )
-GROUP BY hour(updatedAt)`
-  if (type && type === 'MM') {
-    sqlContent =
-      `select DATE_FORMAT(updatedAt,'%H:%i:%s') Time, Count(*) SumCount FROM activities
+  let sqlContent = `select updatedAt Time, Count(*) SumCount FROM activities
 WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 1 HOUR )
-GROUP BY minute(updatedAt)`
-  }if (type && type === 'DD') {
+GROUP BY minute (updatedAt) order by updatedAt`
+  if (type && type === 'DD') {
+    sqlContent = `select updatedAt Time, Count(*) SumCount FROM activities
+WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 1 DAY )
+GROUP BY hour(updatedAt) order by updatedAt`
+  }
+  if (type && type === '7D') {
     sqlContent =
       `select DATE_FORMAT(updatedAt,'%d/%m/%Y') Time, Count(*) SumCount FROM activities
 WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 7 DAY )
-GROUP BY day(updatedAt)`
+GROUP BY day(updatedAt) order by updatedAt`
+  }
+  if (type && type === 'MM') {
+    sqlContent =
+      `select DATE_FORMAT(updatedAt,'%d/%m/%Y') Time, Count(*) SumCount FROM activities
+WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 1 MONTH )
+GROUP BY day(updatedAt) order by updatedAt`
+  }
+  if (type && type === 'YY') {
+    sqlContent =
+      `select DATE_FORMAT(updatedAt,'%m/%Y') Time, Count(*) SumCount FROM activities
+WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 1 YEAR )
+GROUP BY month(updatedAt) order by updatedAt`
   }
   return Model.query(
     sqlContent,
@@ -40,7 +51,7 @@ GROUP BY day(updatedAt)`
       type: Model.QueryTypes.SELECT,
     },
   ).then(activityData => {
-    res.json(activityData)
+    res.json({activityType: type, activityData})
   }).catch(err => {
     resErrorBuild(res, 500, err)
   })

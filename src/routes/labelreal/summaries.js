@@ -33,7 +33,7 @@ router.post('/countTargets', (req, res) => {
               type: Model.QueryTypes.SELECT,
             },
           ).then(skuCounts => {
-            if(skuCounts>0){
+            if(skuCounts.length>0){
               for (const initCount of initCountArray) {
                 for (const skuCount of skuCounts) {
                   if(initCount.skuId === skuCount.skuId){
