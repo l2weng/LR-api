@@ -20,29 +20,29 @@ router.post('/create', (req, res) => {
 router.post('/queryByDate', (req, res) => {
   const {type, projectId} = req.body
   let sqlContent = `select updatedAt Time, Count(*) SumCount FROM activities
-WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 1 HOUR )
+WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (date_sub(NOW(), interval 1 hour) )
 GROUP BY minute (updatedAt) order by updatedAt`
   if (type && type === 'DD') {
     sqlContent = `select updatedAt Time, Count(*) SumCount FROM activities
-WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 1 DAY )
+WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (date_sub(NOW(), interval 1 DAY ) )
 GROUP BY hour(updatedAt) order by updatedAt`
   }
   if (type && type === '7D') {
     sqlContent =
       `select DATE_FORMAT(updatedAt,'%d/%m/%Y') Time, Count(*) SumCount FROM activities
-WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 7 DAY )
+WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (date_sub(NOW(), interval 7 DAY ) )
 GROUP BY day(updatedAt) order by updatedAt`
   }
   if (type && type === 'MM') {
     sqlContent =
       `select DATE_FORMAT(updatedAt,'%d/%m/%Y') Time, Count(*) SumCount FROM activities
-WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 1 MONTH )
+WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (date_sub(NOW(), interval 1 MONTH ) )
 GROUP BY day(updatedAt) order by updatedAt`
   }
   if (type && type === 'YY') {
     sqlContent =
       `select DATE_FORMAT(updatedAt,'%m/%Y') Time, Count(*) SumCount FROM activities
-WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (DATE(NOW()) - INTERVAL 1 YEAR )
+WHERE type!=${labelStatus.photoSubmit} and projectId='${projectId}' and updatedAt > (date_sub(NOW(), interval 1 YEAR )
 GROUP BY month(updatedAt) order by updatedAt`
   }
   return Model.query(
