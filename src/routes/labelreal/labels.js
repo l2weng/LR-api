@@ -61,7 +61,7 @@ let saveActivities = function (
       if (__.contains(newActivityLabels, label.id)) {
         needSaveActivities.push({
           type: label.status,
-          category: activityCategory.label,
+          category: label.type,
           labelId: label.labelId,
           parentId,
           photoId,

@@ -28,7 +28,7 @@ const labelStatus = {
   photoSubmit: 999,
 }
 const taskStatus = {open: 0, working: 1, complete: 2, confirmed: 3}
-const activityCategory = {photo: 0, label: 1, video: 2}
+const activityCategory = {photo: 999, label: 0, polygon: 1, video: 3}
 const taskCategory = {all: 0, my: 1, assigned: 2}
 
 const codeMessage = {
