@@ -22,7 +22,7 @@ let saveActivities = function (
   userId, photoId, projectId, myTaskId, spendTime, result, updatedTime,
   newActivityLabels, photoName) {
   let needSaveActivities = []
-  User.findById(userId).then(async user => {
+  return User.findById(userId).then(async user => {
     let parentId = ''
     await Activity.findOne(
       {
@@ -34,7 +34,7 @@ let saveActivities = function (
         },
       }).then(async activity => {
       if (!activity) {
-        await Activity.create({
+        return await Activity.create({
           category: activityCategory.photo,
           type: labelStatus.photoSubmit,
           photoId,
@@ -50,8 +50,9 @@ let saveActivities = function (
         }).then(_activity => { parentId = _activity.activityId })
       } else {
         parentId = activity.activityId
-        await activity.update({
-          spendTime: activity.spendTime + spendTime,
+        return await activity.update({
+          type: labelStatus.photoSubmit,
+          spendTime: (activity.spendTime + parseFloat(spendTime)).toFixed(2),
           count: result.length,
           finishedTime: updatedTime,
         })
@@ -77,7 +78,7 @@ let saveActivities = function (
       }
     }
     if (needSaveActivities.length > 0) {
-      Activity.bulkCreate(
+      return Activity.bulkCreate(
         needSaveActivities,
         {
           returning: true,
