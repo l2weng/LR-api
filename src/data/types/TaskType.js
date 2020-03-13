@@ -23,6 +23,7 @@ const TaskType = new ObjectType({
     workStatus: {type: IntType},
     active: {type: IntType},
     project: {type: ProjectType},
+    isOwner:{type: BooleanType},
     category:{type: IntType}
   },
 })

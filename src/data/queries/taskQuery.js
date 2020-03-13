@@ -35,6 +35,8 @@ let getAssignedTasks = function (user) {
     order: [['createdAt', 'DESC']],
   }).then(tasks => {
     tasks.map(task => {
+      task['isOwner'] = true
+      task.isOwner = task.userId === user.userId;
       task.project = task.getProject
       task.category = taskCategory.assigned
     })
