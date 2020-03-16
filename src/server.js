@@ -34,6 +34,7 @@ import references from './routes/labelreal/references';
 import labels from './routes/labelreal/labels';
 import summaries from './routes/labelreal/summaries';
 import activities from './routes/labelreal/activities';
+import reports from './routes/labelreal/reports';
 import compression from 'compression';
 import UserLogin from './data/models/UserLogin'
 
@@ -123,6 +124,7 @@ app.use('/lr/labels', labels);
 app.use('/lr/summaries', summaries);
 app.use('/lr/skus', skus);
 app.use('/lr/activities', activities);
+app.use('/lr/reports', reports);
 
 //
 // Authentication
