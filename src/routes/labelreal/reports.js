@@ -45,7 +45,33 @@ router.post('/export', (req, res) => {
     },
   ).then(photoLabels => {
     const groupedLabels = Object.values(__.groupBy(photoLabels, 'photoId'))
-    console.log(groupedLabels)
+    const exportHeader = [
+      'photoId',
+      'url',
+      'size',
+      'width',
+      'height',
+      'mimeType',
+      'protocol',
+      'orientation',
+      'createdAt',
+      'taskId',
+      'taskName',
+      'projectId',
+      'projectName',
+      'labelId',
+      'x',
+      'y',
+      'angle',
+      'mirror',
+      'width',
+      'height',
+      'spendTime',
+      'polygon',
+      'targetName',
+      'targetId',
+      'businessId',
+    ]
     let exportResult = []
     for (let i = 0; i < groupedLabels.length; i++) {
       const groupedLabel = groupedLabels[i]
@@ -61,7 +87,7 @@ router.post('/export', (req, res) => {
       }
     }
     res.status(200).
-      send({result: 'success', data: exportResult})
+      send({result: 'success', data: {exportHeader, exportResult}})
   })
 })
 export default router
