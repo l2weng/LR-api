@@ -105,10 +105,7 @@ router.post('/savePhotoLabels', (req, res) => {
     }
     lab.status = labelStatus.saved
   }
-  let saveTaskPhotoStatus = function (task, photo) {
-    if (task.workStatus === taskStatus.open) {
-      return task.update({workStatus: taskStatus.working})
-    }
+  let saveTaskPhoto = function (task, photo) {
     task.TaskPhotos.photoStatus = photoStatus.submitted
     task.TaskPhotos.updatedTime = updatedTime
     task.TaskPhotos.spendTime += spendTime
@@ -118,6 +115,15 @@ router.post('/savePhotoLabels', (req, res) => {
       projectId = task.projectId
     }
     return task.TaskPhotos.save()
+  }
+  let saveTaskPhotoStatus = function (task, photo) {
+    if (task.workStatus === taskStatus.open) {
+      return task.update({workStatus: taskStatus.working}).then(res=>{
+        return saveTaskPhoto(task, photo)
+      })
+    }else{
+      return saveTaskPhoto(task, photo)
+    }
   }
   return sequelize.transaction(t =>
     Photo.findById(photoId).then(
