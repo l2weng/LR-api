@@ -11,8 +11,8 @@ router.post('/export', (req, res) => {
         p.photoId,
          p.syncFileUrl          as url,
          p.size,
-         p.width,
-         p.height,
+         p.width as photoWidth,
+         p.height as photoHeight,
          p.mimeType,
          p.protocol,
          p.orientation,
@@ -26,8 +26,8 @@ router.post('/export', (req, res) => {
          l.y,
          l.angle,
          l.mirror,
-         l.width,
-         l.height,
+         l.width as labelWidth,
+         l.height as labelHeight,
          l.spendTime,
          l.polygon,
          s.skuId               as targetId,
@@ -49,8 +49,8 @@ router.post('/export', (req, res) => {
       'photoId',
       'url',
       'size',
-      'width',
-      'height',
+      'photoWidth',
+      'photoHeight',
       'mimeType',
       'protocol',
       'orientation',
@@ -64,8 +64,8 @@ router.post('/export', (req, res) => {
       'y',
       'angle',
       'mirror',
-      'width',
-      'height',
+      'labelWidth',
+      'labelHeight',
       'spendTime',
       'polygon',
       'targetName',
@@ -80,7 +80,8 @@ router.post('/export', (req, res) => {
         let labels = []
         for (const gLabel of groupedLabel) {
           const {photoId, url, size, width, height, mimeType, protocol, orientation, createdAt, taskId, taskName, projectId, projectName, ...oneLabel} = gLabel
-          labels.push(oneLabel)
+          if (gLabel.labelId !== null)
+            labels.push(oneLabel)
         }
         onePhoto['label'] = labels
         exportResult.push(onePhoto)
