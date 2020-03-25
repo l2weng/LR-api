@@ -181,7 +181,7 @@ router.post('/queryLabels', (req, res) => {
         include: [
           {
             model: Label,
-            required: true,
+            required: false,
             as: 'Labels',
           },
         ],
