@@ -118,10 +118,10 @@ router.post('/savePhotoLabels', (req, res) => {
   }
   let saveTaskPhotoStatus = function (task, photo) {
     if (task.workStatus === taskStatus.open) {
-      return task.update({workStatus: taskStatus.working}).then(res=>{
+      return task.update({workStatus: taskStatus.working}).then(res => {
         return saveTaskPhoto(task, photo)
       })
-    }else{
+    } else {
       return saveTaskPhoto(task, photo)
     }
   }
