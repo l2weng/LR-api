@@ -60,7 +60,12 @@ const Project = Model.define('Project', {
   /**
    * 项目版本
    */
-  syncVersion: {type: DataTypes.BIGINT, defaultValue: 0}
+  syncVersion: {type: DataTypes.BIGINT, defaultValue: 0},
+
+  creator: {type: DataTypes.STRING},
+
+  creatorId: {type: DataTypes.STRING},
+
 })
 
 export default Project

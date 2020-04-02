@@ -6,6 +6,7 @@ import {merge} from '../../utils/utils'
 import { GraphQLString, GraphQLList as List, GraphQLInt } from 'graphql'
 import __ from 'underscore'
 import sequelize from '../sequelize'
+import Project from '../models/Project'
 
 const taskQueryById = {
   name: 'TaskQueryById',
@@ -46,7 +47,7 @@ let getAssignedTasks = function (user) {
 
 let getAllTasks = function (user) {
   return sequelize.transaction(t =>
-    user.getMyTasks({order: [['createdAt', 'DESC']]}, {transaction: t}).
+    user.getMyTasks({order: [['updatedAt', 'DESC']]}, {transaction: t}).
       then(tasks => {
         tasks.map(task => {
           task.project = task.getProject
@@ -56,7 +57,7 @@ let getAllTasks = function (user) {
       }).then(myTasks =>
       user.getTasks({
         joinTableAttributes: ['projectId'],
-        order: [['createdAt', 'DESC']],
+        order: [['updatedAt', 'DESC']],
       }).then(tasks => {
         tasks.map(task => {
           task.project = task.getProject
@@ -104,7 +105,7 @@ const taskQueryByOwner = {
   type: new List(TaskType),
   resolve (_, {userId}) {
     let getRelatedTasks = function (user) {
-      return user.getMyTasks({order: [['createdAt', 'DESC']]}).then(tasks => {
+      return user.getMyTasks({order: [['updatedAt', 'DESC']]}).then(tasks => {
         tasks.map(task => {
           task.project = task.getProject
         })

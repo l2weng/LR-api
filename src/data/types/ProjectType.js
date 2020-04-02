@@ -31,6 +31,8 @@ const ProjectType = new ObjectType({
     user: {type: UserType},
     syncVersion: {type: FloatType},
     createdAt: {type: StringType},
+    creator: {type: StringType},
+    creatorId: {type: StringType},
   },
 })
 

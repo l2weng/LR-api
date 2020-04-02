@@ -5,6 +5,7 @@ import {
   GraphQLBoolean as BooleanType,
 } from 'graphql'
 import ProjectType from './ProjectType'
+import UserType from './UserType'
 
 const TaskType = new ObjectType({
   name: 'taskStory',
@@ -19,12 +20,14 @@ const TaskType = new ObjectType({
     progress: {type: IntType},
     projectId: {type: StringType},
     createdAt: {type: StringType},
+    updatedAt: {type: StringType},
     assignStatus: {type: BooleanType},
     workStatus: {type: IntType},
     active: {type: IntType},
     project: {type: ProjectType},
-    isOwner:{type: BooleanType},
-    category:{type: IntType}
+    isOwner: {type: BooleanType},
+    category: {type: IntType},
+    creator: {type: UserType},
   },
 })
 
