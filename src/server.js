@@ -30,6 +30,8 @@ import tasks from './routes/labelreal/tasks';
 import skus from './routes/labelreal/skus';
 import photos from './routes/labelreal/photos';
 import messages from './routes/labelreal/messages';
+import subscriptions from './routes/labelreal/subscriptions';
+import guestMessages from './routes/labelreal/guestMessages';
 import references from './routes/labelreal/references';
 import labels from './routes/labelreal/labels';
 import summaries from './routes/labelreal/summaries';
@@ -119,6 +121,8 @@ app.use('/lr/projects', projects);
 app.use('/lr/tasks', tasks);
 app.use('/lr/photos', photos);
 app.use('/lr/messages', messages);
+app.use('/lr/subscriptions', subscriptions);
+app.use('/lr/guestMessages', guestMessages);
 app.use('/lr/references', references);
 app.use('/lr/labels', labels);
 app.use('/lr/summaries', summaries);
@@ -308,9 +312,9 @@ if (cluster.isMaster && usingCluster) {
   // Launch the server
   // -----------------------------------------------------------------------------
   // const promise = LRModels.sync({force:true}).catch(err => console.error(err.stack));
-  // const promise = LRModels.sync().catch(err => console.error(err.stack));
+  const promise = LRModels.sync().catch(err => console.error(err.stack));
   if (!module.hot) {
-    // promise.then(() => {
+    promise.then(() => {
       if (config.port === '443') {
         const options = {
           pfx: fs.readFileSync('./public/retailservice.pfx'),
@@ -328,7 +332,7 @@ if (cluster.isMaster && usingCluster) {
           );
         });
       }
-    // })
+    })
   }
 }
 

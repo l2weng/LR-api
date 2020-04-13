@@ -28,6 +28,7 @@ import LabelQuestion from './LabelQuestion';
 import QuestionClassification from './QuestionClassification';
 import QuestionItem from './QuestionItem';
 import Company from './Company'
+import Subscription from './Subscription'
 
 /**
  * Team N to N user
