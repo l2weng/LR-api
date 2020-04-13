@@ -4,7 +4,8 @@ import express from 'express'
 const router = express.Router()
 
 router.post('/add', (req, res) => {
-  GuestMessage.create({...req.body}).then(result=>{
+  const {name,subject,number,email,message} = req.body
+  GuestMessage.create({name,subject, number,email,message}).then(result=>{
     res.status(200).send({result: 'success'})
   })
 })

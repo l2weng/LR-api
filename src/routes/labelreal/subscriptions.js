@@ -4,14 +4,14 @@ import express from 'express'
 const router = express.Router()
 
 router.post('/add', (req, res) => {
-  const {email} = req.body
+  const {subscriptionEmail} = req.body
   return Subscription.findOne({
-    where: {email},
+    where: {email:subscriptionEmail},
   }).then(sub => {
     if(!sub){
-      Subscription.create({email})
+      Subscription.create({email:subscriptionEmail})
     }
-    res.send(true)
+    res.status(200).send({result: 'success'})
   })
 })
 

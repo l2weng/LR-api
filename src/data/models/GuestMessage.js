@@ -4,13 +4,14 @@ import Model from '../sequelize';
 /**
  * 客户回馈
  */
-const GuestMessage = Model.define('Feedback', {
+const GuestMessage = Model.define('GuestMessage', {
   guestMessageId: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
 
+  name: { type: DataTypes.STRING },
   subject: { type: DataTypes.STRING },
   number: { type: DataTypes.STRING},
   email: { type: DataTypes.STRING},

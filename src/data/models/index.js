@@ -29,6 +29,7 @@ import QuestionClassification from './QuestionClassification';
 import QuestionItem from './QuestionItem';
 import Company from './Company'
 import Subscription from './Subscription'
+import GuestMessage from './GuestMessage'
 
 /**
  * Team N to N user
@@ -226,4 +227,4 @@ function sync(...args) {
 }
 
 export default { sync };
-export { User };
+export { User, GuestMessage };
