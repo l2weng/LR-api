@@ -96,6 +96,7 @@ const queryColleaguesAndFriends = {
   resolve (_, {userId, companyId}) {
     let getFriends = function (colleagues=[]) {
       return User.findOne({where: {userId}}).then(user => {
+        colleagues.push(user)
         return user.getContacts(
           {through: {where: {companyId: ''}}}).
           then(contacts => {
